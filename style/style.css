@@ -1,0 +1,600 @@
+html {
+    margin: 0;
+    overscroll-behavior: none;
+    overflow: hidden;
+    font-family: "Theinhardt-Regular";
+    font-size: 24px;
+    font-weight: 200;
+}
+
+body {
+    margin: 0;
+}
+
+/*—————————————————————————————————————text—————————————————————————————————————*/
+
+
+@font-face {
+  font-family: "Theinhardt-Bold";
+  src: url("fonts/Theinhardt-Bold.otf") format("otf"),
+}
+
+@font-face {
+  font-family: "Theinhardt-Bold-Italic";
+  src: url("fonts/Theinhardt-BoldIta.otf") format("otf"),
+}
+
+@font-face {
+    font-family: "Theinhardt-Regular";
+    src: url("style/fonts/Theinhardt-Regular.otf") format("otf");
+    font-weight: 200;
+}
+
+@font-face {
+  font-family: "Theinhardt-Regular-Italic";
+  src: url("fonts/Theinhardt-RegularIta.otf") format("otf"),
+}
+
+h1 {
+    font-family: "Theinhardt-Regular", sans-serif;
+    font-size: 48px;
+    font-weight: 400;
+    text-align: left;
+    margin: 0 0 15px 0;
+}
+
+h2 {
+    font-family: "Theinhardt-Regular", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    text-align: left;
+    margin: 0 0 15px 0;
+}
+
+h3 {
+    font-family: "Theinhardt-Regular", sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    text-align: left;
+    margin: 0 0 15px 0;
+    
+}
+
+h4 {
+    font-family: "Theinhardt-Regular", sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: left;
+    margin: 0 0 15px 0;
+}
+
+h5 {
+    font-family: "Theinhardt-Bold", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0.01em;
+    text-align: center;
+    margin: 0;
+}
+
+h6 {
+    font-family: "Theinhardt-Regular", sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    text-align: left;
+    margin: 0 0 15px 0;
+}
+
+p {
+    font-family: "Theinhardt-Regular", sans-serif;
+    font-size: 14px;
+    margin: 0 0 0 0;
+    color: black;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.onblack {
+    color: white;
+}
+
+
+/*—————————————————————————————————————universal elements—————————————————————————————————————*/
+
+
+.wrapper {
+    width: 100%;
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 30px;
+    padding: 30px 30px 30px 30px;
+    box-sizing: border-box;
+
+/*  grid-auto-rows: minmax(100px, auto);*/
+}
+
+.content {
+    position: absolute;
+    top: 87px;
+    height: calc(100% - 87px);
+}
+
+.nav-bar {
+    position: fixed;
+    width: 100%;
+    height: 87px;
+    background-color: black;
+    top: 0;
+}
+
+.nav-active {
+    text-decoration: underline;
+}
+
+#home {
+    grid-column: 1 / span 1;
+    text-align: center;
+}
+
+#compose {
+    grid-column: 6 / span 1;
+    text-align: center;
+}
+
+.two-columns {
+    display: grid;
+    grid-template-columns: 2 1fr;
+    grid-gap: 15px;
+}
+
+.column-left {
+    display: inline-block;
+    grid-column: 1 / span 1;
+    width: 100%;
+}
+
+.column-right {
+    display: inline-block;
+    grid-column: 2 / span 1;
+    width: 100%;
+}
+
+/*—————————————————————————————————————Universal UI—————————————————————————————————————*/
+.text-label-inactive {
+    color: #A6A7A9;
+}
+
+.text-label {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+button {
+    box-sizing: border-box;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    border-style: solid;
+    background-color: #FCD931;
+    
+    cursor: pointer;
+    font-family: "Theinhardt-Bold", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0.01em;
+    text-align: center;  
+}
+
+.button-label {
+    display: inline-block;
+}
+
+/* The container */
+.radio-container {
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    padding: 5px 10px 5px 10px;
+    cursor: pointer;
+    font-family: "Theinhardt-Bold", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0.01em;
+    text-align: center;  
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 2px solid white;
+    border-radius: 5px;
+}
+
+.vertical {
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* Hide the browser's default radio button */
+.radio-container input {
+    position: absolute;
+    opacity: 0;
+    display: none;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.radio-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 33px;
+    width: 100%;
+    background-color: #E5E5E5;
+    z-index: -1;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-container:hover input ~ .radio-checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked*/
+.radio-container input:checked ~ .radio-checkmark {
+  background-color: #FCD931;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radio-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-container input:checked ~ .radio-checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-container .radio-checkmark:after {
+    display: none;
+/*
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+*/
+}
+
+/*the container must be positioned relative:*/
+.custom-select {
+    position: relative;
+    font-family: "Theinhardt-Bold", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0.01em;
+    text-align: left;
+    margin: 0;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element:*/
+}
+
+.select-selected {
+    background-color: #FCD931;
+    margin-bottom: -2px;
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 18px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: black transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent black transparent;
+  top: 12px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,.select-selected {
+    color: black;
+    padding: 8px 16px;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: -2px;
+}
+
+/*style items (options):*/
+.select-items {
+    position: absolute;
+    background-color: white;
+    border: 2px solid #FCD931;
+    border-radius: 5px;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.slidecontainer {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.slidecontainer-tall {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 5px;
+    background: #FCD931;
+    outline: none;
+    opacity: 1;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: black;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: black;
+    cursor: pointer;
+}
+
+.slider-label {
+    margin-bottom: -5px;
+}
+
+/*—————————————————————————————————————composer specific—————————————————————————————————————*/
+# settings {
+    cursor: pointer;
+}
+
+#character-controls {
+    display: none;
+}
+
+#cnv-holder {
+    grid-column: 1 / span 5;
+    display: inline-block;
+    grid-row: 1;
+    
+/*    background-color: #FCD931;*/
+    border: 2px solid #FCD931;
+    
+}
+
+#control {
+    display: inline-flex;
+    flex-direction: column;
+    flex-basis: 1;
+    justify-content: space-between;
+    grid-row: 1;
+}
+
+#control-modal {
+    display: none;
+    position: fixed;
+    min-width: 500px;
+    right: 30px;
+    top: 150px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: white;
+    box-sizing: border-box;
+    padding: 15px 30px 30px;
+}
+
+.control-modal-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 15px;
+    width: 100%;
+}
+
+#text-controls{
+/*    display: none;*/
+}
+
+#cog {
+    display: inline-block;
+    vertical-align: text-bottom;
+    margin-left:10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* The container */
+.color-radio-drawer {
+    position: relative;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    margin: 0 0 4px 0;
+    cursor: pointer;
+    font-family: "Theinhardt-Bold", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0.01em;
+    text-align: left;  
+    background-color: #FCD931;
+    border: 2px solid white;
+    border-radius: 5px;
+}
+
+.color-radio-drawer-active {
+    z-index: 100;
+    border: 2px solid black;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.color-radio-options {
+/*    display: block;*/
+    display: none;
+    margin: 10px 0 0 0;
+}
+
+/*style the arrow inside the select element:*/
+.color-radio-drawer:after {
+    position: absolute;
+    display: inline-block;
+    content: "";
+    top: 18px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: black transparent transparent transparent;
+}
+
+/*use this style for the arrow onclick with js later:*/
+.color-radio-drawer-active:after {
+    position: absolute;
+    display: inline-block;
+    content: "";
+    top: 12px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: transparent transparent black transparent;
+}
+
+.color-radio-container {
+    display: inline-block;
+    position: relative;
+    margin: 0 2px 0 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+/*    border: 2px solid white;*/
+}
+
+/* Hide the browser's default radio button */
+.color-radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    display: none;
+}
+
+/* Create a custom radio button */
+.color-radio-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #E5E5E5;
+    border: 2px solid white;
+    
+    z-index: -1;
+}
+
+/* On mouse-over, add a grey background color */
+.color-radio-container:hover input ~ .color-radio-checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked*/
+.color-radio-container input:checked ~ .color-radio-checkmark {
+  border: 2px solid black;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.color-radio-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.color-radio-container input:checked ~ .color-radio-checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.color-radio-container .color-radio-checkmark:after {
+    display: none;
+/*
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+*/
+}
+
+.control-button {
+/*    position: absolute;*/
+    width: 100%;
+    bottom: 0;
+    right: 30px;
+    margin-top: 15px;
+}
+
+@media only screen and (min-width: 2400px) {
+}
+
+@media only screen and (max-width: 768px) {
+}
