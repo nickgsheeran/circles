@@ -46,6 +46,13 @@ let conOpac;
 let global_xMag = 0;
 let global_yMag = 0;
 
+let playPause = false;
+
+let letters = [];
+let letterCount = 0;
+let letterX;
+let letterY;
+
 let saveButton;
 
 //will want leading and tracking sliders eventually
@@ -55,9 +62,8 @@ function setup() {
     theParent = document.getElementById('cnv-holder');
     theWidth = theParent.clientWidth;
     theHeight = theParent.clientHeight;
-    console.log("theWidth:", theWidth, "theHeight:", theHeight);
     
-    cnv = createCanvas(theHeight, theHeight);
+    cnv = createCanvas(theHeight, theWidth);
     cnv.parent('cnv-holder');
 //    pixelDensity(3);
     
@@ -133,12 +139,17 @@ function setup() {
 //    saveButton.style('position: absolute; left: calc(50% + 60px); bottom: 30px');
 //    saveButton.mousePressed(saveIt);
         
-    character = new LetterA();
-    character.construct(0, 0, 0);
-
+//    character = new LetterA();
+//    character.construct(0, 0, 0);
+    
+    noLoop();
 }
 
 function draw() {
+    theParent = document.getElementById('cnv-holder');
+    theWidth = theParent.clientWidth;
+    theHeight = theParent.clientHeight;
+    
     conOpac = constrain(opac, 0, 255);
     
     if (keyIsDown(UP_ARROW)) {
@@ -167,6 +178,10 @@ function draw() {
     leanX = leanXslider.value / 100 * cellX;
     leanY = leanYslider.value / 100 * cellY;
     
+    console.log("cellx:", cellX, "celly:", cellY);
+    console.log("unit:", unit);
+    console.log("leanx:", leanX, "leany:", leanY);
+    
     global_xMag = map(mouseX, 0, width, 0, globalMag);
     global_yMag = map(mouseY, 0, height, 0, globalMag);
     
@@ -177,16 +192,110 @@ function draw() {
     fill(255);    
     noStroke();
     
-//    text("speed:", width/20, height/20);
-//    text(anglePlus, width/20 + 40, height/20);
-//    text("opacity:", width/20, height/15);
-//    text(conOpac, width/20 + 45, height/15);
-//    text("global mag:", width/20, height/10);
-//    text(globalMag, width/10 + 45, height/10);
+//    character.display(global_xMag, global_yMag, anglePlus);
+    for (let i = 0; i < letters.length; i ++) {
+        letters[i].display(global_xMag, global_yMag, anglePlus);
+    }
+}
+
+function mousePressed() {
+    loop();
+}
+
+function mouseReleased() {
+    noLoop();
+}
+
+function windowResized() {
+    resizeCanvas(theHeight, theWidth);
+}
+
+function keyPressed() {
+    letterCount ++;
+    letterX = letterCount * letterWidth;
     
-    character.display(global_xMag, global_yMag, anglePlus);
+    if (keyCode === 65) {
+        letters.push(new LetterA());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 66) {
+        letters.push(new LetterB());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 67) {
+        letters.push(new LetterC());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 68) {
+        letters.push(new LetterD());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 69) {
+        letters.push(new LetterE());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 70) {
+        letters.push(new LetterF());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 71) {
+        letters.push(new LetterG());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 72) {
+        letters.push(new LetterH());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 73) {
+        letters.push(new LetterI());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 74) {
+        letters.push(new LetterJ());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 75) {
+        letters.push(new LetterK());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 76) {
+        letters.push(new LetterL());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 77) {
+        letters.push(new LetterM());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 78) {
+        letters.push(new LetterN());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 79) {
+        letters.push(new LetterO());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 80) {
+        letters.push(new LetterP());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 81) {
+        letters.push(new LetterQ());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 82) {
+        letters.push(new LetterR());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 83) {
+        letters.push(new LetterS());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 84) {
+        letters.push(new LetterT());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 85) {
+        letters.push(new LetterU());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 86) {
+        letters.push(new LetterV());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 87) {
+        letters.push(new LetterW());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 88) {
+        letters.push(new LetterX());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 89) {
+        letters.push(new LetterY());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    } else if (keyCode === 90) {
+        letters.push(new LetterZ());
+        letters[letterCount - 1].construct(letterCount * letterWidth, 0, 0);
+    }
     
-//    noLoop();
+    loop();
+    noLoop();
 }
 
 function saveIt() {

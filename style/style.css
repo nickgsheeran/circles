@@ -410,6 +410,7 @@ button {
     grid-column: 1 / span 5;
     display: inline-block;
     grid-row: 1;
+    overflow: hidden;
     
 /*    background-color: #FCD931;*/
     border: 2px solid #FCD931;
