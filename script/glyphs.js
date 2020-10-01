@@ -58,13 +58,13 @@ let letterYpos;
 let letterSpacingSlider;
 let letterSpacing;
 
+let lineSpacingSlider;
+let lineSpacing;
+
 let lineCount;
 
 let saveButton;
 let clearButton;
-
-//will want leading and tracking sliders eventually
-//will want to return the values of sliders eventually
 
 function setup() {
     theParent = document.getElementById('cnv-holder');
@@ -73,88 +73,34 @@ function setup() {
     
     cnv = createCanvas(theHeight, theWidth);
     cnv.parent('cnv-holder');
-//    pixelDensity(3);
     
-    strokeWeight(1); // do 0.1 for laser
-    stroke(255, 0, 0); // red is good for laser
-    noFill(); // better not to have a fill for laser
+    strokeWeight(1);
+    stroke(255, 0, 0);
+    noFill();
     
     background(230);
     
-//    cellXsliderLabel = createP('Cell X size:');
-//    cellXsliderLabel.position(width + 60, 0);
-//    cellXslider = createSlider(0, width/5, 50);
-//    cellXslider.position(width + 58, 35);
-//    cellXslider.style('width', 'calc(50% - 120px)');
-    
     cellXslider = document.getElementById('cell-x-size');
-    
-//    cellYsliderLabel = createP('Cell Y size:');
-//    cellYsliderLabel.position(width + 60, 80);
-//    cellYslider = createSlider(0, width/5, 50);
-//    cellYslider.position(width + 58, 35 + 80);
-//    cellYslider.style('width', 'calc(50% - 120px)');
+
     
     cellYslider = document.getElementById('cell-y-size');
-    
-//    unitSliderLabel = createP('Unit size:');
-//    unitSliderLabel.position(width + 60, 80*2);
-//    unitSlider = createSlider(0, width/5, 50);
-//    unitSlider.position(width + 58, 35 + 80*2);
-//    unitSlider.style('width', 'calc(50% - 120px)');
-    
+
     unitSlider = document.getElementById('unit-size');
-    
-//    cornerSliderLabel = createP('Corner size:');
-//    cornerSliderLabel.position(width + 60, 80*3);
-//    cornerSlider = createSlider(0, width/10, 0);
-//    cornerSlider.position(width + 58, 35 + 80*3);
-//    cornerSlider.style('width', 'calc(50% - 120px)');
-    
+
     cornerSlider = document.getElementById('corner-size');
-    
-    
-//    globalMagSliderLabel = createP('Spin magnitude:');
-//    globalMagSliderLabel.position(width + 60, 80*4);
-//    globalMagSlider = createSlider(0, width/5, 50);
-//    globalMagSlider.position(width + 58, 35 + 80*4);
-//    globalMagSlider.style('width', 'calc(50% - 120px)');
-    
+
     globalMagSlider = document.getElementById('spin-size');
-    
-    
-//    leanXsliderLabel = createP('Lean X:');
-//    leanXsliderLabel.position(width + 60, 80*5);
-//    leanXslider = createSlider(-100, 100, 0);
-//    leanXslider.position(width + 58, 35 + 80*5);
-//    leanXslider.style('width', 'calc(50% - 120px)');
-    
+
     leanXslider = document.getElementById('lean-x');
-    
-    
-//    leanYsliderLabel = createP('Lean Y:');
-//    leanYsliderLabel.position(width + 60, 80*6);
-//    leanYslider = createSlider(-100, 100, 0);
-//    leanYslider.position(width + 58, 35 + 80*6);
-//    leanYslider.style('width', 'calc(50% - 120px)');
-    
+
     leanYslider = document.getElementById('lean-y');
     
     letterSpacingSlider = document.getElementById('letter-spacing');
     
-    
-//    let ins = createP('Press left/right and up/down to play with speed and opacity');
-//    ins.position(width + 60,  35 + 80*7);
-//    
-//    saveButton = createButton('Save');
-//    saveButton.style('position: absolute; left: calc(50% + 60px); bottom: 30px');
-//    saveButton.mousePressed(saveIt);
-    
+    lineSpacingSlider = document.getElementById('line-spacing');
+
     saveButton = document.getElementById('export');
-        
-//    character = new LetterA();
-//    character.construct(0, 0, 0);
-    
+
     lineCount = 0
     
     noLoop();
@@ -188,6 +134,8 @@ function draw() {
     
 //    paragraph settings
     letterSpacing = letterSpacingSlider.value / 1;
+    lineSpacing = lineSpacingSlider.value / 1;
+    
     
 //    console.log("cellx:", cellX, "celly:", cellY);
 //    console.log("unit:", unit);
@@ -205,9 +153,7 @@ function draw() {
     
 //    character.display(global_xMag, global_yMag, anglePlus);
     for (let i = 0; i < letters.length; i ++) {
-//        letters[i].xoff = (i * letterWidth) + (i * letterSpacing);
         push();
-//            translate((i * letterSpacing) - (lineCount * letterSpacing), 0);
             letters[i].display(global_xMag, global_yMag, anglePlus);
         pop();
     }
@@ -227,12 +173,11 @@ function windowResized() {
     resizeCanvas(theHeight, theWidth);
 }
 
-document.addEventListener('keydown', noSpace);
-
-function noSpace(e) {
-    event.preventDefault();
-//  log.textContent += ` ${e.code}`;
-}
+//document.addEventListener('keydown', noSpace);
+//
+//function noSpace(e) {
+//    event.preventDefault();
+//}
 
 function keyPressed() {
 
@@ -243,187 +188,263 @@ function keyPressed() {
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterA());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
         
         letterLineCount ++;
         
     } else if (keyCode === 66) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterB());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 67) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterC());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 68) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterD());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 69) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterE());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 70) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterF());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 71) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterG());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 72) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterH());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 73) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterI());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 74) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterJ());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 75) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterK());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 76) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterL());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 77) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterM());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 78) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterN());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 79) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterO());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 80) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterP());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 81) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterQ());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 82) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterR());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 83) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterS());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 84) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterT());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 85) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterU());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 86) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterV());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 87) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterW());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 88) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
-        letters.push(new letterX());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters.push(new LetterX());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 89) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterY());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 90) {
         letterCount ++;
-        letterXpos = letterCount * letterWidth;
+        letterXpos = letterLineCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
         letters.push(new LetterZ());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
     } else if (keyCode === 32) {
         letterCount ++;
+        letterLineCount ++;
         letterXpos = letterCount * letterWidth;
         letterYpos = lineCount * letterHeight;
         
@@ -450,10 +471,11 @@ function saveIt() {
 }
 
 class LetterA {
-    construct(xoff, yoff, localLetterLineCount, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
         this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -467,7 +489,7 @@ class LetterA {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftSpine();
             topCrossbar();
             rightSpine();
@@ -477,9 +499,11 @@ class LetterA {
 }
 
 class LetterAacute {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -493,7 +517,7 @@ class LetterAacute {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(2*cellX + leanXunits[5] * leanX, 1*cellY + leanYunits[2] * leanY, unit, unit, corners);
             rect(3*cellX + leanXunits[6] * leanX, 0*cellY + leanYunits[3] * leanY, unit, unit, corners);
             leftSpine();
@@ -505,9 +529,11 @@ class LetterAacute {
 }
 
 class LetterAtilde {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -521,7 +547,7 @@ class LetterAtilde {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(1*cellX + leanXunits[6] * leanX, 0*cellY + leanYunits[1] * leanY, unit, unit, corners);
             rect(2*cellX + leanXunits[5] * leanX, 1*cellY + leanYunits[2] * leanY, unit, unit, corners);
             rect(3*cellX + leanXunits[6] * leanX, 0*cellY + leanYunits[3] * leanY, unit, unit, corners);
@@ -533,9 +559,11 @@ class LetterAtilde {
     }
 }
 class LetterB {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -549,7 +577,7 @@ class LetterB {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             tallLeftSpine();
         
             topCrossbar();
@@ -566,9 +594,11 @@ class LetterB {
 }
 
 class LetterC {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -582,7 +612,7 @@ class LetterC {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);        
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftCurve();
         
             topCrossbar();
@@ -593,9 +623,11 @@ class LetterC {
 }
 
 class LetterD {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -609,7 +641,7 @@ class LetterD {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);        
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));        
             tallLeftSpine();
             topCrossbar();
             bottomCrossbar();
@@ -619,9 +651,11 @@ class LetterD {
 }
 
 class LetterE {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -635,7 +669,7 @@ class LetterE {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftCurve();
             topCrossbar();
             rect(4*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[4] * leanY, unit, unit, corners);
@@ -647,9 +681,11 @@ class LetterE {
 }
 
 class LetterEacute {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -663,7 +699,7 @@ class LetterEacute {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(2*cellX + leanXunits[5] * leanX, 1*cellY + leanYunits[2] * leanY, unit, unit, corners);
             rect(3*cellX + leanXunits[6] * leanX, 0*cellY + leanYunits[3] * leanY, unit, unit, corners);
             leftCurve();
@@ -677,9 +713,11 @@ class LetterEacute {
 }
 
 class LetterF {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -693,7 +731,7 @@ class LetterF {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftSpine();
             topCrossbar();
             rect(4*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[4] * leanY, unit, unit, corners);
@@ -704,9 +742,11 @@ class LetterF {
 
 
 class LetterG {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -720,7 +760,7 @@ class LetterG {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftCurve();
             topCrossbar();
             rect(2*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[2] * leanY, unit, unit, corners);
@@ -733,9 +773,11 @@ class LetterG {
 }
 
 class LetterH {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -749,7 +791,7 @@ class LetterH {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             tallLeftSpine();
             xCrossbar();
             rect(4*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[4] * leanY, unit, unit, corners);
@@ -759,9 +801,11 @@ class LetterH {
 }
 
 class LetterI {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -775,7 +819,7 @@ class LetterI {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             middleSpine();
         
             rect(0*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[0] * leanY, unit, unit, corners);
@@ -790,9 +834,11 @@ class LetterI {
 }
 
 class LetterIacute {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -806,7 +852,7 @@ class LetterIacute {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             acute();
             middleSpine();
         
@@ -822,9 +868,11 @@ class LetterIacute {
 }
 
 class LetterJ {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -838,7 +886,7 @@ class LetterJ {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[1] * leanX, 5*cellY + leanYunits[0] * leanY, unit, unit, corners);
             bottomCrossbar();
             rightCurve();
@@ -848,9 +896,11 @@ class LetterJ {
 }
 
 class LetterK {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -864,7 +914,7 @@ class LetterK {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftSpine();
             rect(0*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[0] * leanY, unit, unit, corners);
         
@@ -882,9 +932,11 @@ class LetterK {
 }
 
 class LetterL {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -898,7 +950,7 @@ class LetterL {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftCurve();
             rect(0*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[0] * leanY, unit, unit, corners);
             bottomCrossbar();
@@ -908,9 +960,11 @@ class LetterL {
 }
 
 class LetterM {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -924,7 +978,7 @@ class LetterM {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftSpine();
 
             rect(1*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[1] * leanY, unit, unit, corners);
@@ -941,9 +995,11 @@ class LetterM {
 }
 
 class LetterN {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -957,7 +1013,7 @@ class LetterN {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftSpine();
             rect(1*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[1] * leanY, unit, unit, corners);
             rect(2*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[2] * leanY, unit, unit, corners);
@@ -973,9 +1029,11 @@ class LetterN {
 }
 
 class LetterNacute {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -989,7 +1047,7 @@ class LetterNacute {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(3*cellX + leanXunits[5] * leanX, 1*cellY + leanYunits[3] * leanY, unit, unit, corners);
             rect(4*cellX + leanXunits[6] * leanX, 0*cellY + leanYunits[4] * leanY, unit, unit, corners);
         
@@ -1008,9 +1066,11 @@ class LetterNacute {
 }
 
 class LetterNtilde {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1024,7 +1084,7 @@ class LetterNtilde {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(2*cellX + leanXunits[6] * leanX, 0*cellY + leanYunits[2] * leanY, unit, unit, corners);
             rect(3*cellX + leanXunits[5] * leanX, 1*cellY + leanYunits[3] * leanY, unit, unit, corners);
             rect(4*cellX + leanXunits[6] * leanX, 0*cellY + leanYunits[4] * leanY, unit, unit, corners);
@@ -1044,9 +1104,11 @@ class LetterNtilde {
 }
 
 class LetterO {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1060,7 +1122,7 @@ class LetterO {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftCurve();
             topCrossbar();
             bottomCrossbar();
@@ -1070,9 +1132,11 @@ class LetterO {
 }
 
 class LetterOacute {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1086,7 +1150,7 @@ class LetterOacute {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             acute();
             leftCurve();
             topCrossbar();
@@ -1097,9 +1161,11 @@ class LetterOacute {
 }
 
 class LetterP {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1113,7 +1179,7 @@ class LetterP {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftSpine();
             topCrossbar();
             rect(4*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[4] * leanY, unit, unit, corners);
@@ -1123,9 +1189,11 @@ class LetterP {
 }
 
 class LetterQ {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1139,7 +1207,7 @@ class LetterQ {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftCurve();
             topCrossbar();
 
@@ -1158,9 +1226,11 @@ class LetterQ {
 }
 
 class LetterR {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1174,7 +1244,7 @@ class LetterR {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftSpine();
             topCrossbar();
         
@@ -1192,9 +1262,11 @@ class LetterR {
 }
 
 class LetterS {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1208,7 +1280,7 @@ class LetterS {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(0*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[0] * leanY, unit, unit, corners);
             topCrossbar();
@@ -1221,9 +1293,11 @@ class LetterS {
 }
 
 class LetterT {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1237,7 +1311,7 @@ class LetterT {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             middleSpine();
         
             rect(0*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[0] * leanY, unit, unit, corners);
@@ -1250,9 +1324,11 @@ class LetterT {
 }
 
 class LetterU {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1266,7 +1342,7 @@ class LetterU {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[1] * leanX, 5*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(0*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(0*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
@@ -1286,9 +1362,11 @@ class LetterU {
 }
 
 class LetterUacute {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1302,7 +1380,7 @@ class LetterUacute {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             acute();
             rect(0*cellX + leanXunits[1] * leanX, 5*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(0*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[0] * leanY, unit, unit, corners);
@@ -1323,9 +1401,11 @@ class LetterUacute {
 }
 
 class LetterUumlaut {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1339,7 +1419,7 @@ class LetterUumlaut {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(1*cellX + leanXunits[6] * leanX, 0*cellY + leanYunits[1] * leanY, unit, unit, corners);
             rect(3*cellX + leanXunits[6] * leanX, 0*cellY + leanYunits[3] * leanY, unit, unit, corners);
 
@@ -1362,9 +1442,11 @@ class LetterUumlaut {
 }
 
 class LetterV {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1378,7 +1460,7 @@ class LetterV {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(0*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(0*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[0] * leanY, unit, unit, corners);
@@ -1393,9 +1475,11 @@ class LetterV {
 }
 
 class LetterW {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1409,7 +1493,7 @@ class LetterW {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[1] * leanX, 5*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(0*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(0*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
@@ -1431,9 +1515,11 @@ class LetterW {
 }
 
 class LetterX {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1447,7 +1533,7 @@ class LetterX {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(1*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[1] * leanY, unit, unit, corners);
             rect(2*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[2] * leanY, unit, unit, corners);
@@ -1464,9 +1550,11 @@ class LetterX {
 }
 
 class LetterY {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1480,7 +1568,7 @@ class LetterY {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(2*cellX + leanXunits[1] * leanX, 5*cellY + leanYunits[2] * leanY, unit, unit, corners);
             rect(2*cellX + leanXunits[0] * leanX, 6*cellY + leanYunits[2] * leanY, unit, unit, corners);
         
@@ -1496,9 +1584,11 @@ class LetterY {
 }
 
 class LetterZ {
-    construct(xoff, yoff, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1512,7 +1602,7 @@ class LetterZ {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[0] * leanY, unit, unit, corners);
             topCrossbar();
             rect(4*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[4] * leanY, unit, unit, corners);
@@ -1528,9 +1618,11 @@ class LetterZ {
 }
 
 class Number1 {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1544,7 +1636,7 @@ class Number1 {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(1*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(2*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[2] * leanY, unit, unit, corners);
@@ -1556,9 +1648,11 @@ class Number1 {
 }
 
 class Number2 {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1572,7 +1666,7 @@ class Number2 {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
             topCrossbar();
             rect(0*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
@@ -1590,9 +1684,11 @@ class Number2 {
 }
 
 class Number3 {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1606,7 +1702,7 @@ class Number3 {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
             topCrossbar();
             rect(4*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[4] * leanY, unit, unit, corners);
@@ -1620,9 +1716,11 @@ class Number3 {
 }
 
 class Number4 {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1636,7 +1734,7 @@ class Number4 {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[1] * leanX, 5*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(0*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(1*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[1] * leanY, unit, unit, corners);
@@ -1656,9 +1754,11 @@ class Number4 {
 }
 
 class Number5 {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1672,7 +1772,7 @@ class Number5 {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[1] * leanX, 5*cellY + leanYunits[0] * leanY, unit, unit, corners);
         
             topCrossbar();
@@ -1693,9 +1793,11 @@ class Number5 {
 }
 
 class Number6 {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1709,7 +1811,7 @@ class Number6 {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftCurve();
         
             topCrossbar();
@@ -1730,9 +1832,11 @@ class Number6 {
 }
 
 class Number7 {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1746,7 +1850,7 @@ class Number7 {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
             topCrossbar();
         
@@ -1760,9 +1864,11 @@ class Number7 {
 }
 
 class Number8 {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1776,7 +1882,7 @@ class Number8 {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(1*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[1] * leanY, unit, unit, corners);
             rect(2*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[2] * leanY, unit, unit, corners);
@@ -1795,9 +1901,11 @@ class Number8 {
 }
 
 class Number9 {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1811,7 +1919,7 @@ class Number9 {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[1] * leanX, 5*cellY + leanYunits[0] * leanY, unit, unit, corners);
         
             topCrossbar();
@@ -1829,9 +1937,11 @@ class Number9 {
 }
 
 class Number0 {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1845,7 +1955,7 @@ class Number0 {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftCurve();
             topCrossbar();
             bottomCrossbar();
@@ -1857,9 +1967,11 @@ class Number0 {
 }
 
 class symbolPeriod {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+        this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1873,16 +1985,18 @@ class symbolPeriod {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[0] * leanX, 6*cellY + leanYunits[0] * leanY, unit, unit, corners);
         pop();
     }
 }
 
 class symbolExclamation {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1896,7 +2010,7 @@ class symbolExclamation {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[0] * leanX, 6*cellY + leanYunits[0] * leanY, unit, unit, corners);
         
             rect(0*cellX + leanXunits[0] * leanX, 4*cellY + leanYunits[0] * leanY, unit, unit, corners);
@@ -1908,9 +2022,11 @@ class symbolExclamation {
 }
 
 class symbolExclamationInverted {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1924,7 +2040,7 @@ class symbolExclamationInverted {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(4*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[4] * leanY, unit, unit, corners);
         
             rect(4*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[4] * leanY, unit, unit, corners);
@@ -1935,9 +2051,11 @@ class symbolExclamationInverted {
 }
 
 class symbolQuestion {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1951,7 +2069,7 @@ class symbolQuestion {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(1*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[1] * leanY, unit, unit, corners);
             rect(2*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[2] * leanY, unit, unit, corners);
@@ -1965,9 +2083,11 @@ class symbolQuestion {
 }
 
 class symbolQuestionInverted {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -1981,7 +2101,7 @@ class symbolQuestionInverted {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(1*cellX + leanXunits[1] * leanX, 5*cellY + leanYunits[1] * leanY, unit, unit, corners); 
             rect(2*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[2] * leanY, unit, unit, corners);    
 
@@ -1996,9 +2116,11 @@ class symbolQuestionInverted {
 }
 
 class symbolSlash {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -2012,7 +2134,7 @@ class symbolSlash {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(2*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[2] * leanY, unit, unit, corners);
             rect(0*cellX + leanXunits[0] * leanX, 6*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(1*cellX + leanXunits[1] * leanX, 5*cellY + leanYunits[1] * leanY, unit, unit, corners);
@@ -2023,9 +2145,11 @@ class symbolSlash {
 }
 
 class symbolPercent {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -2039,7 +2163,7 @@ class symbolPercent {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[0] * leanY, unit, unit, corners);
         
             rect(2*cellX + leanXunits[2] * leanX, 4*cellY + leanYunits[2] * leanY, unit, unit, corners);
@@ -2054,9 +2178,11 @@ class symbolPercent {
 }
 
 class symbolLeftPar {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -2070,7 +2196,7 @@ class symbolLeftPar {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(4*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[4] * leanY, unit, unit, corners);
         
             rect(3*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[3] * leanY, unit, unit, corners);
@@ -2083,9 +2209,11 @@ class symbolLeftPar {
 }
 
 class symbolRightPar {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -2099,7 +2227,7 @@ class symbolRightPar {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[0] * leanY, unit, unit, corners);
         
             rect(1*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[1] * leanY, unit, unit, corners);
@@ -2112,9 +2240,11 @@ class symbolRightPar {
 }
 
 class symbolPound {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -2128,7 +2258,7 @@ class symbolPound {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             rect(0*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[0] * leanY, unit, unit, corners);
             rect(1*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[1] * leanY, unit, unit, corners);
             rect(2*cellX + leanXunits[3] * leanX, 3*cellY + leanYunits[2] * leanY, unit, unit, corners);
@@ -2154,9 +2284,11 @@ class symbolPound {
 }
 
 class symbolAt {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -2170,7 +2302,7 @@ class symbolAt {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             leftCurve();
             topCrossbar();
             bottomCrossbar();
@@ -2187,9 +2319,11 @@ class symbolAt {
 }
 
 class symbolDollar {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
+            this.localLetterLineCount = localLetterLineCount;
+        this.localLineCount = localLineCount;
         this.angle = angle;
     }
     
@@ -2203,7 +2337,7 @@ class symbolDollar {
         this.y1 = this.yMag * sin(this.angle);
         
         push();
-        translate(this.xoff + this.x1, this.yoff + this.y1);
+        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
             topCrossbar();
             middleSpine();
             xCrossbar();
@@ -2221,7 +2355,7 @@ class symbolDollar {
 }
 
 class LetterSpace {
-        construct(xoff, yoff, angle) {
+        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
 //        this.xoff = xoff;
 //        this.yoff = yoff;
 //        this.angle = angle;
@@ -2237,7 +2371,7 @@ class LetterSpace {
 //        this.y1 = this.yMag * sin(this.angle);
 //        
 //        push();
-//        translate(this.xoff + this.x1, this.yoff + this.y1);
+//        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
 //
 //        pop();
     }
