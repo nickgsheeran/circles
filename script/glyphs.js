@@ -493,13 +493,15 @@ function keyPressed() {
         letterLineCount = 0;
         letterYpos = lineCount * letterHeight;
     } else if (keyCode === 8) {
-        letters.splice(-1, 1);
-        letterCount --;
-        if (letterLineCount == 0) {
-            lineCount--;
-            letterLineCount = letters[letters.length - 1].localLetterLineCount + 1;
-        } else {
-            letterLineCount --;
+        if (letterCount != 0) {
+            letters.splice(-1, 1);
+            letterCount --;
+            if (letterLineCount == 0) {
+                lineCount--;
+                letterLineCount = letters[letters.length - 1].localLetterLineCount + 1;
+            } else {
+                letterLineCount --;
+            }
         }
     }
     
