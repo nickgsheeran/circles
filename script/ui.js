@@ -88,7 +88,7 @@ $(document).ready(function() {
             $('p', this).html("Save settings and close");
         } else {
             $('#control-modal').hide();
-            $('p', this).html("Settings"); 
+            $('p', this).html("Customize"); 
         }
         modalSwitch = !modalSwitch;
     })

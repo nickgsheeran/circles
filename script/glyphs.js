@@ -50,6 +50,7 @@ let letters = [];
 let letterElement = 1;
 let letterCount = 0;
 let letterLineCount = 0;
+
 let letterXpos;
 let letterYpos;
 
@@ -59,13 +60,22 @@ let letterSpacing;
 let lineSpacingSlider;
 let lineSpacing;
 let lineCount;
+let lineCountChars = [0];
+
 
 let alignmentButton;
+let alignmentValues = [];
 let alignment;
+let paragraphAlignmentOffset;
+let paragraphAlignment;
+
 
 let fillStrokeButton;
 let fillStrokeValues = [];
 let fillStroke;
+
+let marginSlider;
+let margins;
 
 let playPauseButton;
 let playPauseValues;
@@ -79,7 +89,7 @@ function setup() {
     theWidth = theParent.clientWidth;
     theHeight = theParent.clientHeight;
     
-    cnv = createCanvas(theHeight, theWidth);
+    cnv = createCanvas(theWidth, theHeight);
     cnv.parent('cnv-holder');
     
     strokeWeight(1);
@@ -106,6 +116,8 @@ function setup() {
     
     lineSpacingSlider = document.getElementById('line-spacing');
     
+    marginSlider = document.getElementById('margins');
+    
 //    alignmentButton = document.getElementById('')
     
     fillStrokeButton = document.getElementById('fill-stroke');
@@ -120,12 +132,19 @@ function setup() {
     for(i = 0; i < playPauseValues.length; i++) { 
         if(playPauseValues[i].checked) 
         playPause = playPauseValues[i].value;
-        console.log(playPause);
+//        console.log(playPause);
+    } 
+    
+    alignmentButton = document.getElementById('alignment');
+    alignmentValues = document.getElementsByName('alignment');
+    for(i = 0; i < alignmentValues.length; i++) { 
+        if(alignmentValues[i].checked) 
+        paragraphAlignment = alignmentValues[i].value;
     } 
     
     saveButton = document.getElementById('export');
 
-    lineCount = 0
+    lineCount = 0;
     
     noLoop();
 }
@@ -159,6 +178,7 @@ function draw() {
 //    paragraph settings
     letterSpacing = letterSpacingSlider.value / 1;
     lineSpacing = lineSpacingSlider.value / 1;
+    margins = marginSlider.value / 1;
     
 //    console.log("cellx:", cellX, "celly:", cellY);
 //    console.log("unit:", unit);
@@ -176,7 +196,7 @@ function draw() {
         fill(255);    
         noStroke();
     } else if (fillStroke == 'outline') {
-        fill(0);
+        noFill();
         strokeWeight(1);
         stroke(255);
     } else {
@@ -184,17 +204,27 @@ function draw() {
         noStroke();
     }
     
+//    console.log(lineCountChars);
+    
     for (let i = 0; i < letters.length; i ++) {
+        if (paragraphAlignment == 'left') {
+            paragraphAlignmentOffset = 0;
+        } else if (paragraphAlignment == 'center') {
+            paragraphAlignmentOffset = lineCountChars[letters[i].localLineCount];
+            paragraphAlignmentOffset = (width - (paragraphAlignmentOffset * (letterWidth + letterSpacing)) - margins) / 2;
+        } else if (paragraphAlignment == 'right') {
+            paragraphAlignmentOffset = lineCountChars[letters[i].localLineCount];
+            paragraphAlignmentOffset = width - (paragraphAlignmentOffset * (letterWidth + letterSpacing)) - margins * 2;
+        }
+
+        console.log("paragraph alignment:", paragraphAlignmentOffset);
+        
         push();
+            translate(margins + paragraphAlignmentOffset, margins);
             letters[i].display(global_xMag, global_yMag, anglePlus);
         pop();
     }
     
-//    if (playPause == 'pause') {
-//        noLoop();
-//    } else if (playPause == 'play') {
-//        loop();
-//    } else {noLoop}
 }
 
 function mousePressed() {    
@@ -208,314 +238,7 @@ function mouseReleased() {
 }
 
 function windowResized() {
-    resizeCanvas(theHeight, theWidth);
-}
-
-//document.addEventListener('keydown', noSpace);
-//
-//function noSpace(e) {
-//    event.preventDefault();
-//}
-
-function keyPressed() {
-
-    
-    if (keyCode === 65) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterA());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 66) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterB());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 67) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterC());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 68) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterD());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 69) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterE());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 70) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterF());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 71) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterG());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 72) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterH());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 73) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterI());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 74) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterJ());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 75) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterK());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 76) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterL());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 77) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterM());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 78) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterN());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 79) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterO());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 80) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterP());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 81) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterQ());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 82) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterR());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 83) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterS());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 84) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterT());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 85) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterU());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 86) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterV());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 87) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterW());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 88) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterX());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 89) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterY());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 90) {
-        letterCount ++;
-        letterXpos = letterLineCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterZ());
-        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
-        
-        letterLineCount ++;
-        
-    } else if (keyCode === 32) {
-        letterCount ++;
-        letterLineCount ++;
-        letterXpos = letterCount * letterWidth;
-        letterYpos = lineCount * letterHeight;
-        
-        letters.push(new LetterSpace());
-        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
-    } else if (keyCode === ENTER || keyCode === RETURN) {
-        lineCount ++;
-        letterLineCount = 0;
-        letterYpos = lineCount * letterHeight;
-    } else if (keyCode === 8) {
-        if (letterCount != 0) {
-            letters.splice(-1, 1);
-            letterCount --;
-            if (letterLineCount == 0) {
-                lineCount--;
-                letterLineCount = letters[letters.length - 1].localLetterLineCount + 1;
-            } else {
-                letterLineCount --;
-            }
-        }
-    }
-    
-//    console.log("lettercount:", letterCount, "letterwidth:", letterWidth);
-//    console.log("letterLineCount:", letterLineCount);
-//    console.log("letterwidth:", letterWidth);
-//    console.log("letterxpos:", letterXpos);
-    console.log("letters:", letters);
-    
-    loop();
-    
-    if (playPause == 'pause') {
-    noLoop();
-    }
+    resizeCanvas(theWidth, theHeight);
 }
 
 window.onload = init;
@@ -524,6 +247,7 @@ function init() {
     saveIt();
     fillStrokeEvent();
     playPauseEvent();
+    alignmentEvent();
 }
 
 function saveIt()   {
@@ -554,7 +278,7 @@ function fillStrokeEvent() {
             for(i = 0; i < fillStrokeValues.length; i++) { 
                 if(fillStrokeValues[i].checked) 
                 fillStroke = fillStrokeValues[i].value;
-                console.log(fillStroke);
+//                console.log(fillStroke);
             } 
         }
     }
@@ -564,7 +288,7 @@ function playPauseEvent() {
     playPauseButton.mouseIsOver = false;
     playPauseButton.onmouseover = function()   {
         this.mouseIsOver = true;
-        console.log("moused over play pause");
+//        console.log("moused over play pause");
     };
     playPauseButton.onmouseout = function()   {
         this.mouseIsOver = false;
@@ -582,6 +306,349 @@ function playPauseEvent() {
         } else {noLoop}
             }
         }
+}
+
+function alignmentEvent() {
+    alignmentButton.mouseIsOver = false;
+    alignmentButton.onmouseover = function()   {
+        this.mouseIsOver = true;
+//        console.log("moused over play pause");
+    };
+    alignmentButton.onmouseout = function()   {
+        this.mouseIsOver = false;
+    }
+    alignmentButton.onclick = function()   {
+        if (this.mouseIsOver)   {            
+            for(i = 0; i < alignmentValues.length; i++) { 
+                if(alignmentValues[i].checked) 
+                paragraphAlignment = alignmentValues[i].value;
+            }
+        if (playPause == 'pause') {
+            noLoop();
+        } else if (playPause == 'play') {
+            loop();
+        } else {noLoop}
+            }
+    }
+}
+
+function keyPressed() {
+
+    
+    if (keyCode === 65) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterA());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 66) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterB());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 67) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterC());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 68) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterD());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 69) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterE());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 70) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterF());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 71) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterG());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 72) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterH());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 73) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterI());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 74) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterJ());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 75) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterK());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 76) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterL());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 77) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterM());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 78) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterN());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 79) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterO());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 80) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterP());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 81) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterQ());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 82) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterR());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 83) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterS());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 84) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterT());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 85) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterU());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 86) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterV());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 87) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterW());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 88) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterX());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 89) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterY());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 90) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        
+        lineCountChars[lineCount] ++;
+        
+        letterXpos = letterLineCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterZ());
+        letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+        
+        letterLineCount ++;
+        
+    } else if (keyCode === 32) {
+        letterCount ++;        lineCountChars[lineCount] ++;
+        letterLineCount ++;
+        letterXpos = letterCount * letterWidth;
+        letterYpos = lineCount * letterHeight;
+        
+        letters.push(new LetterSpace());
+        letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+        
+    } else if (keyCode === ENTER || keyCode === RETURN) {
+        if (lineCount => lineCountChars.length) {
+            lineCountChars.push('0');
+        }
+        lineCount ++;
+        
+        letterLineCount = 0;
+        letterYpos = lineCount * letterHeight;
+        
+    } else if (keyCode === 8) {
+        if (letterCount != 0) {
+            letters.splice(-1, 1);
+            letterCount --;
+            lineCountChars[lineCount] --;
+            
+            if (letterLineCount == 0) {
+                lineCountChars[lineCount] = 0;
+                lineCount--;
+                letterLineCount = letters[letters.length - 1].localLetterLineCount + 1;
+                lineCountChars[lineCount] --;
+            } else {
+                letterLineCount --;
+            }
+        }
+    }
+    
+//    console.log("lettercount:", letterCount, "letterwidth:", letterWidth);
+//    console.log("letterLineCount:", letterLineCount);
+//    console.log("letterwidth:", letterWidth);
+//    console.log("letterxpos:", letterXpos);
+//    console.log("letters:", letters);
+    console.log("linecount:", lineCount);
+    
+    loop();
+    
+    if (playPause == 'pause') {
+        noLoop();
+    }
 }
 
 class LetterA {

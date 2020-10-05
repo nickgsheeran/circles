@@ -18,7 +18,7 @@
             <div id="cnv-holder"></div>
             <div id="control">
                 <div id="settings">
-                    <p style="text-align: right; display: inline-block; width: calc(100% - 30px); cursor: pointer">Settings</p><img id="cog" src="assets/cog.svg" alt="settings cog">
+                    <p style="text-align: right; display: inline-block; width: calc(100% - 30px); cursor: pointer">Customize</p><img id="cog" src="assets/cog.svg" alt="settings cog">
                 </div>
                 <div style="text-align: center;">
                     <p>
@@ -51,15 +51,15 @@
                             <div id="alignment" style="width: 100%;">
                                 <p>Alignment</p>
                                 <label class="radio-container">Left
-                                  <input type="radio" checked="checked" name="radio">
+                                  <input type="radio" value="left" id="left" name="alignment" checked>
                                   <span class="radio-checkmark"></span>
                                 </label>
                                 <label class="radio-container">Center
-                                  <input type="radio" name="radio">
+                                  <input type="radio" value="center" id="center" name="alignment">
                                   <span class="radio-checkmark"></span>
                                 </label>
                                 <label class="radio-container">Right
-                                  <input type="radio" name="radio">
+                                  <input type="radio" value="right" id="right" name="alignment">
                                   <span class="radio-checkmark"></span>
                                 </label>
                             </div>
@@ -176,7 +176,7 @@
                             </div>
                             <div class="slidecontainer">
                                 <p class="slider-label">Margins</p>
-                                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                                <input type="range" min="0" max="400" value="50" class="slider" id="margins">
                             </div>
                         </div>
                 </div>
