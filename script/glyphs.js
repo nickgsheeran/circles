@@ -454,13 +454,15 @@ function keyPressed() {
         lineCount ++;
         letterLineCount = 0;
         letterYpos = lineCount * letterHeight;
+    } else if (keyCode === 8) {
+        letters.splice(-1, 1);
     }
     
 //    console.log("lettercount:", letterCount, "letterwidth:", letterWidth);
 //    console.log("letterLineCount:", letterLineCount);
 //    console.log("letterwidth:", letterWidth);
 //    console.log("letterxpos:", letterXpos);
-    console.log("line count:", lineCount);
+    console.log("letters:", letters);
     
     loop();
     noLoop();
