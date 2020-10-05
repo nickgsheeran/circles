@@ -46,8 +46,6 @@ let conOpac;
 let global_xMag = 0;
 let global_yMag = 0;
 
-let playPause = false;
-
 let letters = [];
 let letterElement = 1;
 let letterCount = 0;
@@ -60,8 +58,16 @@ let letterSpacing;
 
 let lineSpacingSlider;
 let lineSpacing;
-
 let lineCount;
+
+let alignmentButton;
+let alignment;
+
+let fillStrokeButton;
+let fillStrokeValues = [];
+let fillStroke;
+
+let playPause = false;
 
 let saveButton;
 let clearButton;
@@ -82,7 +88,6 @@ function setup() {
     
     cellXslider = document.getElementById('cell-x-size');
 
-    
     cellYslider = document.getElementById('cell-y-size');
 
     unitSlider = document.getElementById('unit-size');
@@ -98,7 +103,18 @@ function setup() {
     letterSpacingSlider = document.getElementById('letter-spacing');
     
     lineSpacingSlider = document.getElementById('line-spacing');
-
+    
+//    alignmentButton = document.getElementById('')
+    
+    fillStrokeButton = document.getElementById('fill-stroke');
+    fillStrokeValues = document.getElementsByName('fill-stroke');
+    
+    for(i = 0; i < fillStrokeValues.length; i++) { 
+        if(fillStrokeValues[i].checked) 
+        fillStroke = fillStrokeValues[i].value;
+        console.log(fillStroke);
+    } 
+        
     saveButton = document.getElementById('export');
 
     lineCount = 0
@@ -131,11 +147,10 @@ function draw() {
     corners = cornerSlider.value / 1;
     leanX = leanXslider.value / 100 * cellX;
     leanY = leanYslider.value / 100 * cellY;
-    
+            
 //    paragraph settings
     letterSpacing = letterSpacingSlider.value / 1;
     lineSpacing = lineSpacingSlider.value / 1;
-    
     
 //    console.log("cellx:", cellX, "celly:", cellY);
 //    console.log("unit:", unit);
@@ -148,24 +163,31 @@ function draw() {
     letterHeight = 7*cellY;
 
     background(0, conOpac);
-    fill(255);    
-    noStroke();
     
-//    character.display(global_xMag, global_yMag, anglePlus);
+    if (fillStroke == 'solid') {
+        fill(255);    
+        noStroke();
+    } else if (fillStroke == 'outline') {
+        fill(0);
+        strokeWeight(1);
+        stroke(255);
+    } else {
+        fill(255);    
+        noStroke();
+    }
+    
     for (let i = 0; i < letters.length; i ++) {
         push();
             letters[i].display(global_xMag, global_yMag, anglePlus);
         pop();
     }
-    
-//    saveButton.mousePressed(saveIt());
 }
 
-function mousePressed() {
+function mousePressed() {    
     loop();
 }
 
-function mouseReleased() {
+function mouseReleased() {    
     noLoop();
 }
 
@@ -456,6 +478,13 @@ function keyPressed() {
         letterYpos = lineCount * letterHeight;
     } else if (keyCode === 8) {
         letters.splice(-1, 1);
+        letterCount --;
+        if (letterLineCount == 0) {
+            lineCount--;
+            letterLineCount = letters[letters.length - 1].localLetterLineCount + 1;
+        } else {
+            letterLineCount --;
+        }
     }
     
 //    console.log("lettercount:", letterCount, "letterwidth:", letterWidth);
@@ -468,8 +497,46 @@ function keyPressed() {
     noLoop();
 }
 
-function saveIt() {
-    save("your beautiful picture");
+window.onload = init;
+
+function init() {
+    saveIt();
+    fillStrokeEvent();
+}
+
+function saveIt()   {
+   saveButton.mouseIsOver = false;
+   saveButton.onmouseover = function()   {
+      this.mouseIsOver = true;
+   };
+   saveButton.onmouseout = function()   {
+      this.mouseIsOver = false;
+   }
+   saveButton.onclick = function()   {
+      if (this.mouseIsOver)   {
+        save("your beautiful picture");
+      }
+   }
+}
+
+function fillStrokeEvent() {
+    fillStrokeButton.mouseIsOver = false;
+    fillStrokeButton.onmouseover = function()   {
+        this.mouseIsOver = true;
+        console.log("moused over fillstroke");
+    };
+    fillStrokeButton.onmouseout = function()   {
+        this.mouseIsOver = false;
+    }
+    fillStrokeButton.onclick = function()   {
+        if (this.mouseIsOver)   {            
+            for(i = 0; i < fillStrokeValues.length; i++) { 
+                if(fillStrokeValues[i].checked) 
+                fillStroke = fillStrokeValues[i].value;
+                console.log(fillStroke);
+            } 
+        }
+    }
 }
 
 class LetterA {
