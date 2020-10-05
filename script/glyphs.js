@@ -67,7 +67,9 @@ let fillStrokeButton;
 let fillStrokeValues = [];
 let fillStroke;
 
-let playPause = false;
+let playPauseButton;
+let playPauseValues;
+let playPause;
 
 let saveButton;
 let clearButton;
@@ -108,13 +110,19 @@ function setup() {
     
     fillStrokeButton = document.getElementById('fill-stroke');
     fillStrokeValues = document.getElementsByName('fill-stroke');
-    
     for(i = 0; i < fillStrokeValues.length; i++) { 
         if(fillStrokeValues[i].checked) 
         fillStroke = fillStrokeValues[i].value;
-        console.log(fillStroke);
     } 
         
+    playPauseButton = document.getElementById('play-pause');
+    playPauseValues = document.getElementsByName('play-pause');
+    for(i = 0; i < playPauseValues.length; i++) { 
+        if(playPauseValues[i].checked) 
+        playPause = playPauseValues[i].value;
+        console.log(playPause);
+    } 
+    
     saveButton = document.getElementById('export');
 
     lineCount = 0
@@ -181,14 +189,22 @@ function draw() {
             letters[i].display(global_xMag, global_yMag, anglePlus);
         pop();
     }
+    
+//    if (playPause == 'pause') {
+//        noLoop();
+//    } else if (playPause == 'play') {
+//        loop();
+//    } else {noLoop}
 }
 
 function mousePressed() {    
     loop();
 }
 
-function mouseReleased() {    
-    noLoop();
+function mouseReleased() {
+    if (playPause == 'pause') {
+        noLoop();
+    }
 }
 
 function windowResized() {
@@ -494,7 +510,10 @@ function keyPressed() {
     console.log("letters:", letters);
     
     loop();
+    
+    if (playPause == 'pause') {
     noLoop();
+    }
 }
 
 window.onload = init;
@@ -502,6 +521,7 @@ window.onload = init;
 function init() {
     saveIt();
     fillStrokeEvent();
+    playPauseEvent();
 }
 
 function saveIt()   {
@@ -523,7 +543,6 @@ function fillStrokeEvent() {
     fillStrokeButton.mouseIsOver = false;
     fillStrokeButton.onmouseover = function()   {
         this.mouseIsOver = true;
-        console.log("moused over fillstroke");
     };
     fillStrokeButton.onmouseout = function()   {
         this.mouseIsOver = false;
@@ -537,6 +556,30 @@ function fillStrokeEvent() {
             } 
         }
     }
+}
+
+function playPauseEvent() {
+    playPauseButton.mouseIsOver = false;
+    playPauseButton.onmouseover = function()   {
+        this.mouseIsOver = true;
+        console.log("moused over play pause");
+    };
+    playPauseButton.onmouseout = function()   {
+        this.mouseIsOver = false;
+    }
+    playPauseButton.onclick = function()   {
+        if (this.mouseIsOver)   {            
+            for(i = 0; i < playPauseValues.length; i++) { 
+                if(playPauseValues[i].checked) 
+                playPause = playPauseValues[i].value;
+            }
+        if (playPause == 'pause') {
+            noLoop();
+        } else if (playPause == 'play') {
+            loop();
+        } else {noLoop}
+            }
+        }
 }
 
 class LetterA {
@@ -808,7 +851,6 @@ class LetterF {
         pop();
     }
 }
-
 
 class LetterG {
     construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
