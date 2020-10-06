@@ -74,8 +74,11 @@ let fillStrokeButton;
 let fillStrokeValues = [];
 let fillStroke;
 
-let marginSlider;
-let margins;
+let vMarginSlider;
+let vMargins;
+
+let hMarginSlider;
+let hMargins;
 
 let playPauseButton;
 let playPauseValues;
@@ -116,7 +119,8 @@ function setup() {
     
     lineSpacingSlider = document.getElementById('line-spacing');
     
-    marginSlider = document.getElementById('margins');
+    vMarginSlider = document.getElementById('vertical-margin');
+    hMarginSlider = document.getElementById('horizontal-margin');
     
 //    alignmentButton = document.getElementById('')
     
@@ -178,16 +182,15 @@ function draw() {
 //    paragraph settings
     letterSpacing = letterSpacingSlider.value / 1;
     lineSpacing = lineSpacingSlider.value / 1;
-    margins = marginSlider.value / 1;
-    
-//    console.log("cellx:", cellX, "celly:", cellY);
-//    console.log("unit:", unit);
-//    console.log("leanx:", leanX, "leany:", leanY);
-    
+    vMargins = vMarginSlider.value / 1;
+    hMargins = hMarginSlider.value / 1;
+
     global_xMag = map(mouseX, 0, width, 0, globalMag);
     global_yMag = map(mouseY, 0, height, 0, globalMag);
     
-    letterWidth = 5*cellX;
+    letterWidth = (5*unit) + (4*(cellX - unit));
+    console.log("letterWidth:", letterWidth);
+    
     letterHeight = 7*cellY;
 
     background(0, conOpac);
@@ -203,28 +206,31 @@ function draw() {
         fill(255);    
         noStroke();
     }
-    
-//    console.log(lineCountChars);
-    
+        
     for (let i = 0; i < letters.length; i ++) {
+        
+        letters[i].xoff = letters[i].localLetterLineCount * letterWidth;
+        
         if (paragraphAlignment == 'left') {
             paragraphAlignmentOffset = 0;
         } else if (paragraphAlignment == 'center') {
-            paragraphAlignmentOffset = lineCountChars[letters[i].localLineCount];
-            paragraphAlignmentOffset = (width - (paragraphAlignmentOffset * (letterWidth + letterSpacing)) - margins) / 2;
+            paragraphAlignmentOffset = lineCountChars[letters[i].localLineCount] - .5;
+            paragraphAlignmentOffset = (width - (paragraphAlignmentOffset * (letterWidth + letterSpacing)) - (letterWidth / 2) - (globalMag / 2) - hMargins) / 2;
+//            paragraphAlignmentOffset = (width - ((paragraphAlignmentOffset * letterWidth) + ((paragraphAlignmentOffset - 1) * letterSpacing)) - (letterWidth / 2) - (globalMag / 2) - hMargins) / 2;
+            
         } else if (paragraphAlignment == 'right') {
             paragraphAlignmentOffset = lineCountChars[letters[i].localLineCount];
-            paragraphAlignmentOffset = width - (paragraphAlignmentOffset * (letterWidth + letterSpacing)) - margins * 2;
+            paragraphAlignmentOffset = width - (paragraphAlignmentOffset * (letterWidth + letterSpacing)) - hMargins * 2;
         }
-
-        console.log("paragraph alignment:", paragraphAlignmentOffset);
         
         push();
-            translate(margins + paragraphAlignmentOffset, margins);
+            translate(hMargins + paragraphAlignmentOffset, vMargins);
             letters[i].display(global_xMag, global_yMag, anglePlus);
         pop();
     }
     
+    console.log("letters:", letters);
+    console.log("p offset:", paragraphAlignmentOffset)
 }
 
 function mousePressed() {    
@@ -636,13 +642,6 @@ function keyPressed() {
             }
         }
     }
-    
-//    console.log("lettercount:", letterCount, "letterwidth:", letterWidth);
-//    console.log("letterLineCount:", letterLineCount);
-//    console.log("letterwidth:", letterWidth);
-//    console.log("letterxpos:", letterXpos);
-//    console.log("letters:", letters);
-    console.log("linecount:", lineCount);
     
     loop();
     
