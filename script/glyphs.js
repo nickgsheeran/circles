@@ -40,6 +40,7 @@ let leanYunits = [-2, -1, 0, 1, 2];
 
 let angle = 0;
 let anglePlus = 0;
+let globalSpeed;
 let opac = 255;
 let conOpac;
 
@@ -83,6 +84,9 @@ let hMargins;
 let playPauseButton;
 let playPauseValues;
 let playPause;
+
+let opacityValue;
+let speedValue;
 
 let saveButton;
 let clearButton;
@@ -130,20 +134,23 @@ function setup() {
         if(fillStrokeValues[i].checked) 
         fillStroke = fillStrokeValues[i].value;
     } 
-        
-    playPauseButton = document.getElementById('play-pause');
-    playPauseValues = document.getElementsByName('play-pause');
-    for(i = 0; i < playPauseValues.length; i++) { 
-        if(playPauseValues[i].checked) 
-        playPause = playPauseValues[i].value;
-//        console.log(playPause);
-    } 
     
     alignmentButton = document.getElementById('alignment');
     alignmentValues = document.getElementsByName('alignment');
     for(i = 0; i < alignmentValues.length; i++) { 
         if(alignmentValues[i].checked) 
         paragraphAlignment = alignmentValues[i].value;
+    }
+    
+    opacityValue = document.getElementById('opacity-value');
+    speedValue = document.getElementById('speed-value');
+    
+    playPauseButton = document.getElementById('play-pause');
+    playPauseValues = document.getElementsByName('play-pause');
+    for(i = 0; i < playPauseValues.length; i++) { 
+        if(playPauseValues[i].checked) 
+        playPause = playPauseValues[i].value;
+//        console.log(playPause);
     } 
     
     saveButton = document.getElementById('export');
@@ -161,14 +168,21 @@ function draw() {
     conOpac = constrain(opac, 0, 255);
     
     if (keyIsDown(UP_ARROW)) {
-        anglePlus += .01;
+        anglePlus += 1;
+        anglePlus = floor(anglePlus);
+        
     } else if (keyIsDown(DOWN_ARROW)) {
-        anglePlus -= .01;
+        anglePlus -= 1;
+        anglePlus = floor(anglePlus);
     } else if (keyIsDown(LEFT_ARROW)) {
         opac --;
     } else if (keyIsDown(RIGHT_ARROW)) {
         opac ++;
     }
+    globalSpeed = anglePlus/100;
+    
+    document.getElementById('speed-value').innerHTML = globalSpeed;
+    document.getElementById('opacity-value').innerHTML = opac;
     
 //    character settings
     globalMag = globalMagSlider.value / 1;
@@ -216,8 +230,6 @@ function draw() {
         } else if (paragraphAlignment == 'center') {
             paragraphAlignmentOffset = lineCountChars[letters[i].localLineCount] - .5;
             paragraphAlignmentOffset = (width - (paragraphAlignmentOffset * (letterWidth + letterSpacing)) - (letterWidth / 2) - (globalMag / 2) - hMargins) / 2;
-//            paragraphAlignmentOffset = (width - ((paragraphAlignmentOffset * letterWidth) + ((paragraphAlignmentOffset - 1) * letterSpacing)) - (letterWidth / 2) - (globalMag / 2) - hMargins) / 2;
-            
         } else if (paragraphAlignment == 'right') {
             paragraphAlignmentOffset = lineCountChars[letters[i].localLineCount];
             paragraphAlignmentOffset = width - (paragraphAlignmentOffset * (letterWidth + letterSpacing)) - hMargins * 2;
@@ -225,7 +237,7 @@ function draw() {
         
         push();
             translate(hMargins + paragraphAlignmentOffset, vMargins);
-            letters[i].display(global_xMag, global_yMag, anglePlus);
+            letters[i].display(global_xMag, global_yMag, globalSpeed);
         pop();
     }
     
@@ -308,6 +320,9 @@ function playPauseEvent() {
         if (playPause == 'pause') {
             noLoop();
         } else if (playPause == 'play') {
+            if (anglePlus == 0) {
+                anglePlus = .15;
+            }
             loop();
         } else {noLoop}
             }
