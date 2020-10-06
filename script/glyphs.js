@@ -199,9 +199,14 @@ function draw() {
     vMargins = vMarginSlider.value / 1;
     hMargins = hMarginSlider.value / 1;
 
-    global_xMag = map(mouseX, 0, width, 0, globalMag);
-    global_yMag = map(mouseY, 0, height, 0, globalMag);
-    
+    if (playPause == 'pause') {
+        global_xMag = 0;
+        global_yMag = 0;
+    } else if (playPause == 'play') {
+        global_xMag = map(mouseX, 0, width, 0, globalMag);
+        global_yMag = map(mouseY, 0, height, 0, globalMag);
+    }
+
     letterWidth = (5*unit) + (4*(cellX - unit));
     console.log("letterWidth:", letterWidth);
     
@@ -321,7 +326,7 @@ function playPauseEvent() {
             noLoop();
         } else if (playPause == 'play') {
             if (anglePlus == 0) {
-                anglePlus = .15;
+                anglePlus = 15;
             }
             loop();
         } else {noLoop}
