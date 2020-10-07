@@ -397,9 +397,8 @@ function textColorEvent() {
                 if(textColorValues[i].checked) 
                 textColor = textColorValues[i].value;
             }
-            
-            this.style.backgroundColor = textColor;
-                        
+            document.getElementById('text-color-p').style.color = textColor;
+            document.getElementById('background-color-p').style.color = textColor;
             if (playPause == 'pause') {
                 noLoop();
             } else if (playPause == 'play') {
@@ -423,6 +422,8 @@ function bgColorEvent() {
                 if(bgColorValues[i].checked) 
                 bgColor = bgColorValues[i].value;
             }
+        this.style.backgroundColor = bgColor;
+        textColorButton.style.backgroundColor = bgColor;
         if (playPause == 'pause') {
             noLoop();
         } else if (playPause == 'play') {
