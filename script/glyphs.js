@@ -75,6 +75,15 @@ let fillStrokeButton;
 let fillStrokeValues = [];
 let fillStroke;
 
+let textColorButton;
+let textColorValues;
+let textColor;
+
+let bgColorButton;
+let bgColorValues;
+let bgColor;
+let bgColor2;
+
 let vMarginSlider;
 let vMargins;
 
@@ -150,8 +159,21 @@ function setup() {
     for(i = 0; i < playPauseValues.length; i++) { 
         if(playPauseValues[i].checked) 
         playPause = playPauseValues[i].value;
-//        console.log(playPause);
-    } 
+    }
+    
+    textColorButton = document.getElementById('text-color');
+    textColorValues = document.getElementsByName('text-color');
+    for(i = 0; i < textColorValues.length; i++) { 
+        if(textColorValues[i].checked) 
+        textColor = textColorValues[i].value;
+    }
+    
+    bgColorButton = document.getElementById('background-color');
+    bgColorValues = document.getElementsByName('background-color');
+    for(i = 0; i < bgColorValues.length; i++) { 
+        if(bgColorValues[i].checked) 
+        bgColor = bgColorValues[i].value;
+    }
     
     saveButton = document.getElementById('export');
 
@@ -182,7 +204,7 @@ function draw() {
     globalSpeed = anglePlus/100;
     
     document.getElementById('speed-value').innerHTML = globalSpeed;
-    document.getElementById('opacity-value').innerHTML = opac;
+    document.getElementById('opacity-value').innerHTML = conOpac;
     
 //    character settings
     globalMag = globalMagSlider.value / 1;
@@ -208,21 +230,24 @@ function draw() {
     }
 
     letterWidth = (5*unit) + (4*(cellX - unit));
-    console.log("letterWidth:", letterWidth);
     
     letterHeight = 7*cellY;
 
-    background(0, conOpac);
+    bgColor2 = color(bgColor);
+    bgColor2.setAlpha(conOpac);
+    
+    background(bgColor2);
+//    background(bgColor, conOpac);
     
     if (fillStroke == 'solid') {
-        fill(255);    
+        fill(textColor);    
         noStroke();
     } else if (fillStroke == 'outline') {
         noFill();
         strokeWeight(1);
-        stroke(255);
+        stroke(textColor);
     } else {
-        fill(255);    
+        fill(textColor);    
         noStroke();
     }
         
@@ -246,8 +271,8 @@ function draw() {
         pop();
     }
     
-    console.log("letters:", letters);
-    console.log("p offset:", paragraphAlignmentOffset)
+    console.log(bgColor);
+
 }
 
 function mousePressed() {    
@@ -267,10 +292,12 @@ function windowResized() {
 window.onload = init;
 
 function init() {
-    saveIt();
+    saveIt;
     fillStrokeEvent();
     playPauseEvent();
     alignmentEvent();
+    textColorEvent();
+    bgColorEvent();
 }
 
 function saveIt()   {
@@ -301,7 +328,6 @@ function fillStrokeEvent() {
             for(i = 0; i < fillStrokeValues.length; i++) { 
                 if(fillStrokeValues[i].checked) 
                 fillStroke = fillStrokeValues[i].value;
-//                console.log(fillStroke);
             } 
         }
     }
@@ -311,7 +337,6 @@ function playPauseEvent() {
     playPauseButton.mouseIsOver = false;
     playPauseButton.onmouseover = function()   {
         this.mouseIsOver = true;
-//        console.log("moused over play pause");
     };
     playPauseButton.onmouseout = function()   {
         this.mouseIsOver = false;
@@ -338,7 +363,6 @@ function alignmentEvent() {
     alignmentButton.mouseIsOver = false;
     alignmentButton.onmouseover = function()   {
         this.mouseIsOver = true;
-//        console.log("moused over play pause");
     };
     alignmentButton.onmouseout = function()   {
         this.mouseIsOver = false;
@@ -348,6 +372,56 @@ function alignmentEvent() {
             for(i = 0; i < alignmentValues.length; i++) { 
                 if(alignmentValues[i].checked) 
                 paragraphAlignment = alignmentValues[i].value;
+            }
+        if (playPause == 'pause') {
+            noLoop();
+        } else if (playPause == 'play') {
+            loop();
+        } else {noLoop}
+            }
+    }
+}
+
+function textColorEvent() {
+    textColorButton.mouseIsOver = false;
+    textColorButton.onmouseover = function()   {
+        this.mouseIsOver = true;
+        console.log("color buttons hovered");
+    };
+    textColorButton.onmouseout = function()   {
+        this.mouseIsOver = false;
+    }
+    textColorButton.onclick = function()   {
+        if (this.mouseIsOver)   {            
+            for(i = 0; i < textColorValues.length; i++) { 
+                if(textColorValues[i].checked) 
+                textColor = textColorValues[i].value;
+            }
+            
+            this.style.backgroundColor = textColor;
+                        
+            if (playPause == 'pause') {
+                noLoop();
+            } else if (playPause == 'play') {
+                loop();
+            } else {noLoop}
+        }
+    }
+}
+
+function bgColorEvent() {
+    bgColorButton.mouseIsOver = false;
+    bgColorButton.onmouseover = function()   {
+        this.mouseIsOver = true;
+    };
+    bgColorButton.onmouseout = function()   {
+        this.mouseIsOver = false;
+    }
+    bgColorButton.onclick = function()   {
+        if (this.mouseIsOver)   {            
+            for(i = 0; i < bgColorValues.length; i++) { 
+                if(bgColorValues[i].checked) 
+                bgColor = bgColorValues[i].value;
             }
         if (playPause == 'pause') {
             noLoop();

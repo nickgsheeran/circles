@@ -546,7 +546,7 @@ button {
     height: 20px;
     width: 20px;
     background-color: #E5E5E5;
-    border: 2px solid white;
+/*    border: 2px solid white;*/
     
     z-index: -1;
 }
@@ -558,7 +558,7 @@ button {
 
 /* When the radio button is checked*/
 .color-radio-container input:checked ~ .color-radio-checkmark {
-  border: 2px solid black;
+/*  border: 2px solid black;*/
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
