@@ -8,6 +8,7 @@ for (i = 0; i < l; i++) {
   /*for each element, create a new DIV that will act as the selected item:*/
   a = document.createElement("DIV");
   a.setAttribute("class", "select-selected");
+  a.setAttribute("id", "size-value");
   a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
   x[i].appendChild(a);
   /*for each element, create a new DIV that will contain the option list:*/
@@ -17,6 +18,7 @@ for (i = 0; i < l; i++) {
     /*for each option in the original select element,
     create a new DIV that will act as an option item:*/
     c = document.createElement("DIV");
+    c.setAttribute("class", "size-option");
     c.innerHTML = selElmnt.options[j].innerHTML;
     c.addEventListener("click", function(e) {
         /*when an item is clicked, update the original select box,
@@ -81,7 +83,14 @@ var modalSwitch = false;
 var txtCharSwitch = true;
 var colDrawer = false;
 
+var sizeDrawerFlip;
+
 $(document).ready(function() {
+    $('#size').click(function() {
+//        not working
+//        $('#size', '.select-items').css({"top": "-575%"});
+    })
+    
     $('#settings').click(function() {
         if (modalSwitch === false) {
             $('#control-modal').show();

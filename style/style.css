@@ -1,7 +1,7 @@
 html {
     margin: 0;
-    overscroll-behavior: none;
-    overflow: hidden;
+/*    overscroll-behavior: none;*/
+    overflow: scroll;
     font-family: "Theinhardt-Regular";
     font-size: 24px;
     font-weight: 200;
@@ -321,7 +321,7 @@ button {
 .select-items div,.select-selected {
     color: black;
     padding: 8px 16px;
-    border: 2px solid white;
+/*    border: 2px solid white;*/
     border-radius: 5px;
     cursor: pointer;
     user-select: none;
@@ -500,7 +500,7 @@ button {
     width: 0;
     height: 0;
     border: 6px solid transparent;
-    border-color: black transparent transparent transparent;
+    border-color: inherit transparent transparent transparent;
 }
 
 /*use this style for the arrow onclick with js later:*/

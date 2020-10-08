@@ -84,6 +84,10 @@ let bgColorValues;
 let bgColor;
 let bgColor2;
 
+let sizeButton;
+let sizeOptions;
+let size;
+
 let vMarginSlider;
 let vMargins;
 
@@ -97,11 +101,14 @@ let playPause;
 let opacityValue;
 let speedValue;
 
+let sizeChange = false;
+
 let saveButton;
 let clearButton;
 
 function setup() {
     theParent = document.getElementById('cnv-holder');
+    
     theWidth = theParent.clientWidth;
     theHeight = theParent.clientHeight;
     
@@ -112,7 +119,7 @@ function setup() {
     stroke(255, 0, 0);
     noFill();
     
-    background(230);
+    background(255);
     
     cellXslider = document.getElementById('cell-x-size');
 
@@ -175,6 +182,10 @@ function setup() {
         bgColor = bgColorValues[i].value;
     }
     
+    sizeButton = document.getElementById("size-value");
+    size = document.getElementById("size").querySelectorAll(".select-selected")[0].textContent;
+    sizeOptions = document.getElementsByClassName("size-option");
+    
     saveButton = document.getElementById('export');
 
     lineCount = 0;
@@ -184,8 +195,11 @@ function setup() {
 
 function draw() {
     theParent = document.getElementById('cnv-holder');
-    theWidth = theParent.clientWidth;
-    theHeight = theParent.clientHeight;
+    
+    document.getElementById('text-color-p').style.color = textColor;
+    document.getElementById('background-color-p').style.color = textColor;
+    bgColorButton.style.backgroundColor = bgColor;
+    textColorButton.style.backgroundColor = bgColor;
     
     conOpac = constrain(opac, 0, 255);
     
@@ -201,6 +215,23 @@ function draw() {
     } else if (keyIsDown(RIGHT_ARROW)) {
         opac ++;
     }
+    
+    bgColor2 = color(bgColor);
+    bgColor2.setAlpha(conOpac);
+    background(bgColor2);
+    
+    if (fillStroke == 'solid') {
+        fill(textColor);    
+        noStroke();
+    } else if (fillStroke == 'outline') {
+        noFill();
+        strokeWeight(1);
+        stroke(textColor);
+    } else {
+        fill(textColor);    
+        noStroke();
+    }
+    
     globalSpeed = anglePlus/100;
     
     document.getElementById('speed-value').innerHTML = globalSpeed;
@@ -220,7 +251,7 @@ function draw() {
     lineSpacing = lineSpacingSlider.value / 1;
     vMargins = vMarginSlider.value / 1;
     hMargins = hMarginSlider.value / 1;
-
+    
     if (playPause == 'pause') {
         global_xMag = 0;
         global_yMag = 0;
@@ -232,24 +263,6 @@ function draw() {
     letterWidth = (5*unit) + (4*(cellX - unit));
     
     letterHeight = 7*cellY;
-
-    bgColor2 = color(bgColor);
-    bgColor2.setAlpha(conOpac);
-    
-    background(bgColor2);
-//    background(bgColor, conOpac);
-    
-    if (fillStroke == 'solid') {
-        fill(textColor);    
-        noStroke();
-    } else if (fillStroke == 'outline') {
-        noFill();
-        strokeWeight(1);
-        stroke(textColor);
-    } else {
-        fill(textColor);    
-        noStroke();
-    }
         
     for (let i = 0; i < letters.length; i ++) {
         
@@ -271,11 +284,14 @@ function draw() {
         pop();
     }
     
-    console.log(bgColor);
-
+    console.log('canvas size:', theWidth, theHeight);
+        
 }
 
 function mousePressed() {    
+    if (sizeChange == true) {
+        resizeIt();
+    }
     loop();
 }
 
@@ -289,6 +305,53 @@ function windowResized() {
     resizeCanvas(theWidth, theHeight);
 }
 
+function resizeIt() {
+    size = document.getElementById("size").querySelectorAll(".select-selected")[0].textContent;
+    
+    if (size == 'Default') {
+        pixelDensity(2);
+        theHeight = theParent.clientHeight;
+        theWidth = theParent.clientWidth;
+    } else if (size == 'Letter') {
+        pixelDensity(3);
+        theHeight = theParent.clientHeight;
+        theWidth = theHeight / 11 * 8.5;       
+   }  else if (size == 'Tabloid') {
+        pixelDensity(3);
+        theHeight = theParent.clientHeight;
+        theWidth = theHeight / 17 * 11;
+    } else if (size == 'Poster') {
+        pixelDensity(3);
+        theHeight = theParent.clientHeight;
+        theWidth = theHeight / 4 * 3;
+    } else if (size == 'Square') {
+        pixelDensity(2);
+        theHeight = theParent.clientHeight;
+        theWidth = theHeight;
+    } else if (size == 'Instagram portrait') {
+        pixelDensity(2);
+        theHeight = theParent.clientHeight;
+        theWidth = theHeight / 135 * 108;
+    } else if (size == 'Facebook') {
+        pixelDensity(2);
+        theWidth = theParent.clientWidth;
+        theHeight = theWidth * .521;
+    } else if (size == 'Twitter') {
+        pixelDensity(2);
+        theWidth = theParent.clientWidth;
+        theHeight = theWidth * .559;
+    }
+    
+    theWidth = floor(theWidth);
+    theHeight = floor(theHeight);
+    
+    sizeChange = false;
+    
+    background(255);
+    background(bgColor);
+    resizeCanvas(theWidth, theHeight);
+}
+
 window.onload = init;
 
 function init() {
@@ -298,6 +361,7 @@ function init() {
     alignmentEvent();
     textColorEvent();
     bgColorEvent();
+    sizeEvent();
 }
 
 function saveIt()   {
@@ -386,7 +450,6 @@ function textColorEvent() {
     textColorButton.mouseIsOver = false;
     textColorButton.onmouseover = function()   {
         this.mouseIsOver = true;
-        console.log("color buttons hovered");
     };
     textColorButton.onmouseout = function()   {
         this.mouseIsOver = false;
@@ -431,6 +494,21 @@ function bgColorEvent() {
         } else {noLoop}
             }
     }
+}
+
+function sizeEvent()   {
+   sizeButton.mouseIsOver = false;
+   sizeButton.onmouseover = function()   {
+      this.mouseIsOver = true;
+   };
+   sizeButton.onmouseout = function()   {
+      this.mouseIsOver = false;
+   }
+   sizeButton.onclick = function()   {
+      if (this.mouseIsOver)   {
+          sizeChange = true;
+      }
+   }
 }
 
 function keyPressed() {
