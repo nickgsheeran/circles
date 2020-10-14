@@ -1,5 +1,7 @@
 let cnv;
 let theParent;
+let hovered = false;
+let lastHovered;
 let theWidth;
 let theHeight;
 
@@ -44,8 +46,10 @@ let globalSpeed;
 let opac = 255;
 let conOpac;
 
-let global_xMag = 0;
-let global_yMag = 0;
+let globalXmag = 0;
+let globalYmag = 0;
+let globalXmag_prev;
+let globalYmag_prev;
 
 let letters = [];
 let letterElement = 1;
@@ -94,6 +98,9 @@ let vMargins;
 let hMarginSlider;
 let hMargins;
 
+let controlModal;
+let controlling = false;
+
 let playPauseButton;
 let playPauseValues;
 let playPause;
@@ -114,6 +121,8 @@ function setup() {
     
     cnv = createCanvas(theWidth, theHeight);
     cnv.parent('cnv-holder');
+    
+    lastHovered = createVector(0, 0);
     
     strokeWeight(1);
     stroke(255, 0, 0);
@@ -186,7 +195,9 @@ function setup() {
     size = document.getElementById("size").querySelectorAll(".select-selected")[0].textContent;
     sizeOptions = document.getElementsByClassName("size-option");
     
+    clearButton = document.getElementById('clear-button');
     saveButton = document.getElementById('export');
+    controlModal = document.getElementById('control-modal');
 
     lineCount = 0;
     
@@ -253,11 +264,18 @@ function draw() {
     hMargins = hMarginSlider.value / 1;
     
     if (playPause == 'pause') {
-        global_xMag = 0;
-        global_yMag = 0;
+        globalSpeed = 0;
+        globalXmag = map(lastHovered.x, 0, width, 0, globalMag);
+        globalYmag = map(lastHovered.y, 0, height, 0, globalMag);  
     } else if (playPause == 'play') {
-        global_xMag = map(mouseX, 0, width, 0, globalMag);
-        global_yMag = map(mouseY, 0, height, 0, globalMag);
+        globalSpeed = anglePlus/100;
+        if (hovered == true) {
+            globalXmag = map(mouseX, 0, width, 0, globalMag);
+            globalYmag = map(mouseY, 0, height, 0, globalMag);   
+        } else if (hovered == false) {
+            globalXmag = map(lastHovered.x, 0, width, 0, globalMag);
+            globalYmag = map(lastHovered.y, 0, height, 0, globalMag);  
+        }
     }
 
     letterWidth = (5*unit) + (4*(cellX - unit));
@@ -280,19 +298,24 @@ function draw() {
         
         push();
             translate(hMargins + paragraphAlignmentOffset, vMargins);
-            letters[i].display(global_xMag, global_yMag, globalSpeed);
+            letters[i].display(globalXmag, globalYmag, globalSpeed);
         pop();
     }
     
-    console.log('canvas size:', theWidth, theHeight);
-        
+    console.log('last hovered:', lastHovered);
+            
 }
 
 function mousePressed() {    
     if (sizeChange == true) {
         resizeIt();
     }
-    loop();
+    
+    if (controlling) {
+//        globalXmag = map(lastHovered.x, 0, width, 0, globalMag);
+//        globalYmag = map(lastHovered.y, 0, height, 0, globalMag);  
+        loop();
+    }
 }
 
 function mouseReleased() {
@@ -355,7 +378,10 @@ function resizeIt() {
 window.onload = init;
 
 function init() {
-    saveIt;
+    controlSwitch();
+    canvasSwitch();
+    clearIt();
+    saveIt();
     fillStrokeEvent();
     playPauseEvent();
     alignmentEvent();
@@ -364,10 +390,64 @@ function init() {
     sizeEvent();
 }
 
+function controlSwitch() {
+    controlModal.mouseIsOver = false;
+    controlModal.mouseIsOver = false;
+    controlModal.onmouseover = function()   {
+//        this.mouseIsOver = true;
+        controlling = true;
+        hovered = false;
+        console.log('controlling');
+    };
+   controlModal.onmouseout = function()   {
+//        this.mouseIsOver = false;
+        controlling = false;
+        console.log('not controlling');
+   }
+}
+
+function canvasSwitch() {
+    theParent.mouseIsOver = false;
+    theParent.mouseIsOver = false;
+    theParent.onmouseover = function()   {
+//        this.mouseIsOver = true;
+        if (controlling == false) {
+            hovered = true;
+        }
+        console.log('hovered:', hovered);
+    };
+   theParent.onmouseout = function()   {
+//        this.mouseIsOver = false;
+        hovered = false;
+        lastHovered.x = mouseX;
+        lastHovered.y = mouseY;
+       
+        console.log('hovered:', hovered);
+        console.log('last hovered:', lastHovered);
+   }
+}
+
+function clearIt()   {
+    clearButton.mouseIsOver = false;
+    clearButton.onmouseover = function()   {
+        this.mouseIsOver = true;
+    };
+    clearButton.onmouseout = function()   {
+        this.mouseIsOver = false;
+    }
+    clearButton.onclick = function()   {
+        if (this.mouseIsOver)   {
+            clear();
+            background(bgColor);
+            redraw();
+        }
+    }
+}
+
 function saveIt()   {
    saveButton.mouseIsOver = false;
    saveButton.onmouseover = function()   {
-      this.mouseIsOver = true;
+        this.mouseIsOver = true;
    };
    saveButton.onmouseout = function()   {
       this.mouseIsOver = false;
