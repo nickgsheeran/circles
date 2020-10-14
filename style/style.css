@@ -223,6 +223,16 @@ button {
     margin-bottom: 4px;
 }
 
+.size-dropdown {
+    display: none;
+    
+/*    display: block;*/
+    padding: 10px 10px 8px 10px;
+    margin: 0 0 -2px 0;
+    
+    line-height: 14px;
+}
+
 /* Hide the browser's default radio button */
 .radio-container input {
     position: absolute;
@@ -236,7 +246,7 @@ button {
     position: absolute;
     top: 0;
     left: 0;
-    height: 33px;
+    height: 100%;
     width: 100%;
     background-color: #E5E5E5;
     z-index: -1;
@@ -428,6 +438,7 @@ button {
 #control-modal {
     display: none;
     position: fixed;
+    overflow: visible;
     min-width: 500px;
     right: 30px;
     top: 150px;

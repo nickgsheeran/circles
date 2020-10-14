@@ -89,7 +89,7 @@ let bgColor;
 let bgColor2;
 
 let sizeButton;
-let sizeOptions;
+let sizeValues;
 let size;
 
 let vMarginSlider;
@@ -121,7 +121,7 @@ function setup() {
     
     cnv = createCanvas(theWidth, theHeight);
     cnv.parent('cnv-holder');
-    
+        
     lastHovered = createVector(0, 0);
     
     strokeWeight(1);
@@ -191,15 +191,20 @@ function setup() {
         bgColor = bgColorValues[i].value;
     }
     
-    sizeButton = document.getElementById("size-value");
-    size = document.getElementById("size").querySelectorAll(".select-selected")[0].textContent;
-    sizeOptions = document.getElementsByClassName("size-option");
+    sizeButton = document.getElementById('size');
+    sizeValues = document.getElementsByName('size');
+    for(i = 0; i < sizeValues.length; i++) { 
+        if(sizeValues[i].checked) 
+        size = sizeValues[i].value;
+    }
     
     clearButton = document.getElementById('clear-button');
     saveButton = document.getElementById('export');
     controlModal = document.getElementById('control-modal');
 
     lineCount = 0;
+    
+    resizeIt();
     
     noLoop();
 }
@@ -301,16 +306,9 @@ function draw() {
             letters[i].display(globalXmag, globalYmag, globalSpeed);
         pop();
     }
-    
-    console.log('last hovered:', lastHovered);
-            
 }
 
 function mousePressed() {    
-    if (sizeChange == true) {
-        resizeIt();
-    }
-    
     if (controlling) {
 //        globalXmag = map(lastHovered.x, 0, width, 0, globalMag);
 //        globalYmag = map(lastHovered.y, 0, height, 0, globalMag);  
@@ -325,12 +323,12 @@ function mouseReleased() {
 }
 
 function windowResized() {
-    resizeCanvas(theWidth, theHeight);
+    resizeIt();
+    
+//    resizeCanvas(theWidth, theHeight);
 }
 
 function resizeIt() {
-    size = document.getElementById("size").querySelectorAll(".select-selected")[0].textContent;
-    
     if (size == 'Default') {
         pixelDensity(2);
         theHeight = theParent.clientHeight;
@@ -351,15 +349,11 @@ function resizeIt() {
         pixelDensity(2);
         theHeight = theParent.clientHeight;
         theWidth = theHeight;
-    } else if (size == 'Instagram portrait') {
+    } else if (size == 'Portrait') {
         pixelDensity(2);
         theHeight = theParent.clientHeight;
-        theWidth = theHeight / 135 * 108;
-    } else if (size == 'Facebook') {
-        pixelDensity(2);
-        theWidth = theParent.clientWidth;
-        theHeight = theWidth * .521;
-    } else if (size == 'Twitter') {
+        theWidth = theHeight * .8;
+    } else if (size == 'Landscape') {
         pixelDensity(2);
         theWidth = theParent.clientWidth;
         theHeight = theWidth * .559;
@@ -397,12 +391,10 @@ function controlSwitch() {
 //        this.mouseIsOver = true;
         controlling = true;
         hovered = false;
-        console.log('controlling');
     };
    controlModal.onmouseout = function()   {
 //        this.mouseIsOver = false;
         controlling = false;
-        console.log('not controlling');
    }
 }
 
@@ -414,16 +406,12 @@ function canvasSwitch() {
         if (controlling == false) {
             hovered = true;
         }
-        console.log('hovered:', hovered);
     };
    theParent.onmouseout = function()   {
 //        this.mouseIsOver = false;
         hovered = false;
         lastHovered.x = mouseX;
         lastHovered.y = mouseY;
-       
-        console.log('hovered:', hovered);
-        console.log('last hovered:', lastHovered);
    }
 }
 
@@ -577,18 +565,28 @@ function bgColorEvent() {
 }
 
 function sizeEvent()   {
-   sizeButton.mouseIsOver = false;
-   sizeButton.onmouseover = function()   {
-      this.mouseIsOver = true;
-   };
-   sizeButton.onmouseout = function()   {
-      this.mouseIsOver = false;
-   }
-   sizeButton.onclick = function()   {
-      if (this.mouseIsOver)   {
-          sizeChange = true;
-      }
-   }
+    sizeButton.mouseIsOver = false;
+    sizeButton.onmouseover = function()   {
+        this.mouseIsOver = true;
+        console.log("size mouseover");
+    };
+    sizeButton.onmouseout = function()   {
+        this.mouseIsOver = false;
+    }
+    sizeButton.onclick = function()   {
+        if (this.mouseIsOver)   {            
+            for(i = 0; i < sizeValues.length; i++) { 
+                if(sizeValues[i].checked) 
+                size = sizeValues[i].value;
+            }
+            resizeIt();
+            if (playPause == 'pause') {
+                noLoop();
+            } else if (playPause == 'play') {
+                loop();
+            } else {noLoop}
+        }
+    }
 }
 
 function keyPressed() {
