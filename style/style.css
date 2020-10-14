@@ -112,22 +112,29 @@ a {
     display:grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 30px;
-    padding: 30px 30px 30px 30px;
     box-sizing: border-box;
 
 /*  grid-auto-rows: minmax(100px, auto);*/
 }
 
+.pad30 {
+    padding: 30px 30px 30px 30px;
+}
+
 .content {
     position: absolute;
-    top: 87px;
-    height: calc(100% - 87px);
+    height: 100%;
+    top: 48px;
+    height: calc(100% - 48px);
 }
 
 .nav-bar {
+/*    display: none;*/
     position: fixed;
     width: 100%;
-    height: 87px;
+    box-sizing: border-box;
+    padding: 10px 0 8px 0;
+    height: 48px;
     background-color: black;
     top: 0;
 }
@@ -418,10 +425,11 @@ button {
 
 #cnv-holder {
     grid-column: 1 / span 5;
-    display: inline-block;
+    display: inline-flex;
     grid-row: 1;
     overflow: hidden;
-    
+    flex-direction: column;
+    justify-content: center;
 /*    background-color: #FCD931;*/
 /*    border: 2px solid #FCD931;*/
     
