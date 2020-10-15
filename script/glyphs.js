@@ -306,6 +306,7 @@ function draw() {
             letters[i].display(globalXmag, globalYmag, globalSpeed);
         pop();
     }
+//    console.log(theWidth, theHeight);
 }
 
 function mousePressed() {    
@@ -355,8 +356,13 @@ function resizeIt() {
         theWidth = theHeight * .8;
     } else if (size == 'Landscape') {
         pixelDensity(2);
-        theWidth = theParent.clientWidth;
-        theHeight = theWidth * .559;
+        if (theParent.clientHeight < theParent.clientWidth * .559) {           
+            theHeight = theParent.clientHeight;
+            theWidth = theHeight * 1.789;
+        } else {
+            theWidth = theParent.clientWidth;
+            theHeight = theWidth * .559;
+        }
     }
     
     theWidth = floor(theWidth);
@@ -568,7 +574,7 @@ function sizeEvent()   {
     sizeButton.mouseIsOver = false;
     sizeButton.onmouseover = function()   {
         this.mouseIsOver = true;
-        console.log("size mouseover");
+//        console.log("size mouseover");
     };
     sizeButton.onmouseout = function()   {
         this.mouseIsOver = false;

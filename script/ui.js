@@ -45,10 +45,19 @@ $(document).ready(function() {
     $('#settings').click(function() {
         if (modalSwitch === false) {
             $('#control-modal').show();
-            $('p', this).html("Save settings and close");
+            $(this).text("Save settings and close");
         } else {
             $('#control-modal').hide();
-            $('p', this).html("Customize"); 
+            $(this).text("Edit text and layout"); 
+            
+        }
+        modalSwitch = !modalSwitch;
+    })
+    $('#small-modal-x').click(function() {
+        if (modalSwitch === true) {
+            $('#control-modal').hide();
+            $('#settings').text("Edit text and layout"); 
+            
         }
         modalSwitch = !modalSwitch;
     })

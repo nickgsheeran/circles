@@ -27,7 +27,6 @@ body {
 @font-face {
     font-family: "Theinhardt-Regular";
     src: url("style/fonts/Theinhardt-Regular.otf") format("otf");
-    font-weight: 200;
 }
 
 @font-face {
@@ -106,19 +105,26 @@ a {
 
 /*—————————————————————————————————————universal elements—————————————————————————————————————*/
 
+.body-wrap {
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 30px 60px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
 
 .wrapper {
     width: 100%;
-    display:grid;
+/*    display:grid;*/
+/*
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 30px;
-    box-sizing: border-box;
+*/
 
 /*  grid-auto-rows: minmax(100px, auto);*/
-}
-
-.pad30 {
-    padding: 30px 30px 30px 30px;
 }
 
 .content {
@@ -129,14 +135,11 @@ a {
 }
 
 .nav-bar {
-/*    display: none;*/
     position: fixed;
     width: 100%;
-    box-sizing: border-box;
-    padding: 10px 0 8px 0;
-    height: 48px;
-    background-color: black;
     top: 0;
+    box-sizing: border-box;
+    padding: 30px;
 }
 
 .nav-active {
@@ -144,8 +147,30 @@ a {
 }
 
 #home {
-    grid-column: 1 / span 1;
-    text-align: center;
+    display: inline-block;
+    width: 20%;
+/*    grid-column: 1 / span 1;*/
+}
+
+.left2 {
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 30px;
+    position: relative;
+    width: 40%;
+    margin-left: -2px;
+}
+
+.right2 {
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 30px;
+    position: relative;
+    float: right;
+    width: 40%;
+    margin-right: -2px;
+    
+/*    background: gray;*/
 }
 
 #compose {
@@ -183,18 +208,18 @@ a {
 
 button {
     box-sizing: border-box;
+    height: 39px;
     padding: 10px;
-    border: 2px solid black;
+    border: 2px solid white;
     border-radius: 5px;
-    border-style: solid;
     background-color: #FCD931;
     
     cursor: pointer;
     font-family: "Theinhardt-Bold", sans-serif;
     font-size: 14px;
-    font-style: normal;
+/*    font-style: normal;*/
     font-weight: 700;
-    line-height: 22px;
+/*    line-height: 22px;*/
     letter-spacing: 0.01em;
     text-align: center;  
 }
@@ -208,13 +233,13 @@ button {
     display: inline-block;
     position: relative;
     margin: 0;
-    padding: 5px 10px 5px 10px;
+    padding: 10px 10px 8px 10px;
     cursor: pointer;
     font-family: "Theinhardt-Bold", sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
-    line-height: 22px;
+    line-height: 14px;
     letter-spacing: 0.01em;
     text-align: center;  
     -webkit-user-select: none;
@@ -238,6 +263,16 @@ button {
     margin: 0 0 -2px 0;
     
     line-height: 14px;
+}
+
+.bottom-radio {
+    height: 36px;
+    padding: 0;
+}
+
+.radio-container img {
+    height: 70%;
+    margin: 15%;
 }
 
 /* Hide the browser's default radio button */
@@ -292,6 +327,10 @@ button {
 	border-radius: 50%;
 	background: white;
 */
+}
+
+.square {
+    width: 39px;
 }
 
 /*the container must be positioned relative:*/
@@ -424,14 +463,17 @@ button {
 }
 
 #cnv-holder {
-    grid-column: 1 / span 5;
-    display: inline-flex;
-    grid-row: 1;
-    overflow: hidden;
-    flex-direction: column;
-    justify-content: center;
-/*    background-color: #FCD931;*/
-/*    border: 2px solid #FCD931;*/
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    flex-grow: 5;
+/*    overflow: hidden;*/
+    flex-direction: row;
+    margin: 15px 0;
+/*
+    background-color: #FCD931;
+    border: 2px solid #FCD931;
+*/
     
 }
 
@@ -447,7 +489,7 @@ button {
     display: none;
     position: fixed;
     overflow: visible;
-    min-width: 500px;
+    min-width: calc(40% + 15px);
     right: 30px;
     top: 150px;
     border: 2px solid black;
@@ -455,6 +497,17 @@ button {
     background-color: white;
     box-sizing: border-box;
     padding: 15px 30px 30px;
+}
+
+.small-modal-label {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+#small-modal-x {
+    cursor: pointer;
 }
 
 .control-modal-content {
@@ -499,7 +552,7 @@ button {
 
 .color-radio-drawer-active {
     z-index: 100;
-    border: 2px solid black;
+/*    border: 2px solid black;*/
     background-color: rgba(255, 255, 255, 0);
 }
 
@@ -507,32 +560,6 @@ button {
 /*    display: block;*/
     display: none;
     margin: 10px 0 0 0;
-}
-
-/*style the arrow inside the select element:*/
-.color-radio-drawer:after {
-    position: absolute;
-    display: inline-block;
-    content: "";
-    top: 18px;
-    right: 10px;
-    width: 0;
-    height: 0;
-    border: 6px solid transparent;
-    border-color: inherit transparent transparent transparent;
-}
-
-/*use this style for the arrow onclick with js later:*/
-.color-radio-drawer-active:after {
-    position: absolute;
-    display: inline-block;
-    content: "";
-    top: 12px;
-    right: 10px;
-    width: 0;
-    height: 0;
-    border: 6px solid transparent;
-    border-color: transparent transparent black transparent;
 }
 
 .color-radio-container {
@@ -605,13 +632,8 @@ button {
 */
 }
 
-.control-button {
-/*    position: absolute;*/
-    width: 100%;
-    bottom: 0;
-    right: 30px;
-    margin-top: 15px;
-}
+/*—————————————————————————————————————new—————————————————————————————————————*/
+
 
 @media only screen and (min-width: 2400px) {
 }
