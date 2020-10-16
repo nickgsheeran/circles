@@ -45,10 +45,10 @@ $(document).ready(function() {
     $('#settings').click(function() {
         if (modalSwitch === false) {
             $('#control-modal').show();
-            $(this).text("Save settings and close");
+            $(this).text("Close");
         } else {
             $('#control-modal').hide();
-            $(this).text("Edit text and layout"); 
+            $(this).text("Customize"); 
             
         }
         modalSwitch = !modalSwitch;
@@ -56,7 +56,7 @@ $(document).ready(function() {
     $('#small-modal-x').click(function() {
         if (modalSwitch === true) {
             $('#control-modal').hide();
-            $('#settings').text("Edit text and layout"); 
+            $('#settings').text("Customize"); 
             
         }
         modalSwitch = !modalSwitch;

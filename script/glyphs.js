@@ -348,8 +348,14 @@ function resizeIt() {
         theWidth = theHeight / 4 * 3;
     } else if (size == 'Square') {
         pixelDensity(2);
-        theHeight = theParent.clientHeight;
-        theWidth = theHeight;
+        if (theParent.clientWidth < theParent.clientHeight) {
+            theHeight = theParent.clientWidth;
+            theWidth = theParent.clientWidth;
+        } else if (theParent.clientWidth > theParent.clientHeight) {
+            theHeight = theParent.clientHeight;
+            theWidth = theParent.clientHeight;            
+        }
+
     } else if (size == 'Portrait') {
         pixelDensity(2);
         theHeight = theParent.clientHeight;
