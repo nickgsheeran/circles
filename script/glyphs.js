@@ -306,7 +306,18 @@ function draw() {
             letters[i].display(globalXmag, globalYmag, globalSpeed);
         pop();
     }
-//    console.log(theWidth, theHeight);
+
+//    text("opacity:", 30, height - 60);
+//    text(conOpac, 75, height - 60);
+//    text("speed:", 30, height - 45);
+//    text(anglePlus, 70, height - 45);
+//    text("spin magnitude:", 30, height - 30);
+//    text(globalMag, 119, height - 30);
+    
+//    text("lean x:", width - 240, height - 60);
+//    text(leanX / 10, width - 240 + 40, height - 60);
+//    text("lean y:", width - 240, height - 45);
+//    text(leanY / 10, width - 240 + 40, height - 45);
 }
 
 function mousePressed() {    
@@ -347,7 +358,7 @@ function resizeIt() {
         theHeight = theParent.clientHeight;
         theWidth = theHeight / 4 * 3;
     } else if (size == 'Square') {
-        pixelDensity(2);
+        pixelDensity(4);
         if (theParent.clientWidth < theParent.clientHeight) {
             theHeight = theParent.clientWidth;
             theWidth = theParent.clientWidth;
@@ -910,7 +921,9 @@ function keyPressed() {
     
     if (playPause == 'pause') {
         noLoop();
-    }
+    }    
+    
+    console.log(letters);
 }
 
 class LetterA {

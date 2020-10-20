@@ -2,7 +2,22 @@ var modalSwitch = false;
 var txtCharSwitch = true;
 var colOpen = false;
 var sizeOpen = false;
+let startType;
+let newLetters;
+
 $(document).ready(function() {
+//    if ($(document).width() < 768) {
+//        console.log("mobile");
+//        $('#defaultCanvas0').click(function() {
+//            console.log("canvas clicked");
+//            startType = prompt('Enter text');
+//            console.log(startType);
+//            newLetters = startType.split("");
+//            letters.splice(0, letters.length, newLetters);
+//            console.log(letters);
+////            redraw();
+//        })
+//    }
     $('#active-size').click(function() {
         if (sizeOpen == false) {
 //            starting point for floating size radio
