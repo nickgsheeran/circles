@@ -116,6 +116,12 @@ let clearButton;
 let theTextInput;
 let theText = [];
 
+let lineLength;
+let lineOverflow;
+
+let xMax;
+let yMax;
+
 function setup() {
     theParent = document.getElementById('cnv-holder');
     
@@ -210,6 +216,7 @@ function setup() {
     lineCount = 0;
     
     resizeIt();
+    updateSliders();
     
     noLoop();
 }
@@ -289,11 +296,22 @@ function draw() {
     }
 
     letterWidth = (5*unit) + (4*(cellX - unit));
-    letterHeight = 7*cellY;    
+    letterHeight = 7*cellY;
+    lineOverflow = width - hMargins * 2;
 
     for (let i = 0; i < letters.length; i ++) {
         
         letters[i].xoff = letters[i].localLetterLineCount * letterWidth;
+        
+//        for auto returns pretty hard moving on for now
+//        lineLength = (letters[i].localLetterLineCount * letterWidth) + ((letters[i].localLetterLineCount - 1) * letterSpacing);
+//        if (lineLength > lineOverflow) {
+////            line return the character, update all the following characters
+//            console.log('return');
+//            letters[i].localLineCount ++;
+//            letters[i].yoff = letters[i].localLineCount * letterHeight;
+//            letters[i].xoff = 0;
+//        }
         
         if (paragraphAlignment == 'left') {
             paragraphAlignmentOffset = 0;
@@ -318,8 +336,7 @@ function draw() {
         pop();
     }
     
-    console.log('paragraphAlignmentOffset:', paragraphAlignmentOffset);
-    console.log('lineCountChars:', lineCountChars);
+    console.log();
 
 //    text("opacity:", 30, height - 60);
 //    text(conOpac, 75, height - 60);
@@ -340,6 +357,7 @@ function mousePressed() {
 //        globalXmag = map(lastHovered.x, 0, width, 0, globalMag);
 //        globalYmag = map(lastHovered.y, 0, height, 0, globalMag);  
         loop();
+        updateSliders();
     }
 }
 
@@ -351,8 +369,19 @@ function mouseReleased() {
 
 function windowResized() {
     resizeIt();
+    updateSliders();
     
 //    resizeCanvas(theWidth, theHeight);
+}
+
+function updateSliders() {
+    xMax = theWidth / 4;
+    yMax = theHeight / 6;
+    $('#cell-x-size')[0].max = xMax;
+    $('#cell-y-size')[0].max = yMax;
+    
+    $('#letter-spacing')[0].min = -3 * letterWidth;
+    $('#letter-spacing')[0].max = 3 * letterWidth;
 }
 
 function resizeIt() {

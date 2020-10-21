@@ -26,8 +26,9 @@ $(document).ready(function() {
 //        })
 //    }
     
+    updateSliders();
+    
     input = $('#the-text-input');
-
     input.focus();
     
     $('#cnv-holder').click(function() {                
@@ -150,7 +151,7 @@ $(document).ready(function() {
             $(this).children('.color-radio-options').hide();
         }
     })        
-    $(document).dblclick(function() {
+    $(document).dblclick(function() {        
         $('#active-size').removeClass('size-dropdown');
         $('#active-size').addClass('vertical');
         $('.size-dropdown').css("display", "none");
@@ -158,13 +159,16 @@ $(document).ready(function() {
         $('.color-radio-drawer').removeClass( "color-radio-drawer-active" );
         $('.color-radio-drawer').children('.color-radio-options').hide();
         colOpen = false;
+        
+        $('#control-modal').hide();
+        modalSwitch = false;
+        $('#settings').text("Customize"); 
+        
         if (inputFocused === true) {            
-            currentMousePos.x = event.pageX;
-            currentMousePos.y = event.pageY;            
-            if ( currentMousePos.x < input.position.left || currentMousePos.x > input.position.left + input.width) {
                 $('#the-text-input').focus();
                 $('#the-text-input').css("opacity", "0");
+            
+                inputFocused = false;
             }
-        }
     });
 })
