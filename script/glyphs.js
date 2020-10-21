@@ -385,6 +385,9 @@ function updateSliders() {
     
     $('#line-spacing')[0].min = -3 * letterHeight;
     $('#line-spacing')[0].max = theHeight - letterHeight;
+    
+    $('#vertical-margin')[0].min = -letterHeight - unit;
+    $('#vertical-margin')[0].max = height + letterHeight + unit;
 }
 
 function resizeIt() {
