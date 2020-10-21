@@ -481,7 +481,7 @@ button {
 }
 
 /*—————————————————————————————————————composer specific—————————————————————————————————————*/
-# settings {
+#settings {
     cursor: pointer;
 }
 
@@ -502,6 +502,13 @@ button {
     border: 2px solid #FCD931;
 */
     
+}
+
+#the-text-input {
+    position: absolute; 
+    min-width: 150px;
+    min-height: 150px;
+    opacity: 0;
 }
 
 #control {

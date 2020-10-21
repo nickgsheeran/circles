@@ -10,13 +10,15 @@
   <body>
       <div class="body-wrap">
             <div class="wrapper">
-                <h3 id="home"><a href="what.html">What?</a></h3>
+                <h3 id="home"><a href="what.html" style="color: black;">What?</a></h3>
                 <div id="key-info" class="right2">
                     <p style="grid-column: 1 / span 1">Hold left/right to change the opacity, which is <span id="opacity-value">1</span>.</p>
                     <p style="grid-column: 2 / span 1">Hold up/down to change the speed, which is  <span id="speed-value">0</span>.</p>
                 </div>
             </div>
-            <div id="cnv-holder"></div>
+            <div id="cnv-holder">
+                <textarea id="the-text-input"></textarea>
+            </div>
             <div class="wrapper" style="height: 37px">
                 <div id="export-container" class="left2">
                     <button style="grid-column: 1 / span 1" id="clear-button">Clear</button>
@@ -151,10 +153,10 @@
                             </div>
                             <div id="size" style="width: 100%; margin-top: 15px">
                                 <p>Size:</p>
-                                <label id="active-size" class="radio-container vertical letter-input">Landscape<input type="radio" value="Landscape" name="size" checked><span class="radio-checkmark"></span></label>
+                                <label id="active-size" class="radio-container vertical letter-input">Letter<input type="radio" value="Letter" name="size" checked><span class="radio-checkmark"></span></label>
                                 <label class="radio-container size-dropdown">Square<input type="radio" value="Square" name="size"><span class="radio-checkmark"></span></label>
                                 <label class="radio-container size-dropdown">Portrait<input type="radio" value="Portrait" name="size"><span class="radio-checkmark"></span></label>
-                                <label class="radio-container size-dropdown">Letter<input type="radio" value="Letter" name="size"><span class="radio-checkmark"></span></label>
+                                <label class="radio-container size-dropdown">Landscape<input type="radio" value="Landscape" name="size"><span class="radio-checkmark"></span></label>
                                 <label class="radio-container size-dropdown">Tabloid<input type="radio" value="Tabloid" name="size"><span class="radio-checkmark"></span></label>
                                 <label class="radio-container size-dropdown">Poster<input type="radio" value="Poster" name="size"><span class="radio-checkmark"></span></label>
                             </div>
@@ -174,7 +176,7 @@
                             </div>
                             <div class="slidecontainer">
                                 <p class="slider-label">Horizontal Margin</p>
-                                <input type="range" min="0" max="400" value="50" class="slider" id="horizontal-margin">
+                                <input type="range" min="0" max="400" value="0" class="slider" id="horizontal-margin">
                             </div>
                         </div>
                 </div>
@@ -194,7 +196,7 @@
                         </div>
                         <div class="slidecontainer">
                             <p class="slider-label">Spin Size</p>
-                            <input type="range" min="0" max="200" value="5" class="slider" id="spin-size">
+                            <input type="range" min="0" max="200" value="0" class="slider" id="spin-size">
                         </div>
                     </div>
                     <div class="column-right">
@@ -226,6 +228,6 @@
             </div>
     </body>
     <script src="./script/p5.js"></script>
-    <script src="./script/ui.js"></script>
     <script src="./script/glyphs.js"></script>
+    <script src="./script/ui.js"></script>
 </html>
