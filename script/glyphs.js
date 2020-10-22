@@ -314,7 +314,6 @@ function draw() {
 //        lineLength = (letters[i].localLetterLineCount * letterWidth) + ((letters[i].localLetterLineCount - 1) * letterSpacing);
 //        if (lineLength > lineOverflow) {
 ////            line return the character, update all the following characters
-//            console.log('return');
 //            letters[i].localLineCount ++;
 //            letters[i].yoff = letters[i].localLineCount * letterHeight;
 //            letters[i].xoff = 0;
@@ -343,7 +342,8 @@ function draw() {
         pop();
     }
     
-    console.log();
+    console.log(theTextInput.value);
+    console.log(theText, letters);
 
 //    text("opacity:", 30, height - 60);
 //    text(conOpac, 75, height - 60);
@@ -976,8 +976,6 @@ function readTheText() {
             } else if (theText[i] === 'Z') {
                 letterCount ++;        lineCountChars[lineCount] ++;
 
-                lineCountChars[lineCount] ++;
-
                 letterXpos = letterLineCount * letterWidth;
                 letterYpos = lineCount * letterHeight;
 
@@ -986,7 +984,91 @@ function readTheText() {
 
                 letterLineCount ++;
 
-            } else if (theText[i] === ' ') {
+            } 
+            else if (theText[i] === 'Á') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new LetterAacute());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === 'Ã') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new LetterAtilde());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === 'É') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new LetterEacute());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+
+            } else if (theText[i] === 'Í') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new LetterIacute());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+
+            } else if (theText[i] === 'Ń') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new LetterNacute());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+
+            } else if (theText[i] === 'Ñ') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new LetterNtilde());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+
+            } else if (theText[i] === 'Ó') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new LetterOacute());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+
+            } else if (theText[i] === 'Ü') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new LetterUumlaut());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+
+            } 
+            else if (theText[i] === ' ') {
                 letterCount ++;        lineCountChars[lineCount] ++;
                 letterLineCount ++;
                 letterXpos = letterCount * letterWidth;
@@ -995,7 +1077,227 @@ function readTheText() {
                 letters.push(new LetterSpace());
                 letters[letterCount - letterElement].construct(letterXpos, 0, letterCount * waveOffset);
 
-            } else if (theText[i] = '\n') {
+            } else if (theText[i] === '0') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new Number0());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '1') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new Number1());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '2') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new Number2());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '3') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new Number3());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '4') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new Number4());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '5') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new Number5());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '6') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new Number6());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '7') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new Number7());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '8') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new Number8());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '9') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new Number9());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '.') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolPeriod());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '!') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+                
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolExclamation());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '¡') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolExclamationInverted());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '?') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolQuestion());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '¿') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolQuestionInverted());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '/') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolSlash());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '%') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolPercent());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '(') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolLeftPar());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === ')') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolRightPar());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '#') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+                
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolPound());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '@') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolAt());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '$') {
+                letterCount ++;        lineCountChars[lineCount] ++;
+
+                letterXpos = letterLineCount * letterWidth;
+                letterYpos = lineCount * letterHeight;
+
+                letters.push(new symbolDollar());
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
+
+                letterLineCount ++;
+            } else if (theText[i] === '\n') {
                 if (lineCount => lineCountChars.length) {
                     lineCountChars.push('0');
                 }
@@ -2475,7 +2777,7 @@ class LetterZ {
 }
 
 class Number1 {
-        construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
+    construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
         this.yoff = yoff;
         this.localLetterLineCount = localLetterLineCount;
