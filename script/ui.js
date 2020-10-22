@@ -12,20 +12,7 @@ let inputRight;
 let inputFocused = false;
 var currentMousePos = { x: -1, y: -1 };
 
-$(document).ready(function() {
-//    if ($(document).width() < 768) {
-//        console.log("mobile");
-//        $('#defaultCanvas0').click(function() {
-//            console.log("canvas clicked");
-//            startType = prompt('Enter text');
-//            console.log(startType);
-//            newLetters = startType.split("");
-//            letters.splice(0, letters.length, newLetters);
-//            console.log(letters);
-////            redraw();
-//        })
-//    }
-    
+$(document).ready(function() {    
     updateSliders();
     
     input = $('#the-text-input');
@@ -107,9 +94,15 @@ $(document).ready(function() {
         if (modalSwitch === false) {
             $('#control-modal').show();
             $(this).text("Close");
+            if ($(document).width() < 768 && $(document).width() > $(document).height()) {
+                $('.cModHide').hide();
+            }
         } else {
             $('#control-modal').hide();
             $(this).text("Customize"); 
+            if ($(document).width() < 768 && $(document).width() > $(document).height()) {
+                $('.cModHide').show();
+            }
             
         }
         modalSwitch = !modalSwitch;
@@ -118,7 +111,7 @@ $(document).ready(function() {
         if (modalSwitch === true) {
             $('#control-modal').hide();
             $('#settings').text("Customize"); 
-            
+            $('.cModHide').show();
         }
         modalSwitch = !modalSwitch;
     })
