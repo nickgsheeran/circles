@@ -160,9 +160,9 @@ $(document).ready(function() {
         $('.color-radio-drawer').children('.color-radio-options').hide();
         colOpen = false;
         
-        $('#control-modal').hide();
-        modalSwitch = false;
-        $('#settings').text("Customize"); 
+//        $('#control-modal').hide();
+//        modalSwitch = false;
+//        $('#settings').text("Customize"); 
         
         if (inputFocused === true) {            
                 $('#the-text-input').focus();

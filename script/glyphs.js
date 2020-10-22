@@ -122,6 +122,10 @@ let lineOverflow;
 let xMax;
 let yMax;
 
+
+let waveOffsetSlider;
+let waveOffset = 1;
+
 function setup() {
     theParent = document.getElementById('cnv-holder');
     
@@ -131,7 +135,7 @@ function setup() {
     cnv = createCanvas(theWidth, theHeight);
     cnv.parent('cnv-holder');
         
-    lastHovered = createVector(0, 0);
+    lastHovered = createVector(1000, 1000);
     
     strokeWeight(1);
     stroke(255, 0, 0);
@@ -213,6 +217,8 @@ function setup() {
     
     theTextInput = document.getElementById('the-text-input');
     
+    waveOffsetSlider = document.getElementById('wave-offset');
+    
     lineCount = 0;
     
     resizeIt();
@@ -279,6 +285,7 @@ function draw() {
     lineSpacing = lineSpacingSlider.value / 1;
     vMargins = vMarginSlider.value / 1;
     hMargins = hMarginSlider.value / 1;
+    waveOffset = waveOffsetSlider.value / 100;
     
     if (playPause == 'pause') {
         globalSpeed = 0;
@@ -348,7 +355,6 @@ function draw() {
 //    text("lean x:", width - 240, height - 60);
 //    text(leanX / 10, width - 240 + 40, height - 60);
 //    text("lean y:", width - 240, height - 45);
-//    text(leanY / 10, width - 240 + 40, height - 45);
     
 }
 
@@ -387,7 +393,7 @@ function updateSliders() {
     $('#line-spacing')[0].max = theHeight - letterHeight;
     
     $('#vertical-margin')[0].min = -letterHeight - unit;
-    $('#vertical-margin')[0].max = height + letterHeight + unit;
+    $('#vertical-margin')[0].max = theHeight + letterHeight + unit;
 }
 
 function resizeIt() {
@@ -455,6 +461,7 @@ function init() {
     textColorEvent();
     bgColorEvent();
     sizeEvent();
+    offsetEvent();
 }
 
 function controlSwitch() {
@@ -471,20 +478,39 @@ function controlSwitch() {
    }
 }
 
+//function canvasSwitch() {
+//    theParent.mouseIsOver = false;
+//    theParent.mouseIsOver = false;
+//    theParent.onmouseover = function()   {
+////        this.mouseIsOver = true;
+//        if (controlling == false) {
+//            hovered = true;
+//            console.log('hoverd');
+//        }
+//    };
+//   theParent.onmouseout = function()   {
+////        this.mouseIsOver = false;
+//        hovered = false;
+//        lastHovered.x = mouseX;
+//        lastHovered.y = mouseY;
+//        console.log('unhoverd');
+//       
+//   }
+//}
+
 function canvasSwitch() {
-    theParent.mouseIsOver = false;
-    theParent.mouseIsOver = false;
-    theParent.onmouseover = function()   {
+    document.getElementById('defaultCanvas0').onmouseover = function()   {
 //        this.mouseIsOver = true;
         if (controlling == false) {
             hovered = true;
         }
     };
-   theParent.onmouseout = function()   {
+   document.getElementById('defaultCanvas0').onmouseout = function()   {
 //        this.mouseIsOver = false;
         hovered = false;
         lastHovered.x = mouseX;
         lastHovered.y = mouseY;
+       
    }
 }
 
@@ -661,6 +687,21 @@ function sizeEvent()   {
     }
 }
 
+function offsetEvent() {
+    waveOffsetSlider.mouseIsOver = false;
+    waveOffsetSlider.onmouseover = function()   {
+        this.mouseIsOver = true;
+    };
+    waveOffsetSlider.onmouseout = function()   {
+        this.mouseIsOver = false;
+    }
+    waveOffsetSlider.onclick = function()   {
+        if (this.mouseIsOver)   {            
+            readTheText();
+        }
+    }
+}
+
 
 function readTheText() {    
     theText = theTextInput.value.split("");    
@@ -680,7 +721,7 @@ function readTheText() {
 
                 letters.push(new LetterA());
  
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
                 letterLineCount ++;
 
             } else if (theText[i] === 'B') {
@@ -691,7 +732,7 @@ function readTheText() {
 
                 letters.push(new LetterB());
 
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -702,7 +743,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterC());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -713,7 +754,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterD());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -723,7 +764,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterE());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -733,7 +774,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterF());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -743,7 +784,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterG());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -753,7 +794,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterH());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -763,7 +804,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterI());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -773,7 +814,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterJ());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -783,7 +824,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterK());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -793,7 +834,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterL());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -803,7 +844,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterM());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -813,7 +854,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterN());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -823,7 +864,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterO());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -833,7 +874,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterP());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -843,7 +884,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterQ());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -853,7 +894,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterR());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -863,7 +904,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterS());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -873,7 +914,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterT());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -883,7 +924,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterU());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -893,7 +934,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterV());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -903,7 +944,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterW());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -913,7 +954,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterX());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -923,7 +964,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterY());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -936,7 +977,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterZ());
-                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, 0);
+                letters[letterCount - letterElement].construct(letterXpos, letterYpos, letterLineCount, lineCount, letterCount * waveOffset);
 
                 letterLineCount ++;
 
@@ -947,7 +988,7 @@ function readTheText() {
                 letterYpos = lineCount * letterHeight;
 
                 letters.push(new LetterSpace());
-                letters[letterCount - letterElement].construct(letterXpos, 0, 0);
+                letters[letterCount - letterElement].construct(letterXpos, 0, letterCount * waveOffset);
 
             } else if (theText[i] = '\n') {
                 if (lineCount => lineCountChars.length) {
