@@ -388,8 +388,8 @@ function updateSliders() {
     $('#cell-x-size')[0].max = xMax;
     $('#cell-y-size')[0].max = yMax;
     
-    $('#letter-spacing')[0].min = -3 * abs(letterWidth);
-    $('#letter-spacing')[0].max = 3 * abs(letterWidth);
+    $('#letter-spacing')[0].min = -3 * Math.abs(letterWidth);
+    $('#letter-spacing')[0].max = 3 * Math.abs(letterWidth);
     
     $('#line-spacing')[0].min = -3 * letterHeight;
     $('#line-spacing')[0].max = theHeight - letterHeight;
