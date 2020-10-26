@@ -98,22 +98,27 @@ $(document).ready(function() {
             $(this).text("Close");
             if ($(document).width() < 768 && $(document).width() > $(document).height()) {
                 $('.cModHide').hide();
+            } else if ($(document).width() < 768 && $(document).width() < $(document).height()) {
+                $('#export-container').hide();
             }
         } else {
             $('#control-modal').hide();
             $(this).text("Customize"); 
             if ($(document).width() < 768 || $(document).width() < $(document).height()) {
                 $('.cModHide').show();
+                $('#export-container').show();
             }
-            
         }
         modalSwitch = !modalSwitch;
     })
     $('#small-modal-x').click(function() {
-        if (modalSwitch === true) {
+        if (modalSwitch == true) {
             $('#control-modal').hide();
             $('#settings').text("Customize"); 
-            $('.cModHide').show();
+            if ($(document).width() < 768 || $(document).width() < $(document).height()) {
+                $('.cModHide').show();
+                $('#export-container').show();
+            }
         }
         modalSwitch = !modalSwitch;
     })
