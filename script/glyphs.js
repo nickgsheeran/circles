@@ -112,12 +112,15 @@ let sizeChange = false;
 
 let saveButton;
 let clearButton;
+let resetButton;
 
 let theTextInput;
 let theText = [];
 
 let lineLength;
 let lineOverflow;
+
+let speedText;
 
 let xMax;
 let yMax;
@@ -212,8 +215,11 @@ function setup() {
     }
     
     clearButton = document.getElementById('clear-button');
+    resetButton = document.getElementById('reset-button');
     saveButton = document.getElementById('export');
     controlModal = document.getElementById('control-modal');
+    
+    speedText = document.getElementById('speed-value-holder');
     
     theTextInput = document.getElementById('the-text-input');
     
@@ -272,7 +278,11 @@ function draw() {
     document.getElementById('opacity-value').innerHTML = conOpac;
     
 //    character settings
-    globalMag = globalMagSlider.value / 1;
+    if (globalMagSlider.value == 0) {
+        globalMag = 0;
+    } else {
+        globalMag = globalMagSlider.value / 1;
+    }
     cellX = cellXslider.value / 1;
     cellY = cellYslider.value / 1;
     unit = unitSlider.value / 1;
@@ -405,8 +415,6 @@ function updateSliders() {
     $('#horizontal-margin')[0].min = -theWidth;
     $('#horizontal-margin')[0].max = theWidth + letterWidth + unit;
     
-    console.log('line-spacing min and max:', $('#line-spacing')[0].min,  $('#line-spacing')[0].max);
-    console.log('letterheight:', letterHeight);
 }
 
 function resizeIt() {
@@ -467,6 +475,7 @@ function init() {
     controlSwitch();
     canvasSwitch();
     clearIt();
+    resetIt();
     saveIt();
     fillStrokeEvent();
     playPauseEvent();
@@ -475,6 +484,7 @@ function init() {
     bgColorEvent();
     sizeEvent();
     offsetEvent();
+    speedEvent();
 }
 
 function controlSwitch() {
@@ -542,6 +552,21 @@ function clearIt()   {
     }
 }
 
+function resetIt()   {
+    resetButton.mouseIsOver = false;
+    resetButton.onmouseover = function()   {
+        this.mouseIsOver = true;
+    };
+    resetButton.onmouseout = function()   {
+        this.mouseIsOver = false;
+    }
+    resetButton.onclick = function()   {
+        if (this.mouseIsOver)   {
+            
+        }
+    }
+}
+
 function saveIt()   {
    saveButton.mouseIsOver = false;
    saveButton.onmouseover = function()   {
@@ -593,8 +618,14 @@ function playPauseEvent() {
             noLoop();
         } else if (playPause == 'play') {
             if (anglePlus == 0) {
-                anglePlus = 15;
+                anglePlus = 5;
             }
+            if (globalMag == 0) {
+                globalMag = letterHeight;
+                globalMagSlider.value = letterHeight;
+                
+            }
+            
             loop();
         } else {noLoop}
             }
@@ -709,6 +740,26 @@ function offsetEvent() {
     waveOffsetSlider.onclick = function()   {
         if (this.mouseIsOver)   {            
             readTheText();
+        }
+    }
+}
+
+function speedEvent()   {
+    speedText.mouseIsOver = false;
+    speedText.onmouseover = function()   {
+        this.mouseIsOver = true;
+    };
+    speedText.onmouseout = function()   {
+        this.mouseIsOver = false;
+    }
+    speedText.onclick = function()   {
+        if (this.mouseIsOver)   {
+            if (anglePlus < (2 * pi * 100)) {
+                anglePlus += (1 * pi) / 3 * 100;
+                anglePlus = floor(anglePlus);
+            } else {
+                anglePlus = 0;
+            }
         }
     }
 }

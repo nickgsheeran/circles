@@ -11,6 +11,7 @@ let inputBottom;
 let inputRight;
 let inputFocused = false;
 var currentMousePos = { x: -1, y: -1 };
+const pi = 3.14159265358979323846;
 
 $(document).ready(function() {    
     updateSliders();
@@ -149,7 +150,17 @@ $(document).ready(function() {
             $(this).removeClass( "color-radio-drawer-active" );
             $(this).children('.color-radio-options').hide();
         }
-    })        
+    })
+//    $('#speed-value-holder, #speed-value').on('mouseOver', speedJump());
+//    $( '#speed-value-holder, #speed-value' ).click(speedJump());
+//    function speedJump() {
+//        console.log('speed should jump');
+//        if (globalSpeed < (2 * pi)) {
+//            globalSpeed += (1 * pi) / 3;
+//        } else {
+//            globalSpeed = 0;
+//        }
+//    }
     $(document).dblclick(function() {        
         $('#active-size').removeClass('size-dropdown');
         $('#active-size').addClass('vertical');

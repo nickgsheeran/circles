@@ -516,6 +516,19 @@ textarea {
     opacity: 0;
 }
 
+#clear-button, #reset-button {
+    flex-grow: 1;
+    width: unset;
+/*
+    min-width: 60px;
+    width: 40%;
+*/
+}
+
+#reset-button {
+    margin-right: 10px;
+}
+
 #control {
     display: inline-flex;
     flex-direction: column;
@@ -762,6 +775,11 @@ textarea {
             position: relative; 
             bottom: inherit; 
     /*        margin: inherit; */
+        }
+        
+        #clear-button, #reset-button {
+            width: unset;
+            min-width: unset;
         }
     }
 }
