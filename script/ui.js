@@ -94,13 +94,13 @@ $(document).ready(function() {
         if (modalSwitch === false) {
             $('#control-modal').show();
             $(this).text("Close");
-            if ($(document).width() < 768 && $(document).width() > $(document).height()) {
+            if ($(document).width() < 768 || $(document).width() > $(document).height()) {
                 $('.cModHide').hide();
             }
         } else {
             $('#control-modal').hide();
             $(this).text("Customize"); 
-            if ($(document).width() < 768 && $(document).width() > $(document).height()) {
+            if ($(document).width() < 768 || $(document).width() > $(document).height()) {
                 $('.cModHide').show();
             }
             

@@ -672,19 +672,7 @@ button {
 @media only screen and (min-width: 2400px) {
 }
 
-@media only screen and (max-width: 768px) and (orientation: landscape) {
-    #control-modal {
-        bottom: 60px;
-        width: 95%;
-        right: auto;
-        left: 2.5%;
-        height: 95%;
-        top: 2.5%;
-        background-color: rgba(255, 255, 255, .8);
-    }
-}
-
-@media only screen and (max-width: 768px) and (orientation: portrait) {
+@media only screen and (max-width: 768px) {
     .body-wrap {
         padding: 2vh;
     }
@@ -718,6 +706,19 @@ button {
         bottom: 60px;
         padding: 10px 10px 15px;
         width: calc(100% - 30px);
+/*        background-color: rgba(255, 255, 255, .8);*/
+    }
+    
+    @media only screen and (orientation: landscape) {
+    #control-modal {
+            bottom: 60px;
+            width: 95%;
+            right: auto;
+            left: 2.5%;
+            height: 95%;
+            top: 2.5%;
+            background-color: rgba(255, 255, 255, .8);
+        }
     }
     
     #settings-container {
