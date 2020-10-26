@@ -171,7 +171,7 @@ $(document).ready(function() {
 function responseInit() {
     if ($(document).width() < 768) {
         settingsBottom = window.innerHeight;
-        $('#settings-container').css('bottom', '8vh');
+        $('#settings-container').css('bottom', '15px');
     }
     console.log('settings bottom should change to', settingsBottom);
 }
