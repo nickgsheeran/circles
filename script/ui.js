@@ -11,7 +11,6 @@ let inputBottom;
 let inputRight;
 let inputFocused = false;
 var currentMousePos = { x: -1, y: -1 };
-var settingsBottom;
 
 $(document).ready(function() {    
     updateSliders();
@@ -178,8 +177,14 @@ $(document).ready(function() {
 
 function responseInit() {
     if ($(document).width() < 768) {
-        settingsBottom = window.innerHeight;
         $('#settings-container').css('bottom', '15px');
     }
-    console.log('settings bottom should change to', settingsBottom);
 }
+
+$( window ).resize(function() {
+    if ($(document).width() < 768) {
+        $('#settings-container').css('bottom', '15px');
+    } else if ($(document).width() > 768) {
+        $('#settings-container').css('bottom', 'unset');
+    }
+});
