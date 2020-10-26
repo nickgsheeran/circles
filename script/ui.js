@@ -37,7 +37,9 @@ $(document).ready(function() {
             
             if ( currentMousePos.x < inputPos.left || currentMousePos.x > inputRight) {
                 if (currentMousePos.y < inputPos.top || currentMousePos.y > inputBottom) {
-                    $('#the-text-input').focus();
+                    if ($(document).width() > 768) {
+                        $('#the-text-input').focus();
+                    }
                     $('#the-text-input').css("opacity", "0");
                 }
             }
@@ -164,10 +166,11 @@ $(document).ready(function() {
 //        modalSwitch = false;
 //        $('#settings').text("Customize"); 
         
-        if (inputFocused === true) {            
+        if (inputFocused == true) {
+            if (window.innerWidth < 768) {
                 $('#the-text-input').focus();
+            }
                 $('#the-text-input').css("opacity", "0");
-            
                 inputFocused = false;
             }
     });
