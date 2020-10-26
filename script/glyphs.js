@@ -319,6 +319,7 @@ function draw() {
     for (let i = 0; i < letters.length; i ++) {
         
         letters[i].xoff = letters[i].localLetterLineCount * letterWidth;
+        letters[i].yoff = letters[i].localLineCount * letterHeight;
         
 //        for auto returns pretty hard moving on for now
 //        lineLength = (letters[i].localLetterLineCount * letterWidth) + ((letters[i].localLetterLineCount - 1) * letterSpacing);
@@ -362,7 +363,7 @@ function draw() {
 //    text("lean x:", width - 240, height - 60);
 //    text(leanX / 10, width - 240 + 40, height - 60);
 //    text("lean y:", width - 240, height - 45);
-    
+
 }
 
 function mousePressed() {    
@@ -485,6 +486,7 @@ function init() {
     sizeEvent();
     offsetEvent();
     speedEvent();
+    readTheText();
 }
 
 function controlSwitch() {
@@ -562,7 +564,22 @@ function resetIt()   {
     }
     resetButton.onclick = function()   {
         if (this.mouseIsOver)   {
+            unitSlider.value = 5;
+            cellXslider.value = 5;
+            cellYslider.value = 5;
+            unitSlider.value = 5;
+            cornerSlider.value = 0;
+            leanXslider.value = 0;
+            leanYslider.value = 0;
+            letterSpacingSlider.value = 5;
+            lineSpacingSlider.value = letterHeight * 1.2;
+            globalSpeed = 0;
+            waveOffsetSlider.value = 0;
+            globalMagSlider.value = 0;
+            hMarginSlider.value = 0;
+            vMarginSlider.value = letterHeight * 1.2;
             
+            redraw();
         }
     }
 }
