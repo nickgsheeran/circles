@@ -385,10 +385,18 @@ function updateSliders() {
     $('#cell-x-size')[0].max = xMax;
     $('#cell-y-size')[0].max = yMax;
     
+    if (letterWidth >= (5 * unit) ) {
     $('#letter-spacing')[0].min = -3 * Math.abs(letterWidth);
+    } else {
+        $('#letter-spacing')[0].min = -70;
+    }
     $('#letter-spacing')[0].max = 3 * Math.abs(letterWidth);
     
-    $('#line-spacing')[0].min = -3 * Math.abs(letterHeight);
+    if (letterHeight >= (7 * unit) ) {
+        $('#line-spacing')[0].min = -3 * Math.abs(letterHeight);
+    } else {
+        $('#line-spacing')[0].min = -70;
+    }
     $('#line-spacing')[0].max = theHeight - Math.abs(letterHeight);
     
     $('#vertical-margin')[0].min = -letterHeight - unit;
@@ -396,6 +404,9 @@ function updateSliders() {
     
     $('#horizontal-margin')[0].min = -theWidth;
     $('#horizontal-margin')[0].max = theWidth + letterWidth + unit;
+    
+    console.log('line-spacing min and max:', $('#line-spacing')[0].min,  $('#line-spacing')[0].max);
+    console.log('letterheight:', letterHeight);
 }
 
 function resizeIt() {

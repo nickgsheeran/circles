@@ -30,9 +30,7 @@ $(document).ready(function() {
             inputPos = input.position();
             inputRight = inputPos.left + inputSize;
             inputBottom = input.height() + inputPos.top;
-            console.log(inputRight);
             
-            console.log('input is already open, current mouse position:', currentMousePos.x, currentMousePos.y);
             
             if ( currentMousePos.x < inputPos.left || currentMousePos.x > inputRight) {
                 if (currentMousePos.y < inputPos.top || currentMousePos.y > inputBottom) {
@@ -57,13 +55,14 @@ $(document).ready(function() {
     $('#active-size').click(function() {
         if (sizeOpen == false) {
 //            starting point for floating size radio
-//            $('#size').css({
-//                "position": "absolute",
-//                "width": "auto",
-//                "padding": "15px",
-//                "border": "2px solid black",
+            $('#size-labels').css({
+                "position": "absolute",
+                "width": "calc(50% - 40px)",
+//                "border": "2px solid white",
 //                "border-radius": "5px",
-//            });
+                "overflow": "scroll",
+                "height": "171px",
+            });
             $(this).removeClass("vertical");
             $(this).addClass("size-dropdown");
             $('.size-dropdown').css("display", "block");
@@ -76,8 +75,8 @@ $(document).ready(function() {
             
             $(this).attr('id', 'active-size');
             var selectSize = $('#active-size').text();
-            console.log(selectSize);
         } else if (sizeOpen == false) {
+            
             $(this).removeClass("vertical");
             $(this).addClass("size-dropdown");
             $('.size-dropdown').css("display", "block");
@@ -90,7 +89,6 @@ $(document).ready(function() {
             
             $(this).attr('id', 'active-size');
             var selectSize = $('#active-size').text();
-            console.log(selectSize);
         }
     })
     $('#settings').click(function() {
@@ -142,11 +140,11 @@ $(document).ready(function() {
         }
     })
     $('.color-radio-drawer').click(function() {
-        if (colOpen === false) {
+        if (colOpen == false) {
             colOpen = true;
             $(this).addClass( "color-radio-drawer-active" );
             $(this).children('.color-radio-options').show();
-        } else if (colOpen === true) {
+        } else if (colOpen == true) {
             colOpen = false;
             $(this).removeClass( "color-radio-drawer-active" );
             $(this).children('.color-radio-options').hide();
