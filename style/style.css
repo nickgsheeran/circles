@@ -530,7 +530,7 @@ textarea {
     overflow: visible;
     min-width: calc(40% + 15px);
     right: 30px;
-    top: 150px;
+    bottom: 14vh;
     border: 2px solid black;
     border-radius: 5px;
     background-color: white;
