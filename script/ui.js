@@ -11,9 +11,11 @@ let inputBottom;
 let inputRight;
 let inputFocused = false;
 var currentMousePos = { x: -1, y: -1 };
+var settingsBottom;
 
 $(document).ready(function() {    
     updateSliders();
+    responseInit();
     
     input = $('#the-text-input');
     input.focus();
@@ -91,16 +93,16 @@ $(document).ready(function() {
         }
     })
     $('#settings').click(function() {
-        if (modalSwitch === false) {
+        if (modalSwitch == false) {
             $('#control-modal').show();
             $(this).text("Close");
-            if ($(document).width() < 768 || $(document).width() > $(document).height()) {
+            if ($(document).width() < 768 && $(document).width() > $(document).height()) {
                 $('.cModHide').hide();
             }
         } else {
             $('#control-modal').hide();
             $(this).text("Customize"); 
-            if ($(document).width() < 768 || $(document).width() > $(document).height()) {
+            if ($(document).width() < 768 || $(document).width() < $(document).height()) {
                 $('.cModHide').show();
             }
             
@@ -165,3 +167,11 @@ $(document).ready(function() {
             }
     });
 })
+
+function responseInit() {
+    if ($(document).width() < 768) {
+        settingsBottom = window.innerHeight;
+        $('#settings-container').css('bottom', '8vh');
+    }
+    console.log('settings bottom should change to', settingsBottom);
+}

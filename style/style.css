@@ -678,6 +678,10 @@ textarea {
 }
 
 @media only screen and (max-width: 768px) {
+    #key-info {
+        display: none;
+    }
+    
     @media only screen and (orientation: landscape) {
         #control-modal {
             bottom: 60px;
@@ -732,7 +736,6 @@ textarea {
         }
 
         #settings-container {
-            display: block
             box-sizing: border-box;
             position: absolute;
             width: calc(100% - 6vw);
