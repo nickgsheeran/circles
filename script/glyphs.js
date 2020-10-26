@@ -121,6 +121,7 @@ let lineLength;
 let lineOverflow;
 
 let speedText;
+let opacityText;
 
 let xMax;
 let yMax;
@@ -220,6 +221,7 @@ function setup() {
     controlModal = document.getElementById('control-modal');
     
     speedText = document.getElementById('speed-value-holder');
+    opacityText = document.getElementById('opacity-value-holder');
     
     theTextInput = document.getElementById('the-text-input');
     
@@ -486,6 +488,7 @@ function init() {
     sizeEvent();
     offsetEvent();
     speedEvent();
+    opacityEvent();
     readTheText();
 }
 
@@ -770,13 +773,33 @@ function speedEvent()   {
         this.mouseIsOver = false;
     }
     speedText.onclick = function()   {
-        if (this.mouseIsOver)   {
+        if (this.mouseIsOver && playPause == 'play')   {
             if (anglePlus < (2 * pi * 100)) {
                 anglePlus += (1 * pi) / 3 * 100;
                 anglePlus = floor(anglePlus);
             } else {
                 anglePlus = 0;
             }
+        }
+    }
+}
+
+function opacityEvent()   {
+    opacityText.mouseIsOver = false;
+    opacityText.onmouseover = function()   {
+        this.mouseIsOver = true;
+    };
+    opacityText.onmouseout = function()   {
+        this.mouseIsOver = false;
+    }
+    opacityText.onclick = function()   {
+        if (this.mouseIsOver && playPause == 'play')   {
+            if (conOpac > (255/2)) {
+                opac = 0;
+            } else {
+                opac = 255;
+            }
+            console.log(conOpac);
         }
     }
 }
