@@ -741,6 +741,7 @@ function sizeEvent()   {
             }
             resizeIt();
             if (playPause == 'pause') {
+                redraw();
                 noLoop();
             } else if (playPause == 'play') {
                 loop();
@@ -774,10 +775,13 @@ function speedEvent()   {
     }
     speedText.onclick = function()   {
         if (this.mouseIsOver && playPause == 'play')   {
-            if (anglePlus < (2 * pi * 100)) {
+            if (anglePlus < floor((1 * pi) / 3 * 100)) {
+                anglePlus = (1 * pi) / 3 * 100;
+                anglePlus = floor(anglePlus);
+            } else if (anglePlus < ((2 * pi) * 100)) {
                 anglePlus += (1 * pi) / 3 * 100;
                 anglePlus = floor(anglePlus);
-            } else {
+            } else if (anglePlus > ((2 * pi) * 100)) {
                 anglePlus = 0;
             }
         }
