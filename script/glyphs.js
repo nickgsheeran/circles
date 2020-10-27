@@ -598,6 +598,7 @@ function saveIt()   {
    saveButton.onclick = function()   {
       if (this.mouseIsOver)   {
         save("your beautiful picture");
+       redraw();
       }
    }
 }
@@ -741,8 +742,8 @@ function sizeEvent()   {
             }
             resizeIt();
             if (playPause == 'pause') {
-                redraw();
                 noLoop();
+                redraw();
             } else if (playPause == 'play') {
                 loop();
             } else {noLoop}
