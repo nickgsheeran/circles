@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div id="cnv-holder">
-                <textarea id="the-text-input">Tap or click to type</textarea>
+                <textarea id="the-text-input">Click here to type</textarea>
             </div>
             <div class="wrapper cModHide" style="height: 37px">
                 <div id="export-container" class="left2">
@@ -31,11 +31,11 @@
                     <button id="settings" class="column-left">Customize</button>
                     <div id="play-pause" class="column-right">
                         <label class="radio-container bottom-radio square"><img src="assets/play.svg" alt="play">
-                          <input type="radio" id="play" value="play" name="play-pause">
+                          <input type="radio" id="play" value="play" name="play-pause" checked>
                           <span class="radio-checkmark"></span>
                         </label>
                         <label class="radio-container bottom-radio square"><img src="assets/pause.svg" alt="pause">
-                          <input type="radio" id="pause" value="pause" name="play-pause" checked>
+                          <input type="radio" id="pause" value="pause" name="play-pause">
                           <span class="radio-checkmark"></span>
                         </label>
                     </div>
@@ -184,7 +184,7 @@
                                 <input type="range" min="0" max="400" value="0" class="slider" id="horizontal-margin">
                             </div>
                             <div class="slidecontainer">
-                                <p class="slider-label">Wave Offset</p>
+                                <p class="slider-label">Wavelength</p>
                                 <input type="range" min="0" max="100" value="0" class="slider" id="wave-offset">
                             </div>
                         </div>
@@ -205,7 +205,7 @@
                         </div>
                         <div class="slidecontainer">
                             <p class="slider-label">Spin Size</p>
-                            <input type="range" min="0" max="200" value="0" class="slider" id="spin-size">
+                            <input type="range" min="0" max="200" value="50" class="slider" id="spin-size">
                         </div>
                     </div>
                     <div class="column-right">

@@ -41,9 +41,9 @@ let leanY;
 let leanYunits = [-2, -1, 0, 1, 2];
 
 let angle = 0;
-let anglePlus = 0;
+let anglePlus;
 let globalSpeed;
-let opac = 255;
+let opac;
 let conOpac;
 
 let globalXmag = 0;
@@ -104,6 +104,7 @@ let controlling = false;
 let playPauseButton;
 let playPauseValues;
 let playPause;
+let playOrPause;
 
 let opacityValue;
 let speedValue;
@@ -139,13 +140,16 @@ function setup() {
     cnv = createCanvas(theWidth, theHeight);
     cnv.parent('cnv-holder');
         
-    lastHovered = createVector(1000, 1000);
+    lastHovered = createVector(100, 100);
     
     strokeWeight(1);
     stroke(255, 0, 0);
     noFill();
     
     background(255);
+    opac = floor(random(0, 255));
+    
+    anglePlus = floor(random(-6.14, 6.14));
     
     cellXslider = document.getElementById('cell-x-size');
 
@@ -365,6 +369,8 @@ function draw() {
 //    text("lean x:", width - 240, height - 60);
 //    text(leanX / 10, width - 240 + 40, height - 60);
 //    text("lean y:", width - 240, height - 45);
+    
+            console.log(globalSpeed);
 
 }
 
@@ -386,8 +392,6 @@ function mouseReleased() {
 function windowResized() {
     resizeIt();
     updateSliders();
-    
-//    resizeCanvas(theWidth, theHeight);
 }
 
 function updateSliders() {
@@ -490,6 +494,7 @@ function init() {
     speedEvent();
     opacityEvent();
     readTheText();
+    randomizeIt();
 }
 
 function controlSwitch() {
@@ -589,20 +594,79 @@ function resetIt()   {
     }
 }
 
+function randomizeIt()   {
+//    resetButton.mouseIsOver = false;
+//    resetButton.onmouseover = function()   {
+//        this.mouseIsOver = true;
+//    };
+//    resetButton.onmouseout = function()   {
+//        this.mouseIsOver = false;
+//    }
+//    resetButton.onclick = function()   {
+//        if (this.mouseIsOver)   {
+            cellXslider.value = floor(random(5, theWidth/100));
+            cellYslider.value = floor(random(5, theHeight/100));
+
+            if (cellXslider.value < cellYslider.value) {
+                unitSlider.value = floor(random(1, cellXslider.value * 1.5));
+            } else {
+                unitSlider.value = floor(random(1, cellYslider.value * 1.5));
+            }
+    
+            cornerSlider.value = floor(random(0, unitSlider.value * .5));
+            leanXslider.value = floor(random(-75, 75));
+            leanYslider.value = floor(random(-75, 75));
+            letterSpacingSlider.value = letterWidth * .2;
+            lineSpacingSlider.value = letterHeight * 1.2;
+            anglePlus = random(-6.24, 6.24);
+            //    no clue why the following line works
+            globalSpeed = asdf;
+            waveOffsetSlider.value = random(0, 1);
+            hMarginSlider.value = 0;
+            vMarginSlider.value = letterHeight * 1.2;
+    
+            playOrPause = random(0, 1);
+            if (playOrPause = 0) {
+                $('#play').prop('checked', 'true');
+                $('#pause').prop('checked', 'false');
+                playPause = 'play';
+                anglePlus = 5;
+//                globalMag = letterHeight / 4;
+//                globalMagSlider.value = letterHeight / 4;
+                loop();
+            } else if (playOrPause = 1) {
+                $('#pause').prop('checked', 'true');
+                $('#play').prop('checked', 'false');
+                playPause = 'pause';
+//                globalMag = 0;
+//                globalMagSlider.value = 0;
+                noLoop();
+            }
+    
+//            globalMag = letterHeight;
+//            console.log("angleplus", anglePlus, "mag", globalMag);
+            
+            clear();
+            background(bgColor);
+            redraw();
+//        }
+//    }
+}
+
 function saveIt()   {
-   saveButton.mouseIsOver = false;
-   saveButton.onmouseover = function()   {
+    saveButton.mouseIsOver = false;
+    saveButton.onmouseover = function()   {
         this.mouseIsOver = true;
-   };
-   saveButton.onmouseout = function()   {
+    };
+    saveButton.onmouseout = function()   {
       this.mouseIsOver = false;
-   }
-   saveButton.onclick = function()   {
-      if (this.mouseIsOver)   {
-        save("your beautiful picture");
-       redraw();
-      }
-   }
+    }
+    saveButton.onclick = function()   {
+        if (this.mouseIsOver)   {
+            save("your beautiful picture");
+            redraw();
+        }
+    }
 }
 
 function fillStrokeEvent() {
@@ -806,7 +870,6 @@ function opacityEvent()   {
             } else {
                 opac = 255;
             }
-            console.log(conOpac);
         }
     }
 }
