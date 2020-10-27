@@ -582,6 +582,8 @@ function resetIt()   {
             hMarginSlider.value = 0;
             vMarginSlider.value = letterHeight * 1.2;
             
+            clear();
+            background(bgColor);
             redraw();
         }
     }
