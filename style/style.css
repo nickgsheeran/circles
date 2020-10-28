@@ -694,6 +694,9 @@ textarea {
 	#settings-container {
 		width: 20%;
 	}
+	#what-text {
+		width: 60%;
+	}
 }
 
 @media only screen and (max-width: 768px) {    
