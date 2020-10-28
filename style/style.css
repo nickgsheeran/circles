@@ -688,6 +688,12 @@ textarea {
 
 
 @media only screen and (min-width: 2400px) {
+	#control-modal {
+		min-width: calc(20% + 15px);
+	}
+	#settings-container {
+		width: 20%;
+	}
 }
 
 @media only screen and (max-width: 768px) {    
