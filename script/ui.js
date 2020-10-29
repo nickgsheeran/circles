@@ -70,7 +70,7 @@ $(document).ready(function() {
             sizeOpen = true;
         } 
     })
-    $('.size-dropdown').click(function() {
+    $('.size-dropdown, #active-size').click(function() {
         if (sizeOpen == true) {
             $('#active-size').removeAttr('id');
             
@@ -80,9 +80,16 @@ $(document).ready(function() {
             
             $(this).removeClass("vertical");
             $(this).addClass("size-dropdown");
+
             $('.size-dropdown').css("display", "block");
+            
             sizeOpen = true;
-        }        
+        }
+        if ($('#size-labels').offset().top + $('#size-labels').outerHeight(true) > window.innerHeight) {
+            console.log('should work');
+            $('.size-dropdown').css('margin', '-70px 0 -2px 0');
+            $('#size-labels').css({'overflow': 'visible', 'margin-top': '72px', 'z-index': '100'})
+        }
     })
     $('.letter-input').click(function() {
         if (sizeOpen == true) {

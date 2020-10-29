@@ -370,8 +370,6 @@ function draw() {
 //    text(leanX / 10, width - 240 + 40, height - 60);
 //    text("lean y:", width - 240, height - 45);
     
-            console.log(globalSpeed);
-
 }
 
 function mousePressed() {    
