@@ -12,6 +12,7 @@ let inputRight;
 let inputFocused = false;
 var currentMousePos = { x: -1, y: -1 };
 const pi = 3.14159265358979323846;
+var touchtime = 0;
 
 $(document).ready(function() {    
     updateSliders();
@@ -104,7 +105,7 @@ $(document).ready(function() {
             $('#control-modal').show();
             $(this).text("Close");
             if ($(document).width() < 768 && $(document).width() > $(document).height()) {
-                $('.cModHide').hide();
+                $('.cModHide').css('opacity', '0');
             } else if ($(document).width() < 768 && $(document).width() < $(document).height()) {
                 $('#export-container').hide();
             }
@@ -112,7 +113,7 @@ $(document).ready(function() {
             $('#control-modal').hide();
             $(this).text("Customize"); 
             if ($(document).width() < 768 || $(document).width() < $(document).height()) {
-                $('.cModHide').show();
+                $('.cModHide').css('opacity', '1');
                 $('#export-container').show();
             }
         }
@@ -123,7 +124,7 @@ $(document).ready(function() {
             $('#control-modal').hide();
             $('#settings').text("Customize"); 
             if ($(document).width() < 768 || $(document).width() < $(document).height()) {
-                $('.cModHide').show();
+                $('.cModHide').css('opacity', '1');
                 $('#export-container').show();
             }
         }
@@ -158,6 +159,27 @@ $(document).ready(function() {
             $(this).children('.color-radio-options').hide();
         }
     })
+    
+//    $('#control-modal').on('click', function() {
+//      if (touchtime == 0) {
+//        if (window.innerWidth < 768 || window.innerHeight < 768) {
+//            console.log('t time set');
+//            touchtime = new Date().getTime();
+//        }
+//      } else {
+//        if (((new Date().getTime()) - touchtime) < 800) {
+//            console.log('hiddin');
+//          $('#active-size').removeClass('size-dropdown');
+//          $('#active-size').addClass('vertical');
+//          $('.size-dropdown').css("display", "none");
+//          sizeOpen = false;  
+//            
+//          touchtime = 0;
+//        } else {
+//          touchtime = 0;
+//        }
+//      }
+//    });
     
     $(document).dblclick(function() {        
         $('#active-size').removeClass('size-dropdown');

@@ -744,6 +744,10 @@ textarea {
             left: 3vw;
             width: calc(100% - 6vw);
         }
+        
+        #cnv-holder {
+            justify-content: center;
+        }
 
         #control-modal {
             min-width: 0;

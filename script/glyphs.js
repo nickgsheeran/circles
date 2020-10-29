@@ -423,44 +423,86 @@ function updateSliders() {
 }
 
 function resizeIt() {
-    if (size == 'Default') {
-        pixelDensity(2);
-        theHeight = theParent.clientHeight;
-        theWidth = theParent.clientWidth;
-    } else if (size == 'Letter') {
-        pixelDensity(3);
-        theHeight = theParent.clientHeight;
-        theWidth = theHeight / 11 * 8.5;       
-   }  else if (size == 'Tabloid') {
-        pixelDensity(3);
-        theHeight = theParent.clientHeight;
-        theWidth = theHeight / 17 * 11;
-    } else if (size == 'Poster') {
-        pixelDensity(3);
-        theHeight = theParent.clientHeight;
-        theWidth = theHeight / 4 * 3;
-    } else if (size == 'Square') {
-        pixelDensity(4);
-        if (theParent.clientWidth < theParent.clientHeight) {
-            theHeight = theParent.clientWidth;
-            theWidth = theParent.clientWidth;
-        } else if (theParent.clientWidth > theParent.clientHeight) {
+    console.log('resizeIt will use these for height and width', theParent.clientHeight, theParent.clientWidth );
+    console.log('height of cnv-holder:', document.getElementById('cnv-holder').offsetHeight);
+    
+//    if landscape orientation
+    if (theParent.clientWidth > theParent.clientHeight) {
+        if (size == 'Default') {
+            pixelDensity(2);
             theHeight = theParent.clientHeight;
-            theWidth = theParent.clientHeight;            
+            theWidth = theParent.clientWidth;
+        } else if (size == 'Letter') {
+            pixelDensity(3);
+            theHeight = theParent.clientHeight;
+            theWidth = theHeight / 11 * 8.5;       
+       }  else if (size == 'Tabloid') {
+            pixelDensity(3);
+            theHeight = theParent.clientHeight;
+            theWidth = theHeight / 17 * 11;
+        } else if (size == 'Poster') {
+            pixelDensity(3);
+            theHeight = theParent.clientHeight;
+            theWidth = theHeight / 4 * 3;
+        } else if (size == 'Square') {
+            pixelDensity(4);
+            if (theParent.clientWidth < theParent.clientHeight) {
+                theHeight = theParent.clientWidth;
+                theWidth = theParent.clientWidth;
+            } else if (theParent.clientWidth > theParent.clientHeight) {
+                theHeight = theParent.clientHeight;
+                theWidth = theParent.clientHeight;            
+            }
+        } else if (size == 'Portrait') {
+            pixelDensity(2);
+            theHeight = theParent.clientHeight;
+            theWidth = theHeight * .8;
+        } else if (size == 'Landscape') {
+            pixelDensity(2);
+            if (theParent.clientHeight < theParent.clientWidth * .559) {           
+                theHeight = theParent.clientHeight;
+                theWidth = theHeight * 1.789;
+            } else {
+                theWidth = theParent.clientWidth;
+                theHeight = theWidth * .559;
+            }
         }
-
-    } else if (size == 'Portrait') {
-        pixelDensity(2);
-        theHeight = theParent.clientHeight;
-        theWidth = theHeight * .8;
-    } else if (size == 'Landscape') {
-        pixelDensity(2);
-        if (theParent.clientHeight < theParent.clientWidth * .559) {           
+//    if portrait orientation
+    } else if (theParent.clientWidth < theParent.clientHeight) {
+        if (size == 'Default') {
+            pixelDensity(2);
             theHeight = theParent.clientHeight;
-            theWidth = theHeight * 1.789;
-        } else {
             theWidth = theParent.clientWidth;
-            theHeight = theWidth * .559;
+        } else if (size == 'Letter') {
+            pixelDensity(3);
+            theWidth = theParent.clientWidth; 
+            theHeight = theWidth / 8.5 * 11;
+       }  else if (size == 'Tabloid') {
+            pixelDensity(3);
+            if ((theWidth / 11 * 17) < theParent.clientHeight) {
+                theWidth = theParent.clientWidth; 
+                theHeight = theWidth / 11 * 17;
+            } else {
+                theHeight = theParent.clientHeight;
+                theWidth = theHeight / 17 * 11;
+            }
+
+        } else if (size == 'Poster') {
+            pixelDensity(3);
+            theWidth = theParent.clientWidth;
+            theHeight = theWidth / 3 * 4;
+        } else if (size == 'Square') {
+            pixelDensity(2);
+            theWidth = theParent.clientWidth;
+            theHeight = theWidth;
+        } else if (size == 'Portrait') {
+            pixelDensity(2);
+            theWidth = theParent.clientWidth;
+            theHeight = theWidth * 1.2;
+        } else if (size == 'Landscape') {
+            pixelDensity(2);
+                theWidth = theParent.clientWidth;
+                theHeight = theWidth / 1.789;
         }
     }
     
