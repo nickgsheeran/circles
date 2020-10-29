@@ -472,8 +472,8 @@ function resizeIt() {
     sizeChange = false;
     
     background(255);
-    background(bgColor);
     resizeCanvas(theWidth, theHeight);
+    background(bgColor);
 }
 
 window.onload = init;

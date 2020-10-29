@@ -177,15 +177,15 @@ $(document).ready(function() {
 })
 
 function responseInit() {
-    if ($(document).width() < 768) {
+    if ($(document).width() < 768 && $(document).width() < $(document).height()) {
         $('#settings-container').css('bottom', '15px');
     }
 }
 
 $( window ).resize(function() {
-    if ($(document).width() < 768) {
+    if ($(document).width() < 768 && $(document).width() < $(document).height()) {
         $('#settings-container').css('bottom', '15px');
-    } else if ($(document).width() > 768) {
+    } else {
         $('#settings-container').css('bottom', 'unset');
     }
 });
