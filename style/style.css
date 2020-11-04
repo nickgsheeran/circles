@@ -105,7 +105,21 @@ a {
 }
 
 a:visited {
-    color: inherit;
+    color: #FCD931;
+}
+
+.p-link {
+/*    color: white;*/
+/*    text-decoration: underline;*/
+    color: #FCD931;
+    font-family: "Theinhardt-Bold", sans-serif;
+    transition: .2s ease-out;
+}
+
+.p-link:hover {
+    color: white;
+/*    text-decoration: underline;*/
+    border-bottom: 40px solid;
 }
 
 .onblack {
@@ -469,20 +483,30 @@ textarea {
 }
 
 /*—————————————————————————————————————what specific—————————————————————————————————————*/
+#what-links {
+    margin-block-start: 3em; 
+    
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    column-gap: 1.5vw; 
+    width: 80%; 
+}
+
 #what-text {
     display: grid; 
     grid-template-columns: 1fr 1fr; 
     column-gap: 1.5vw; 
     width: 80%; 
+    
     margin-top: 12vh;
 }
 
 #ok-nice {
-    color: white; 
-    position: absolute; 
-    bottom: 4vh; 
-    margin-block-start: 1.5em; 
-    left: 3vw;
+/*    color: white; */
+/*    position: absolute; */
+/*    bottom: 4vh; */
+/*    margin-block-start: 1.5em; */
+/*    left: 3vw;*/
 }
 
 /*—————————————————————————————————————composer specific—————————————————————————————————————*/
@@ -490,7 +514,7 @@ textarea {
     cursor: pointer;
 }
 
-#character-controls {
+#character-controls, #animation-controls {
     display: none;
 }
 
@@ -560,6 +584,15 @@ textarea {
 
 #small-modal-x {
     cursor: pointer;
+}
+
+#modal-sections {
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+#animation {
+    display: none;
 }
 
 .control-modal-content {
@@ -728,8 +761,8 @@ textarea {
             line-height: 1.2;
             display: block;
             width: 100%;
-            text-align: center;
-            margin: 0 0 9vh 0;
+            text-align: left;
+            margin: 0 0 6vh 0;
         }
 
         #key-info {
@@ -780,7 +813,7 @@ textarea {
             display: block; 
             box-sizing: border-box;
             width: 100%; 
-            padding: 15px;
+            margin: 0;
         }
 
         #ok-nice {
@@ -794,5 +827,10 @@ textarea {
             width: unset;
             min-width: unset;
         }
+        
+        #what-links {
+            display: block;
+        }
+        
     }
 }

@@ -48,7 +48,7 @@
                         <p style="text-align: justify-all; width: 100%">Editing:</p>
                         <p id="small-modal-x">X</p>
                     </div>
-                    <h2><span id="paragraph" class="text-label">Paragraph</span> <span id="character" class="text-label text-label-inactive">Character</span></h2>
+                    <h2 id="modal-sections"><span id="paragraph" class="text-label">Paragraph</span> <span id="character" class="text-label text-label-inactive">Character</span><br> <span id="animation" class="text-label text-label-inactive">Animation</span></h2>
                 </div>
                 <div class="control-modal-content two-columns" id="paragraph-controls">
                         <div class="column-left">
@@ -232,6 +232,16 @@
                               <span class="radio-checkmark"></span>
                             </label>
                         </div>
+                    </div>
+                </div>
+                <div class="control-modal-content two-columns" id="animation-controls">
+                    <div class="slidecontainer">
+                        <p class="slider-label">Opacity</p>
+                        <input type="range" min="0" max="255" value="255" class="slider" id="opac-slider">
+                    </div>
+                    <div class="slidecontainer">
+                        <p class="slider-label">Speed</p>
+                        <input type="range" min="-6240" max="6240" value=".1" class="slider" id="speed-slider">
                     </div>
                 </div>
             </div>

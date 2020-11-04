@@ -1,5 +1,5 @@
 var modalSwitch = false;
-var txtCharSwitch = true;
+var parCharAnim = "par";
 var colOpen = false;
 var sizeOpen = false;
 let startType;
@@ -131,21 +131,36 @@ $(document).ready(function() {
         modalSwitch = !modalSwitch;
     })
     $('#character').click(function() {
-        if (txtCharSwitch === true) {
-            txtCharSwitch = !txtCharSwitch;
+        if (parCharAnim == "par" || parCharAnim == "anim") {
+            parCharAnim = "char";
             $(this).removeClass("text-label-inactive");
-            $('#paragraph').addClass("text-label-inactive")
+            $('#paragraph').addClass("text-label-inactive");
+            $('#animation').addClass("text-label-inactive");
             $('#paragraph-controls').hide();
+            $('#animation-controls').hide();
             $('#character-controls').css("display", "grid");
         }
     })
     $('#paragraph').click(function() {
-        if (txtCharSwitch === false) {
-            txtCharSwitch = !txtCharSwitch;
+        if (parCharAnim == "char" || parCharAnim == "anim") {
+            parCharAnim = "par";
             $(this).removeClass("text-label-inactive");
-            $('#character').addClass("text-label-inactive")
+            $('#character').addClass("text-label-inactive");
+            $('#animation').addClass("text-label-inactive");
             $('#character-controls').hide();
+            $('#animation-controls').hide();
             $('#paragraph-controls').show();
+        }
+    })
+    $('#animation').click(function() {
+        if (parCharAnim == "par" || parCharAnim == "char") {
+            parCharAnim = "anim";
+            $(this).removeClass("text-label-inactive");
+            $('#paragraph').addClass("text-label-inactive");
+            $('#character').addClass("text-label-inactive");
+            $('#character-controls').hide();
+            $('#animation-controls').show();
+            $('#paragraph-controls').hide();
         }
     })
     $('.color-radio-drawer').click(function() {
@@ -206,8 +221,11 @@ $(document).ready(function() {
 })
 
 function responseInit() {
-    if ($(document).width() < 768 && $(document).width() < $(document).height()) {
-        $('#settings-container').css('bottom', '15px');
+    if ($(document).width() < 768) {
+        $('#animation').show();
+        if ($(document).width() < $(document).height()) {
+            $('#settings-container').css('bottom', '15px');
+        }
     }
 }
 

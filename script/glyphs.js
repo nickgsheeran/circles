@@ -46,6 +46,7 @@ let globalSpeed;
 let opac;
 let conOpac;
 
+
 let globalXmag = 0;
 let globalYmag = 0;
 let globalXmag_prev;
@@ -123,10 +124,13 @@ let lineOverflow;
 
 let speedText;
 let opacityText;
+let speedSlider;
+let opacitySlider;
 
 let xMax;
 let yMax;
 
+let isMobile;
 
 let waveOffsetSlider;
 let waveOffset = 1;
@@ -147,9 +151,9 @@ function setup() {
     noFill();
     
     background(255);
-    opac = floor(random(0, 255));
     
-    anglePlus = floor(random(-6.14, 6.14));
+//    opac = floor(random(0, 255));
+//    anglePlus = floor(random(-6.14, 6.14));
     
     cellXslider = document.getElementById('cell-x-size');
 
@@ -227,6 +231,9 @@ function setup() {
     speedText = document.getElementById('speed-value-holder');
     opacityText = document.getElementById('opacity-value-holder');
     
+    speedSlider = document.getElementById('speed-slider');
+    opacitySlider = document.getElementById('opac-slider');
+        
     theTextInput = document.getElementById('the-text-input');
     
     waveOffsetSlider = document.getElementById('wave-offset');
@@ -236,7 +243,12 @@ function setup() {
     resizeIt();
     updateSliders();
     
+    if (windowWidth < 768) {
+        isMobile = true;
+    } else {isMobile = false}
+    
     noLoop();
+    init();
 }
 
 function draw() {
@@ -247,19 +259,22 @@ function draw() {
     bgColorButton.style.backgroundColor = bgColor;
     textColorButton.style.backgroundColor = bgColor;
     
+    opac = opacitySlider.value / 1;
     conOpac = constrain(opac, 0, 255);
     
-    if (keyIsDown(UP_ARROW)) {
-        anglePlus += 1;
-        anglePlus = floor(anglePlus);
-        
-    } else if (keyIsDown(DOWN_ARROW)) {
-        anglePlus -= 1;
-        anglePlus = floor(anglePlus);
-    } else if (keyIsDown(LEFT_ARROW)) {
-        opac --;
-    } else if (keyIsDown(RIGHT_ARROW)) {
-        opac ++;
+    if (isMobile === false) {
+        if (keyIsDown(UP_ARROW)) {
+            anglePlus += 1;
+            anglePlus = floor(anglePlus);
+
+        } else if (keyIsDown(DOWN_ARROW)) {
+            anglePlus -= 1;
+            anglePlus = floor(anglePlus);
+        } else if (keyIsDown(LEFT_ARROW)) {
+            opac --;
+        } else if (keyIsDown(RIGHT_ARROW)) {
+            opac ++;
+        }
     }
     
     bgColor2 = color(bgColor);
@@ -302,6 +317,9 @@ function draw() {
     vMargins = vMarginSlider.value / 1;
     hMargins = hMarginSlider.value / 1;
     waveOffset = waveOffsetSlider.value / 100;
+    
+//    animation settings
+    anglePlus = speedSlider.value / 100;
     
     if (playPause == 'pause') {
         globalSpeed = 0;
@@ -423,8 +441,6 @@ function updateSliders() {
 }
 
 function resizeIt() {
-    console.log('resizeIt will use these for height and width', theParent.clientHeight, theParent.clientWidth );
-    console.log('height of cnv-holder:', document.getElementById('cnv-holder').offsetHeight);
     
 //    if landscape orientation
     if (theParent.clientWidth > theParent.clientHeight) {
@@ -516,7 +532,7 @@ function resizeIt() {
     background(bgColor);
 }
 
-window.onload = init;
+//window.onload = init;
 
 function init() {
     controlSwitch();
@@ -531,10 +547,10 @@ function init() {
     bgColorEvent();
     sizeEvent();
     offsetEvent();
-    speedEvent();
     opacityEvent();
     readTheText();
     randomizeIt();
+    speedEvent();
 }
 
 function controlSwitch() {
@@ -658,33 +674,33 @@ function randomizeIt()   {
             leanYslider.value = floor(random(-75, 75));
             letterSpacingSlider.value = letterWidth * .2;
             lineSpacingSlider.value = letterHeight * 1.2;
-            anglePlus = random(-6.24, 6.24);
+            speedSlider.value = random(-624, 624);
+            opacitySlider.value = random(0, 255);
             //    no clue why the following line works
-            globalSpeed = asdf;
-            waveOffsetSlider.value = random(0, 1);
+//            globalSpeed = asdf;
+            waveOffsetSlider.value = random(0, 100);
             hMarginSlider.value = 0;
             vMarginSlider.value = letterHeight * 1.2;
     
-            playOrPause = random(0, 1);
-            if (playOrPause = 0) {
-                $('#play').prop('checked', 'true');
-                $('#pause').prop('checked', 'false');
-                playPause = 'play';
-                anglePlus = 5;
-//                globalMag = letterHeight / 4;
-//                globalMagSlider.value = letterHeight / 4;
-                loop();
-            } else if (playOrPause = 1) {
-                $('#pause').prop('checked', 'true');
-                $('#play').prop('checked', 'false');
-                playPause = 'pause';
-//                globalMag = 0;
-//                globalMagSlider.value = 0;
-                noLoop();
-            }
+//            playOrPause = random(0, 1);
+//            if (playOrPause = 0) {
+//                $('#play').prop('checked', 'true');
+//                $('#pause').prop('checked', 'false');
+//                playPause = 'play';
+//                anglePlus = 5;
+////                globalMag = letterHeight / 4;
+////                globalMagSlider.value = letterHeight / 4;
+//                loop();
+//            } else if (playOrPause = 1) {
+//                $('#pause').prop('checked', 'true');
+//                $('#play').prop('checked', 'false');
+//                playPause = 'pause';
+////                globalMag = 0;
+////                globalMagSlider.value = 0;
+//                noLoop();
+//            }
     
 //            globalMag = letterHeight;
-//            console.log("angleplus", anglePlus, "mag", globalMag);
             
             clear();
             background(bgColor);
@@ -873,25 +889,29 @@ function offsetEvent() {
 }
 
 function speedEvent()   {
-    speedText.mouseIsOver = false;
-    speedText.onmouseover = function()   {
-        this.mouseIsOver = true;
-    };
-    speedText.onmouseout = function()   {
-        this.mouseIsOver = false;
-    }
-    speedText.onclick = function()   {
-        if (this.mouseIsOver && playPause == 'play')   {
-            if (anglePlus < floor((1 * pi) / 3 * 100)) {
-                anglePlus = (1 * pi) / 3 * 100;
-                anglePlus = floor(anglePlus);
-            } else if (anglePlus < ((2 * pi) * 100)) {
-                anglePlus += (1 * pi) / 3 * 100;
-                anglePlus = floor(anglePlus);
-            } else if (anglePlus > ((2 * pi) * 100)) {
-                anglePlus = 0;
+    if (isMobile === false) {
+        speedText.mouseIsOver = false;
+        speedText.onmouseover = function()   {
+            this.mouseIsOver = true;
+        };
+        speedText.onmouseout = function()   {
+            this.mouseIsOver = false;
+        }
+        speedText.onclick = function()   {
+            if (this.mouseIsOver && playPause == 'play')   {
+                if (anglePlus < floor((1 * pi) / 3 * 100)) {
+                    anglePlus = (1 * pi) / 3 * 100;
+                    anglePlus = floor(anglePlus);
+                } else if (anglePlus < ((2 * pi) * 100)) {
+                    anglePlus += (1 * pi) / 3 * 100;
+                    anglePlus = floor(anglePlus);
+                } else if (anglePlus > ((2 * pi) * 100)) {
+                    anglePlus = 0;
+                }
             }
         }
+    } else if (isMobile === true) {
+        anglePlus += speedSlider.value / 1;
     }
 }
 
