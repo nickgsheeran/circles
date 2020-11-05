@@ -289,7 +289,11 @@ function draw() {
     vMargins = vMarginSlider.value / 1;
     hMargins = hMarginSlider.value / 1;
     waveOffset = waveOffsetSlider.value / 100;
-    console.log("draw", waveOffset);
+//    console.log("draw", waveOffset);
+    
+//    for (let i = 0; i < letters.length; i ++) {
+//        letters[i].angle = i * waveOffset;
+//    }
 
     if (playPause == 'pause') {
         globalSpeed = 0;
@@ -336,6 +340,7 @@ function draw() {
             letters[i].display(globalXmag, globalYmag, globalSpeed);
         pop();
     }
+//    console.log(letters);
 }
 
 function mousePressed() {    
@@ -498,7 +503,7 @@ function init() {
     textColorEvent();
     bgColorEvent();
     sizeEvent();
-    offsetEvent();
+//    offsetEvent();
     opacityEvent();
     speedEvent();
     randomizeIt();
@@ -778,22 +783,22 @@ function sizeEvent()   {
     }
 }
 
-function offsetEvent() {
-    waveOffsetSlider.mouseIsOver = false;
-    waveOffsetSlider.onmouseover = function()   {
-        this.mouseIsOver = true;
-    };
-    waveOffsetSlider.onmouseout = function()   {
-        this.mouseIsOver = false;
-    }
-    waveOffsetSlider.onclick = function()   {
-//        if (width < 768 || this.mouseIsOver)   {  
-            waveOffset = waveOffsetSlider.value / 100;
-            readTheText();
-            console.log("offset event fired");
-//        }
-    }
-}
+//function offsetEvent() {
+//    waveOffsetSlider.mouseIsOver = false;
+//    waveOffsetSlider.onmouseover = function()   {
+//        this.mouseIsOver = true;
+//    };
+//    waveOffsetSlider.onmouseout = function()   {
+//        this.mouseIsOver = false;
+//    }
+//    waveOffsetSlider.onclick = function()   {
+////        if (width < 768 || this.mouseIsOver)   {  
+//            waveOffset = waveOffsetSlider.value / 100;
+//            readTheText();
+//            console.log("offset event fired");
+////        }
+//    }
+//}
 
 function speedEvent()   {
     if (isMobile === false) {
