@@ -109,6 +109,10 @@ let playOrPause;
 
 let opacityValue;
 let speedValue;
+let speedText;
+let opacityText;
+let speedSlider;
+let opacitySlider;
 
 let sizeChange = false;
 
@@ -122,11 +126,6 @@ let theText = [];
 let lineLength;
 let lineOverflow;
 
-let speedText;
-let opacityText;
-let speedSlider;
-let opacitySlider;
-
 let xMax;
 let yMax;
 
@@ -137,106 +136,77 @@ let waveOffset = 1;
 
 function setup() {
     theParent = document.getElementById('cnv-holder');
-    
     theWidth = theParent.clientWidth;
     theHeight = theParent.clientHeight;
-    
     cnv = createCanvas(theWidth, theHeight);
     cnv.parent('cnv-holder');
-        
     lastHovered = createVector(100, 100);
     
     strokeWeight(1);
     stroke(255, 0, 0);
     noFill();
-    
     background(255);
-    
-//    opac = floor(random(0, 255));
-//    anglePlus = floor(random(-6.14, 6.14));
-    
+
     cellXslider = document.getElementById('cell-x-size');
-
     cellYslider = document.getElementById('cell-y-size');
-
     unitSlider = document.getElementById('unit-size');
-
     cornerSlider = document.getElementById('corner-size');
-
     globalMagSlider = document.getElementById('spin-size');
-
     leanXslider = document.getElementById('lean-x');
-
     leanYslider = document.getElementById('lean-y');
-    
     letterSpacingSlider = document.getElementById('letter-spacing');
-    
     lineSpacingSlider = document.getElementById('line-spacing');
-    
     vMarginSlider = document.getElementById('vertical-margin');
-    hMarginSlider = document.getElementById('horizontal-margin');
-    
-//    alignmentButton = document.getElementById('')
-    
+    hMarginSlider = document.getElementById('horizontal-margin');    
     fillStrokeButton = document.getElementById('fill-stroke');
     fillStrokeValues = document.getElementsByName('fill-stroke');
     for(i = 0; i < fillStrokeValues.length; i++) { 
         if(fillStrokeValues[i].checked) 
         fillStroke = fillStrokeValues[i].value;
     } 
-    
     alignmentButton = document.getElementById('alignment');
     alignmentValues = document.getElementsByName('alignment');
     for(i = 0; i < alignmentValues.length; i++) { 
         if(alignmentValues[i].checked) 
         paragraphAlignment = alignmentValues[i].value;
     }
-    
     opacityValue = document.getElementById('opacity-value');
     speedValue = document.getElementById('speed-value');
-    
+    speedText = document.getElementById('speed-value-holder');
+    opacityText = document.getElementById('opacity-value-holder');
+    speedSlider = document.getElementById('speed-slider');
+    opacitySlider = document.getElementById('opac-slider');
     playPauseButton = document.getElementById('play-pause');
     playPauseValues = document.getElementsByName('play-pause');
     for(i = 0; i < playPauseValues.length; i++) { 
         if(playPauseValues[i].checked) 
         playPause = playPauseValues[i].value;
     }
-    
     textColorButton = document.getElementById('text-color');
     textColorValues = document.getElementsByName('text-color');
     for(i = 0; i < textColorValues.length; i++) { 
         if(textColorValues[i].checked) 
         textColor = textColorValues[i].value;
     }
-    
     bgColorButton = document.getElementById('background-color');
     bgColorValues = document.getElementsByName('background-color');
     for(i = 0; i < bgColorValues.length; i++) { 
         if(bgColorValues[i].checked) 
         bgColor = bgColorValues[i].value;
     }
-    
     sizeButton = document.getElementById('size');
     sizeValues = document.getElementsByName('size');
     for(i = 0; i < sizeValues.length; i++) { 
         if(sizeValues[i].checked) 
         size = sizeValues[i].value;
     }
-    
     clearButton = document.getElementById('clear-button');
     resetButton = document.getElementById('reset-button');
     saveButton = document.getElementById('export');
-    controlModal = document.getElementById('control-modal');
-    
-    speedText = document.getElementById('speed-value-holder');
-    opacityText = document.getElementById('opacity-value-holder');
-    
-    speedSlider = document.getElementById('speed-slider');
-    opacitySlider = document.getElementById('opac-slider');
-        
+    controlModal = document.getElementById('control-modal');   
     theTextInput = document.getElementById('the-text-input');
-    
     waveOffsetSlider = document.getElementById('wave-offset');
+    waveOffset = waveOffsetSlider.value / 100;
     
     lineCount = 0;
     
@@ -246,8 +216,8 @@ function setup() {
     if (windowWidth < 768) {
         isMobile = true;
     } else {isMobile = false}
-    
-    noLoop();
+
+    noLoop();    
     init();
 }
 
@@ -258,10 +228,7 @@ function draw() {
     document.getElementById('background-color-p').style.color = textColor;
     bgColorButton.style.backgroundColor = bgColor;
     textColorButton.style.backgroundColor = bgColor;
-    
-    opac = opacitySlider.value / 1;
-    conOpac = constrain(opac, 0, 255);
-    
+        
     if (isMobile === false) {
         if (keyIsDown(UP_ARROW)) {
             anglePlus += 1;
@@ -275,8 +242,12 @@ function draw() {
         } else if (keyIsDown(RIGHT_ARROW)) {
             opac ++;
         }
+    } else if (isMobile === true) {
+        opac = opacitySlider.value / 1;
+        anglePlus = speedSlider.value / 100;
     }
     
+    conOpac = constrain(opac, 0, 255);    
     bgColor2 = color(bgColor);
     bgColor2.setAlpha(conOpac);
     background(bgColor2);
@@ -317,10 +288,7 @@ function draw() {
     vMargins = vMarginSlider.value / 1;
     hMargins = hMarginSlider.value / 1;
     waveOffset = waveOffsetSlider.value / 100;
-    
-//    animation settings
-    anglePlus = speedSlider.value / 100;
-    
+
     if (playPause == 'pause') {
         globalSpeed = 0;
         globalXmag = map(lastHovered.x, 0, width, 0, globalMag);
@@ -338,21 +306,11 @@ function draw() {
 
     letterWidth = (5*unit) + (4*(cellX - unit));
     letterHeight = 7*cellY;
-    lineOverflow = width - hMargins * 2;
 
     for (let i = 0; i < letters.length; i ++) {
         
         letters[i].xoff = letters[i].localLetterLineCount * letterWidth;
         letters[i].yoff = letters[i].localLineCount * letterHeight;
-        
-//        for auto returns pretty hard moving on for now
-//        lineLength = (letters[i].localLetterLineCount * letterWidth) + ((letters[i].localLetterLineCount - 1) * letterSpacing);
-//        if (lineLength > lineOverflow) {
-////            line return the character, update all the following characters
-//            letters[i].localLineCount ++;
-//            letters[i].yoff = letters[i].localLineCount * letterHeight;
-//            letters[i].xoff = 0;
-//        }
         
         if (paragraphAlignment == 'left') {
             paragraphAlignmentOffset = 0;
@@ -376,18 +334,6 @@ function draw() {
             letters[i].display(globalXmag, globalYmag, globalSpeed);
         pop();
     }
-
-//    text("opacity:", 30, height - 60);
-//    text(conOpac, 75, height - 60);
-//    text("speed:", 30, height - 45);
-//    text(anglePlus, 70, height - 45);
-//    text("spin magnitude:", 30, height - 30);
-//    text(globalMag, 119, height - 30);
-    
-//    text("lean x:", width - 240, height - 60);
-//    text(leanX / 10, width - 240 + 40, height - 60);
-//    text("lean y:", width - 240, height - 45);
-    
 }
 
 function mousePressed() {    
@@ -406,6 +352,10 @@ function mouseReleased() {
 }
 
 function windowResized() {
+    if (windowWidth < 768) {
+        isMobile = true;
+    } else {isMobile = false}
+    
     resizeIt();
     updateSliders();
 }
@@ -548,9 +498,9 @@ function init() {
     sizeEvent();
     offsetEvent();
     opacityEvent();
-    readTheText();
-    randomizeIt();
     speedEvent();
+    randomizeIt();
+    readTheText();
 }
 
 function controlSwitch() {
@@ -566,24 +516,6 @@ function controlSwitch() {
         controlling = false;
    }
 }
-
-//function canvasSwitch() {
-//    theParent.mouseIsOver = false;
-//    theParent.mouseIsOver = false;
-//    theParent.onmouseover = function()   {
-////        this.mouseIsOver = true;
-//        if (controlling == false) {
-//            hovered = true;
-//        }
-//    };
-//   theParent.onmouseout = function()   {
-////        this.mouseIsOver = false;
-//        hovered = false;
-//        lastHovered.x = mouseX;
-//        lastHovered.y = mouseY;
-//       
-//   }
-//}
 
 function canvasSwitch() {
     document.getElementById('defaultCanvas0').onmouseover = function()   {
@@ -651,62 +583,32 @@ function resetIt()   {
 }
 
 function randomizeIt()   {
-//    resetButton.mouseIsOver = false;
-//    resetButton.onmouseover = function()   {
-//        this.mouseIsOver = true;
-//    };
-//    resetButton.onmouseout = function()   {
-//        this.mouseIsOver = false;
-//    }
-//    resetButton.onclick = function()   {
-//        if (this.mouseIsOver)   {
             cellXslider.value = floor(random(5, theWidth/100));
             cellYslider.value = floor(random(5, theHeight/100));
-
             if (cellXslider.value < cellYslider.value) {
                 unitSlider.value = floor(random(1, cellXslider.value * 1.5));
             } else {
                 unitSlider.value = floor(random(1, cellYslider.value * 1.5));
             }
-    
             cornerSlider.value = floor(random(0, unitSlider.value * .5));
             leanXslider.value = floor(random(-75, 75));
             leanYslider.value = floor(random(-75, 75));
             letterSpacingSlider.value = letterWidth * .2;
             lineSpacingSlider.value = letterHeight * 1.2;
-            speedSlider.value = random(-624, 624);
-            opacitySlider.value = random(0, 255);
-            //    no clue why the following line works
+            speedSlider.value = floor(random(-624, 624));
+            anglePlus = floor(random(-61.4, 61.4));
+            opacitySlider.value = floor(random(0, 255));
+            opac = floor(random(0, 255));
+//            no clue why the following line works
 //            globalSpeed = asdf;
-            waveOffsetSlider.value = random(0, 100);
+            waveOffsetSlider.value = floor(random(0, 100));
+            waveOffset = waveOffsetSlider.value;
             hMarginSlider.value = 0;
             vMarginSlider.value = letterHeight * 1.2;
-    
-//            playOrPause = random(0, 1);
-//            if (playOrPause = 0) {
-//                $('#play').prop('checked', 'true');
-//                $('#pause').prop('checked', 'false');
-//                playPause = 'play';
-//                anglePlus = 5;
-////                globalMag = letterHeight / 4;
-////                globalMagSlider.value = letterHeight / 4;
-//                loop();
-//            } else if (playOrPause = 1) {
-//                $('#pause').prop('checked', 'true');
-//                $('#play').prop('checked', 'false');
-//                playPause = 'pause';
-////                globalMag = 0;
-////                globalMagSlider.value = 0;
-//                noLoop();
-//            }
-    
-//            globalMag = letterHeight;
-            
+                
             clear();
             background(bgColor);
             redraw();
-//        }
-//    }
 }
 
 function saveIt()   {
@@ -908,6 +810,8 @@ function speedEvent()   {
                 } else if (anglePlus > ((2 * pi) * 100)) {
                     anglePlus = 0;
                 }
+            
+//                document.getElementById('speed-value').innerHTML = globalSpeed;
             }
         }
     } else if (isMobile === true) {
@@ -930,6 +834,7 @@ function opacityEvent()   {
             } else {
                 opac = 255;
             }
+//            document.getElementById('opacity-value').innerHTML = conOpac;
         }
     }
 }
@@ -1535,6 +1440,7 @@ function readTheText() {
 
             }
         }
+    
 
         loop();
 

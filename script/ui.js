@@ -36,9 +36,9 @@ $(document).ready(function() {
             
             if ( currentMousePos.x < inputPos.left || currentMousePos.x > inputRight) {
                 if (currentMousePos.y < inputPos.top || currentMousePos.y > inputBottom) {
-                    if ($(document).width() > 768) {
-                        $('#the-text-input').focus();
-                    }
+//                    if ($(document).width() > 768) {
+//                        $('#the-text-input').focus();
+//                    }
                     $('#the-text-input').css("opacity", "0");
                 }
             }
