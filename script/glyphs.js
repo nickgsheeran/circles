@@ -132,7 +132,7 @@ let yMax;
 let isMobile;
 
 let waveOffsetSlider;
-let waveOffset = 1;
+let waveOffset;
 
 function setup() {
     theParent = document.getElementById('cnv-holder');
@@ -207,6 +207,7 @@ function setup() {
     theTextInput = document.getElementById('the-text-input');
     waveOffsetSlider = document.getElementById('wave-offset');
     waveOffset = waveOffsetSlider.value / 100;
+    console.log("setup", waveOffset);
     
     lineCount = 0;
     
@@ -288,6 +289,7 @@ function draw() {
     vMargins = vMarginSlider.value / 1;
     hMargins = hMarginSlider.value / 1;
     waveOffset = waveOffsetSlider.value / 100;
+    console.log("draw", waveOffset);
 
     if (playPause == 'pause') {
         globalSpeed = 0;
@@ -603,6 +605,7 @@ function randomizeIt()   {
 //            globalSpeed = asdf;
             waveOffsetSlider.value = floor(random(0, 100));
             waveOffset = waveOffsetSlider.value;
+    console.log("randomized", waveOffset);
             hMarginSlider.value = 0;
             vMarginSlider.value = letterHeight * 1.2;
                 
@@ -784,9 +787,11 @@ function offsetEvent() {
         this.mouseIsOver = false;
     }
     waveOffsetSlider.onclick = function()   {
-        if (this.mouseIsOver)   {            
+//        if (width < 768 || this.mouseIsOver)   {  
+            waveOffset = waveOffsetSlider.value / 100;
             readTheText();
-        }
+            console.log("offset event fired");
+//        }
     }
 }
 
@@ -1447,6 +1452,8 @@ function readTheText() {
         if (playPause == 'pause') {
             noLoop();
         }    
+    
+    console.log("text read", waveOffset);
     }
 
 class LetterA {
