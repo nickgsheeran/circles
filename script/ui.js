@@ -221,18 +221,19 @@ $(document).ready(function() {
 })
 
 function responseInit() {
+    console.log('hello');
     if ($(document).width() < 768) {
         $('#animation').show();
         if ($(document).width() < $(document).height()) {
             $('#settings-container').css('bottom', '15px');
+        } else {
+            $('#settings-container').css('bottom', 'unset');
         }
+    } else {
+        $('#settings-container').css('bottom', 'unset');
     }
 }
 
 $( window ).resize(function() {
-    if ($(document).width() < 768 && $(document).width() < $(document).height()) {
-        $('#settings-container').css('bottom', '15px');
-    } else {
-        $('#settings-container').css('bottom', 'unset');
-    }
+    responseInit();
 });
