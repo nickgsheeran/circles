@@ -406,15 +406,15 @@ function resizeIt() {
             theHeight = theParent.clientHeight;
             theWidth = theParent.clientWidth;
         } else if (size == 'Letter') {
-            pixelDensity(3);
+            pixelDensity(6);
             theHeight = theParent.clientHeight;
             theWidth = theHeight / 11 * 8.5;       
        }  else if (size == 'Tabloid') {
-            pixelDensity(3);
+            pixelDensity(6);
             theHeight = theParent.clientHeight;
             theWidth = theHeight / 17 * 11;
         } else if (size == 'Poster') {
-            pixelDensity(3);
+            pixelDensity(12);
             theHeight = theParent.clientHeight;
             theWidth = theHeight / 4 * 3;
         } else if (size == 'Square') {
@@ -1607,8 +1607,11 @@ class LetterC {
             leftCurve();
         
             topCrossbar();
+            rect(4*cellX + leanXunits[4] * leanX, 2*cellY + leanYunits[4] * leanY, unit, unit, corners);
         
             bottomCrossbar();
+            rect(4*cellX + leanXunits[0] * leanX, 6*cellY + leanYunits[3] * leanY, unit, unit, corners);
+        
         pop();
     }
 }
