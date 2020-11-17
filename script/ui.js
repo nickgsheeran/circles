@@ -210,9 +210,11 @@ function responseInit() {
         }
     } else {
         $('#settings-container').css('bottom', 'unset');
+        $('#animation').hide();
     }
 }
 
 $( window ).resize(function() {
     responseInit();
+    readTheText();
 });
