@@ -4,149 +4,107 @@ let hovered = false;
 let lastHovered;
 let theWidth;
 let theHeight;
-
 let character;
-
 let cellX;
 let cellY;
 let unit;
 let corners;
 let letterWidth;
 let letterHeight;
-
 let cellXslider;
 let cellXsliderLabel;
-
 let cellYslider;
 let cellYsliderLabel;
-
 let unitSlider;
 let unitSliderLabel;
-
 let cornerSlider;
 let cornerSliderLabel;
-
 let globalMagSlider;
 let globalMagSliderLabel;
 let globalMag;
-
 let leanXslider;
 let leanXsliderLabel;
 let leanX;
 let leanXunits = [-3, -2, -1, 0, 1, 2, 3];
-
 let leanYslider;
 let leanYsliderLabel;
 let leanY;
 let leanYunits = [-2, -1, 0, 1, 2];
-
 let angle = 0;
 let anglePlus;
 let globalSpeed;
 let opac;
 let conOpac;
-
-
 let globalXmag = 0;
 let globalYmag = 0;
 let globalXmag_prev;
 let globalYmag_prev;
-
 let letters = [];
 let letterElement = 1;
 let letterCount = 0;
 let letterLineCount = 0;
-
 let letterXpos;
 let letterYpos;
-
 let letterSpacingSlider;
 let letterSpacing;
-
 let lineSpacingSlider;
 let lineSpacing;
 let lineCount;
 let lineCountChars = [0];
-
-
 let alignmentButton;
 let alignmentValues = [];
 let alignment;
 let paragraphAlignmentOffset;
 let paragraphAlignment;
-
-
 let fillStrokeButton;
 let fillStrokeValues = [];
 let fillStroke;
-
 let textColorButton;
 let textColorValues;
 let textColor;
-
 let bgColorButton;
 let bgColorValues;
 let bgColor;
 let bgColor2;
-
 let sizeButton;
 let sizeValues;
 let size;
-
 let vMarginSlider;
 let vMargins;
-
 let hMarginSlider;
 let hMargins;
-
 let controlModal;
 let controlling = false;
-
 let playPauseButton;
 let playPauseValues;
 let playPause;
 let playOrPause;
-
 let opacityValue;
 let speedValue;
 let speedText;
 let opacityText;
 let speedSlider;
 let opacitySlider;
-
 let sizeChange = false;
-
 let saveButton;
 let clearButton;
 let resetButton;
-
 let theTextInput;
 let theText = [];
-
 let lineLength;
 let lineOverflow;
-
 let xMax;
 let yMax;
-
 let isMobile;
-
 let waveOffsetSlider;
 let waveOffset;
 
 function setup() {
-    theParent = document.getElementById('cnv-holder');
-    theWidth = theParent.clientWidth;
-    theHeight = theParent.clientHeight;
-    cnv = createCanvas(theWidth, theHeight);
-    cnv.parent('cnv-holder');
+    theParent = document.getElementById('cnv-holder');    theWidth = theParent.clientWidth;    theHeight = theParent.clientHeight;
+    cnv = createCanvas(theWidth, theHeight);    cnv.parent('cnv-holder');
     lastHovered = createVector(100, 100);
+    strokeWeight(1);    stroke(255, 0, 0);    noFill();    background(255);
     
-    strokeWeight(1);
-    stroke(255, 0, 0);
-    noFill();
-    background(255);
-
     cellXslider = document.getElementById('cell-x-size');
     cellYslider = document.getElementById('cell-y-size');
     unitSlider = document.getElementById('unit-size');
@@ -207,17 +165,12 @@ function setup() {
     theTextInput = document.getElementById('the-text-input');
     waveOffsetSlider = document.getElementById('wave-offset');
     waveOffset = waveOffsetSlider.value / 100;
-    console.log("setup", waveOffset);
     
-    lineCount = 0;
-    
-    resizeIt();
-    updateSliders();
-    
+    lineCount = 0;    
+    resizeIt();    updateSliders();
     if (windowWidth < 768) {
         isMobile = true;
     } else {isMobile = false}
-
     noLoop();    
     init();
 }
@@ -234,7 +187,6 @@ function draw() {
         if (keyIsDown(UP_ARROW)) {
             anglePlus += 1;
             anglePlus = floor(anglePlus);
-
         } else if (keyIsDown(DOWN_ARROW)) {
             anglePlus -= 1;
             anglePlus = floor(anglePlus);
@@ -248,9 +200,7 @@ function draw() {
         anglePlus = speedSlider.value / 100;
     }
     
-    conOpac = constrain(opac, 0, 255);    
-    bgColor2 = color(bgColor);
-    bgColor2.setAlpha(conOpac);
+    conOpac = constrain(opac, 0, 255);    bgColor2 = color(bgColor);    bgColor2.setAlpha(conOpac);
     background(bgColor2);
     
     if (fillStroke == 'solid') {
@@ -289,11 +239,6 @@ function draw() {
     vMargins = vMarginSlider.value / 1;
     hMargins = hMarginSlider.value / 1;
     waveOffset = waveOffsetSlider.value / 100;
-//    console.log("draw", waveOffset);
-    
-//    for (let i = 0; i < letters.length; i ++) {
-//        letters[i].angle = i * waveOffset;
-//    }
 
     if (playPause == 'pause') {
         globalSpeed = 0;
@@ -314,16 +259,13 @@ function draw() {
     letterHeight = 7*cellY;
 
     for (let i = 0; i < letters.length; i ++) {
-        
         letters[i].xoff = letters[i].localLetterLineCount * letterWidth;
         letters[i].yoff = letters[i].localLineCount * letterHeight;
         
         if (paragraphAlignment == 'left') {
             paragraphAlignmentOffset = 0;
         } else if (paragraphAlignment == 'center') {
-//            for some reason the offset syncs properly when letterlinecount - .1 numbers are accounted for
             paragraphAlignmentOffset = lineCountChars[letters[i].localLineCount] - .9;
-            
             paragraphAlignmentOffset = (width - 
                                         (paragraphAlignmentOffset * (letterWidth + letterSpacing)) - 
                                         (letterWidth / 2) - 
@@ -334,19 +276,15 @@ function draw() {
             paragraphAlignmentOffset = lineCountChars[letters[i].localLineCount];
             paragraphAlignmentOffset = width - (paragraphAlignmentOffset * (letterWidth + letterSpacing)) - hMargins * 2;
         }
-        
         push();
             translate(hMargins + paragraphAlignmentOffset, vMargins);
             letters[i].display(globalXmag, globalYmag, globalSpeed);
         pop();
     }
-//    console.log(letters);
 }
 
 function mousePressed() {    
     if (controlling) {
-//        globalXmag = map(lastHovered.x, 0, width, 0, globalMag);
-//        globalYmag = map(lastHovered.y, 0, height, 0, globalMag);  
         loop();
         updateSliders();
     }
@@ -362,7 +300,6 @@ function windowResized() {
     if (windowWidth < 768) {
         isMobile = true;
     } else {isMobile = false}
-    
     resizeIt();
     updateSliders();
 }
@@ -398,8 +335,6 @@ function updateSliders() {
 }
 
 function resizeIt() {
-    
-//    if landscape orientation
     if (theParent.clientWidth > theParent.clientHeight) {
         if (size == 'Default') {
             pixelDensity(2);
@@ -440,7 +375,7 @@ function resizeIt() {
                 theHeight = theWidth * .559;
             }
         }
-//    if portrait orientation
+        
     } else if (theParent.clientWidth < theParent.clientHeight) {
         if (size == 'Default') {
             pixelDensity(2);
@@ -459,7 +394,6 @@ function resizeIt() {
                 theHeight = theParent.clientHeight;
                 theWidth = theHeight / 17 * 11;
             }
-
         } else if (size == 'Poster') {
             pixelDensity(3);
             theWidth = theParent.clientWidth;
@@ -484,12 +418,8 @@ function resizeIt() {
     
     sizeChange = false;
     
-    background(255);
-    resizeCanvas(theWidth, theHeight);
-    background(bgColor);
+    background(255);    resizeCanvas(theWidth, theHeight);    background(bgColor);
 }
-
-//window.onload = init;
 
 function init() {
     controlSwitch();
@@ -503,7 +433,6 @@ function init() {
     textColorEvent();
     bgColorEvent();
     sizeEvent();
-//    offsetEvent();
     opacityEvent();
     speedEvent();
     randomizeIt();
@@ -514,29 +443,24 @@ function controlSwitch() {
     controlModal.mouseIsOver = false;
     controlModal.mouseIsOver = false;
     controlModal.onmouseover = function()   {
-//        this.mouseIsOver = true;
         controlling = true;
         hovered = false;
     };
    controlModal.onmouseout = function()   {
-//        this.mouseIsOver = false;
         controlling = false;
    }
 }
 
 function canvasSwitch() {
     document.getElementById('defaultCanvas0').onmouseover = function()   {
-//        this.mouseIsOver = true;
         if (controlling == false) {
             hovered = true;
         }
     };
    document.getElementById('defaultCanvas0').onmouseout = function()   {
-//        this.mouseIsOver = false;
         hovered = false;
         lastHovered.x = mouseX;
         lastHovered.y = mouseY;
-       
    }
 }
 
@@ -582,9 +506,7 @@ function resetIt()   {
             hMarginSlider.value = 0;
             vMarginSlider.value = letterHeight * 1.2;
             
-            clear();
-            background(bgColor);
-            redraw();
+            clear();    background(bgColor);    redraw();
         }
     }
 }
@@ -606,17 +528,12 @@ function randomizeIt()   {
             anglePlus = floor(random(-61.4, 61.4));
             opacitySlider.value = floor(random(0, 255));
             opac = floor(random(0, 255));
-//            no clue why the following line works
-//            globalSpeed = asdf;
             waveOffsetSlider.value = floor(random(0, 100));
             waveOffset = waveOffsetSlider.value;
-    console.log("randomized", waveOffset);
             hMarginSlider.value = 0;
             vMarginSlider.value = letterHeight * 1.2;
                 
-            clear();
-            background(bgColor);
-            redraw();
+            clear();    background(bgColor);    redraw();
 }
 
 function saveIt()   {
@@ -676,13 +593,9 @@ function playPauseEvent() {
             if (globalMag == 0) {
                 globalMag = letterHeight;
                 globalMagSlider.value = letterHeight;
-                
             }
-            
             loop();
-        } else {noLoop}
-            }
-        }
+        } else {noLoop}}}
 }
 
 function alignmentEvent() {
@@ -703,9 +616,7 @@ function alignmentEvent() {
             noLoop();
         } else if (playPause == 'play') {
             loop();
-        } else {noLoop}
-            }
-    }
+        } else {noLoop}}}
 }
 
 function textColorEvent() {
@@ -728,9 +639,7 @@ function textColorEvent() {
                 noLoop();
             } else if (playPause == 'play') {
                 loop();
-            } else {noLoop}
-        }
-    }
+            } else {noLoop}}}
 }
 
 function bgColorEvent() {
@@ -753,9 +662,7 @@ function bgColorEvent() {
             noLoop();
         } else if (playPause == 'play') {
             loop();
-        } else {noLoop}
-            }
-    }
+        } else {noLoop}}}
 }
 
 function sizeEvent()   {
@@ -778,27 +685,8 @@ function sizeEvent()   {
                 redraw();
             } else if (playPause == 'play') {
                 loop();
-            } else {noLoop}
-        }
-    }
+            } else {noLoop}}}
 }
-
-//function offsetEvent() {
-//    waveOffsetSlider.mouseIsOver = false;
-//    waveOffsetSlider.onmouseover = function()   {
-//        this.mouseIsOver = true;
-//    };
-//    waveOffsetSlider.onmouseout = function()   {
-//        this.mouseIsOver = false;
-//    }
-//    waveOffsetSlider.onclick = function()   {
-////        if (width < 768 || this.mouseIsOver)   {  
-//            waveOffset = waveOffsetSlider.value / 100;
-//            readTheText();
-//            console.log("offset event fired");
-////        }
-//    }
-//}
 
 function speedEvent()   {
     if (isMobile === false) {
@@ -820,8 +708,6 @@ function speedEvent()   {
                 } else if (anglePlus > ((2 * pi) * 100)) {
                     anglePlus = 0;
                 }
-            
-//                document.getElementById('speed-value').innerHTML = globalSpeed;
             }
         }
     } else if (isMobile === true) {
@@ -842,13 +728,8 @@ function opacityEvent()   {
             if (conOpac > (255/2)) {
                 opac = 0;
             } else {
-                opac = 255;
-            }
-//            document.getElementById('opacity-value').innerHTML = conOpac;
-        }
-    }
+                opac = 255;}}}
 }
-
 
 function readTheText() {    
     theText = theTextInput.value.split("");    
@@ -858,7 +739,6 @@ function readTheText() {
     letterLineCount = 0;
     lineCountChars = [0];
     letters = [];
-
         for (var i = 0; i < theText.length; i++) {        
             if (theText[i] === 'A') {
                 letterCount ++;        lineCountChars[lineCount] ++;
@@ -1457,8 +1337,6 @@ function readTheText() {
         if (playPause == 'pause') {
             noLoop();
         }    
-    
-    console.log("text read", waveOffset);
     }
 
 class LetterA {
