@@ -32,36 +32,23 @@ $(document).ready(function() {
             inputPos = input.position();
             inputRight = inputPos.left + inputSize;
             inputBottom = input.height() + inputPos.top;
-            
-            
             if ( currentMousePos.x < inputPos.left || currentMousePos.x > inputRight) {
                 if (currentMousePos.y < inputPos.top || currentMousePos.y > inputBottom) {
-//                    if ($(document).width() > 768) {
-//                        $('#the-text-input').focus();
-//                    }
                     $('#the-text-input').css("opacity", "0");
                 }
             }
         }
         inputFocused = !inputFocused;
     })
-//    $('#the-text-input').change(function() {
-//        var theInputText = $('#the-text-input').value.split("");
-//        console.log(theInputText);
-//    });
+
     $("#the-text-input").on('change keyup paste', function() {
         readTheText();
-//        theInputText = $('#the-text-input').val().split("");
-//        console.log(theInputText);
     });
     $('#active-size').click(function() {
         if (sizeOpen == false) {
-//            starting point for floating size radio
             $('#size-labels').css({
                 "position": "absolute",
                 "width": "calc(50% - 40px)",
-//                "border": "2px solid white",
-//                "border-radius": "5px",
                 "overflow": "scroll",
                 "height": "171px",
             });
@@ -188,7 +175,6 @@ $(document).ready(function() {
         $('.color-radio-drawer').removeClass( "color-radio-drawer-active" );
         $('.color-radio-drawer').children('.color-radio-options').hide();
         colOpen = false;
-
         if (inputFocused == true) {
             if (window.innerWidth < 768) {
                 $('#the-text-input').focus();
