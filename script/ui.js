@@ -1,3 +1,5 @@
+//    declare variables
+
 var modalSwitch = false;
 var parCharAnim = "par";
 var colOpen = false;
@@ -15,12 +17,15 @@ const pi = 3.14159265358979323846;
 var touchtime = 0;
 
 $(document).ready(function() {    
+//    sync UI between scripts, make sure they are document proportion-friendly
     updateSliders();
     responseInit();
     
+//    focus the text input immediately, so typing can start immediately
     input = $('#the-text-input');
     input.focus();
     
+//    hide and show the text input by clicking around it
     $('#cnv-holder').click(function() {                
         if (inputFocused === false) {
             $('#the-text-input').focus();
@@ -41,9 +46,12 @@ $(document).ready(function() {
         inputFocused = !inputFocused;
     })
 
+//    read the text anytime it is changed
     $("#the-text-input").on('change keyup paste', function() {
         readTheText();
     });
+    
+//    show size options when size is clicked, making their position absolute so they do not resize the control modal
     $('#active-size').click(function() {
         if (sizeOpen == false) {
             $('#size-labels').css({
@@ -87,6 +95,7 @@ $(document).ready(function() {
             var selectSize = $('#active-size').text();
         }
     })
+//    show and hide the control modal
     $('#settings').click(function() {
         if (modalSwitch == false) {
             $('#control-modal').show();
@@ -117,6 +126,7 @@ $(document).ready(function() {
         }
         modalSwitch = !modalSwitch;
     })
+//    switch between character and paragraph controls
     $('#character').click(function() {
         if (parCharAnim == "par" || parCharAnim == "anim") {
             parCharAnim = "char";
@@ -139,6 +149,7 @@ $(document).ready(function() {
             $('#paragraph-controls').show();
         }
     })
+//    switch to animation controls (only visible on mobile device)
     $('#animation').click(function() {
         if (parCharAnim == "par" || parCharAnim == "char") {
             parCharAnim = "anim";
@@ -150,6 +161,7 @@ $(document).ready(function() {
             $('#paragraph-controls').hide();
         }
     })
+//    open and close color controls
     $('.color-radio-drawer').click(function() {
         if (colOpen == false) {
             colOpen = true;
@@ -161,12 +173,12 @@ $(document).ready(function() {
             $(this).children('.color-radio-options').hide();
         }
     })
-    
+//    update the wavelength in relation to the lines of text
     $('#wave-offset').change(function() {
         waveOffset = waveOffsetSlider.value / 100;
         readTheText();
     })
-
+//    close anything with double click
     $(document).dblclick(function() {        
         $('#active-size').removeClass('size-dropdown');
         $('#active-size').addClass('vertical');
@@ -186,6 +198,7 @@ $(document).ready(function() {
         
 })
 
+//    improve responsiveness
 function responseInit() {
     if ($(document).width() < 768) {
         $('#animation').show();
