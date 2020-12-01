@@ -1,3 +1,5 @@
+//declare variables
+
 let cnv;
 let theParent;
 let hovered = false;
@@ -100,11 +102,13 @@ let waveOffsetSlider;
 let waveOffset;
 
 function setup() {
+//    create canvas based on parent size
     theParent = document.getElementById('cnv-holder');    theWidth = theParent.clientWidth;    theHeight = theParent.clientHeight;
     cnv = createCanvas(theWidth, theHeight);    cnv.parent('cnv-holder');
     lastHovered = createVector(100, 100);
     strokeWeight(1);    stroke(255, 0, 0);    noFill();    background(255);
     
+//    connect to UI
     cellXslider = document.getElementById('cell-x-size');
     cellYslider = document.getElementById('cell-y-size');
     unitSlider = document.getElementById('unit-size');
@@ -166,6 +170,7 @@ function setup() {
     waveOffsetSlider = document.getElementById('wave-offset');
     waveOffset = waveOffsetSlider.value / 100;
     
+//    finish setting things up, if on desktop proceed to init, if on mobile trigger additional functions before init
     lineCount = 0;    
     resizeIt();    updateSliders();
     if (windowWidth < 768) {
@@ -176,6 +181,7 @@ function setup() {
 }
 
 function draw() {
+//    variables from UI
     theParent = document.getElementById('cnv-holder');
     
     document.getElementById('text-color-p').style.color = textColor;
@@ -183,6 +189,7 @@ function draw() {
     bgColorButton.style.backgroundColor = bgColor;
     textColorButton.style.backgroundColor = bgColor;
         
+//    control speed and opacity with arrow keys
     if (isMobile === false) {
         if (keyIsDown(UP_ARROW)) {
             anglePlus += 1;
@@ -200,6 +207,7 @@ function draw() {
         anglePlus = speedSlider.value / 100;
     }
     
+//    track background color and opacity in separate variables before combining, define fill/outline
     conOpac = constrain(opac, 0, 255);    bgColor2 = color(bgColor);    bgColor2.setAlpha(conOpac);
     background(bgColor2);
     
@@ -217,6 +225,7 @@ function draw() {
     
     globalSpeed = anglePlus/100;
     
+//    update HTML values
     document.getElementById('speed-value').innerHTML = globalSpeed;
     document.getElementById('opacity-value').innerHTML = conOpac;
     
@@ -258,6 +267,10 @@ function draw() {
     letterWidth = (5*unit) + (4*(cellX - unit));
     letterHeight = 7*cellY;
 
+//    for each letter: 
+//    1) update the position of the letter based on changes to its size from the UI
+//    2) move according to paragraph alignment settings
+//    3) display the letter, positioned according to the width of the spin and moving at the defined speed 
     for (let i = 0; i < letters.length; i ++) {
         letters[i].xoff = letters[i].localLetterLineCount * letterWidth;
         letters[i].yoff = letters[i].localLineCount * letterHeight;
@@ -283,19 +296,20 @@ function draw() {
     }
 }
 
+//    makes live updates to the text as UI is changed
 function mousePressed() {    
     if (controlling) {
         loop();
         updateSliders();
     }
 }
-
 function mouseReleased() {
     if (playPause == 'pause') {
         noLoop();
     }
 }
 
+//    keep canvas and parameters balanced after resizing the window
 function windowResized() {
     if (windowWidth < 768) {
         isMobile = true;
@@ -304,6 +318,7 @@ function windowResized() {
     updateSliders();
 }
 
+//    keep settings relative to one another—otherwise some things become to sensitive, to unresponsive, etc
 function updateSliders() {
     xMax = theWidth / 4;
     yMax = theHeight / 6;
@@ -334,6 +349,7 @@ function updateSliders() {
     
 }
 
+//    resize according to settings and limitations of the document
 function resizeIt() {
     if (theParent.clientWidth > theParent.clientHeight) {
         if (size == 'Default') {
@@ -421,6 +437,7 @@ function resizeIt() {
     background(255);    resizeCanvas(theWidth, theHeight);    background(bgColor);
 }
 
+//    run everything needed to draw. UI elements requiring javascript need additional functions to translate here in glyphs.js
 function init() {
     controlSwitch();
     canvasSwitch();
@@ -439,6 +456,7 @@ function init() {
     readTheText();
 }
 
+//    mark whether or not user is making changes to the text parameters
 function controlSwitch() {
     controlModal.mouseIsOver = false;
     controlModal.mouseIsOver = false;
@@ -451,6 +469,7 @@ function controlSwitch() {
    }
 }
 
+//    alter spin with mouse position over canvas, if not over canvas save the last place it was
 function canvasSwitch() {
     document.getElementById('defaultCanvas0').onmouseover = function()   {
         if (controlling == false) {
@@ -464,6 +483,7 @@ function canvasSwitch() {
    }
 }
 
+//    clear everything before the current frame, background must be temporarily altered to full opacity or things get lost
 function clearIt()   {
     clearButton.mouseIsOver = false;
     clearButton.onmouseover = function()   {
@@ -481,6 +501,7 @@ function clearIt()   {
     }
 }
 
+//    set parameters to something readable
 function resetIt()   {
     resetButton.mouseIsOver = false;
     resetButton.onmouseover = function()   {
@@ -511,6 +532,7 @@ function resetIt()   {
     }
 }
 
+//    randomize parameters after load, keeping things fairly readable
 function randomizeIt()   {
             cellXslider.value = floor(random(5, theWidth/100));
             cellYslider.value = floor(random(5, theHeight/100));
@@ -536,6 +558,7 @@ function randomizeIt()   {
             clear();    background(bgColor);    redraw();
 }
 
+//    :)
 function saveIt()   {
     saveButton.mouseIsOver = false;
     saveButton.onmouseover = function()   {
@@ -552,6 +575,7 @@ function saveIt()   {
     }
 }
 
+//    all the event functions fire when their corresponding UI element is clicked/interacted with
 function fillStrokeEvent() {
     fillStrokeButton.mouseIsOver = false;
     fillStrokeButton.onmouseover = function()   {
@@ -730,6 +754,15 @@ function opacityEvent()   {
             } else {
                 opac = 255;}}}
 }
+
+//    this is the big one, doing the following, the order being important:
+//    1) split the text in the input element into characters, force them into uppercase, set all the counters to zero
+//    2) Loop through the text, each time doing this:
+//        2a) add to the letter count, add to a separate counter which tracks the number of characters on each line
+//        2b) position the letter according to its line and position in that line
+//        2c) create the glyph for the letter, positioning it according to the previously established variables
+//        2d) add to the line's letter count
+//    3) draw the results once if paused
 
 function readTheText() {    
     theText = theTextInput.value.split("");    
@@ -1339,6 +1372,7 @@ function readTheText() {
         }    
     }
 
+//    Each letter is its own object, allowing it to store variables locally. Nothing special now—please tap into this more. 
 class LetterA {
     construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
         this.xoff = xoff;
@@ -3227,27 +3261,13 @@ class symbolDollar {
 
 class LetterSpace {
         construct(xoff, yoff, localLetterLineCount, localLineCount, angle) {
-//        this.xoff = xoff;
-//        this.yoff = yoff;
-//        this.angle = angle;
     }
     
     display(xMag, yMag, speed) {
-//        this.xMag = xMag;
-//        this.yMag = yMag;
-//        this.speed = speed;
-//        
-//        this.angle += this.speed;
-//        this.x1 = this.xMag * cos(this.angle);
-//        this.y1 = this.yMag * sin(this.angle);
-//        
-//        push();
-//        translate(this.xoff + this.x1 + (letterSpacing * this.localLetterLineCount), this.yoff + this.y1  + (lineSpacing * this.localLineCount));
-//
-//        pop();
     }
 }
 
+//    This last set of functions speeds up the glyph classification by making a shortcut for regularly occuring design elements in the typeface, think of it like the equivalent to the traditional type design principle of drawing stems and bowls and legs and shoulders separately
 function tallLeftSpine() {
     rect(0*cellX + leanXunits[0] * leanX, 6*cellY + leanYunits[0] * leanY, unit, unit, corners);
     rect(0*cellX + leanXunits[1] * leanX, 5*cellY + leanYunits[0] * leanY, unit, unit, corners);
